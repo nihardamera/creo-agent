@@ -220,6 +220,71 @@ class OpenAICompatLLM:
         )
 
 
+def anthropic_schema(task: Task) -> dict[str, Any]:
+    """SCHEMAS[task] without the bounds structured outputs doesn't take; validation checks them."""
+    by_task: dict[str, dict[str, Any]] = {
+        "classify": {
+            "category": {"type": "string"},
+            "evidence": {"type": "array", "items": {"type": "string"}},
+            "confidence": {"type": "number"},
+        },
+        "summarize": {"summary": {"type": "string"}, "next_step": {"type": "string"}},
+    }
+    props = by_task[task]
+    return {
+        "type": "object",
+        "properties": props,
+        "required": sorted(props),
+        "additionalProperties": False,
+    }
+
+
+class AnthropicLLM:
+    """Claude through the Messages API, JSON constrained by structured outputs.
+
+    Claude Haiku 5.5 takes no sampling parameters; thinking is off for these
+    short structured answers (allowed at the default effort).
+    """
+
+    def __init__(self, model: str, api_key: str | None = None, timeout_s: float = 60.0) -> None:
+        import anthropic
+
+        self.client = anthropic.Anthropic(api_key=api_key, timeout=timeout_s, max_retries=3)
+        self.model, self.name = model, f"anthropic:{model}"
+
+    def params(self, req: LLMRequest) -> dict[str, Any]:
+        return {
+            "model": self.model,
+            "max_tokens": 512,
+            "system": SYSTEM[req.task],
+            "messages": [{"role": "user", "content": json.dumps(req.facts, sort_keys=True)}],
+            "thinking": {"type": "disabled"},
+            "output_config": {
+                "format": {"type": "json_schema", "schema": anthropic_schema(req.task)}
+            },
+        }
+
+    def complete(self, req: LLMRequest) -> LLMResponse:
+        import anthropic
+
+        t0 = time.perf_counter()
+        try:
+            msg = self.client.messages.create(**self.params(req))
+        except anthropic.APIError as e:
+            raise LLMError(f"anthropic call failed: {e}") from e
+        if msg.stop_reason == "refusal":
+            cat = msg.stop_details.category if msg.stop_details else None
+            raise LLMError(f"refusal: {cat}")
+        text = next((b.text for b in msg.content if b.type == "text"), "")
+        return LLMResponse(
+            text=text,
+            model=self.model,
+            input_tokens=msg.usage.input_tokens,
+            output_tokens=msg.usage.output_tokens,
+            latency_ms=(time.perf_counter() - t0) * 1000,
+        )
+
+
 # ---- validation: nothing the model says is used until it passes these ----------
 
 URL = re.compile(r"https?://|www\.", re.IGNORECASE)

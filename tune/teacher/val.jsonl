@@ -1,0 +1,277 @@
+{"id": "val-00000", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00001", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc8\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00002", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc6\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc7\",\"host\"],\"confidence\":0.95}", "output_tokens": 57, "error": ""}
+{"id": "val-00003", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00004", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.95}", "output_tokens": 33, "error": ""}
+{"id": "val-00005", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00006", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc2\"],\"confidence\":0.95}", "output_tokens": 31, "error": ""}
+{"id": "val-00007", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.95}", "output_tokens": 33, "error": ""}
+{"id": "val-00008", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc8\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00009", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.95}", "output_tokens": 33, "error": ""}
+{"id": "val-00010", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00011", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc2\"],\"confidence\":0.95}", "output_tokens": 31, "error": ""}
+{"id": "val-00012", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc8\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00013", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc3\",\"proc1\",\"proc2\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.95}", "output_tokens": 55, "error": ""}
+{"id": "val-00014", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc7\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00015", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\",\"proc8\",\"host\"],\"confidence\":0.93}", "output_tokens": 61, "error": ""}
+{"id": "val-00016", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc7\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00017", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.95}", "output_tokens": 33, "error": ""}
+{"id": "val-00018", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.93}", "output_tokens": 33, "error": ""}
+{"id": "val-00019", "text": "{\"category\":\"runaway_process\",\"evidence\":[\"proc7\"],\"confidence\":0.95}", "output_tokens": 31, "error": ""}
+{"id": "val-00020", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc3\",\"proc4\",\"proc5\",\"proc6\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00021", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc2\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00022", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 37, "error": ""}
+{"id": "val-00023", "text": "{\"category\": \"sustained_load\", \"evidence\": [\"host\", \"proc1\", \"proc2\", \"proc4\", \"proc7\"], \"confidence\": 0.9}", "output_tokens": 52, "error": ""}
+{"id": "val-00024", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"proc2\",\"proc4\",\"proc6\",\"host\"],\"confidence\":0.9}", "output_tokens": 41, "error": ""}
+{"id": "val-00025", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"proc3\",\"proc1\",\"proc2\",\"proc4\",\"host\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00026", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc3\",\"proc4\",\"proc7\",\"proc8\"],\"confidence\":0.9}", "output_tokens": 49, "error": ""}
+{"id": "val-00027", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc2\",\"proc4\",\"proc5\",\"proc7\",\"proc8\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00028", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"proc2\",\"proc5\",\"proc1\",\"proc3\",\"proc4\"],\"confidence\":0.85}", "output_tokens": 47, "error": ""}
+{"id": "val-00029", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00030", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc4\"],\"confidence\":0.8}", "output_tokens": 41, "error": ""}
+{"id": "val-00031", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00032", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"proc3\",\"proc4\",\"host\"],\"confidence\":0.85}", "output_tokens": 37, "error": ""}
+{"id": "val-00033", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc3\",\"proc5\",\"proc6\",\"proc8\"],\"confidence\":0.9}", "output_tokens": 49, "error": ""}
+{"id": "val-00034", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc5\",\"proc7\",\"proc8\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00035", "text": "{\"category\": \"sustained_load\", \"evidence\": [\"host\", \"proc2\", \"proc3\", \"proc4\", \"proc7\"], \"confidence\": 0.9}", "output_tokens": 52, "error": ""}
+{"id": "val-00036", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc1\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00037", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00038", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"proc3\",\"proc4\",\"proc1\",\"proc2\",\"proc5\",\"host\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00039", "text": "{\"category\":\"sustained_load\",\"evidence\":[\"host\",\"proc2\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00040", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00041", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00042", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00043", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00044", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc5\",\"host\",\"proc4\",\"proc1\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00045", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00046", "text": "{\"category\": \"transient_spike\", \"evidence\": [\"proc1\", \"host\"], \"confidence\": 0.85}", "output_tokens": 37, "error": ""}
+{"id": "val-00047", "text": "{\"category\": \"transient_spike\", \"evidence\": [\"proc1\", \"host\"], \"confidence\": 0.8}", "output_tokens": 37, "error": ""}
+{"id": "val-00048", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00049", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.8}", "output_tokens": 33, "error": ""}
+{"id": "val-00050", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc5\",\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00051", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc3\",\"proc2\",\"proc1\",\"proc4\",\"proc5\",\"host\"],\"confidence\":0.85}", "output_tokens": 49, "error": ""}
+{"id": "val-00052", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc7\",\"host\"],\"confidence\":0.9}", "output_tokens": 33, "error": ""}
+{"id": "val-00053", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.8}", "output_tokens": 33, "error": ""}
+{"id": "val-00054", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.9}", "output_tokens": 33, "error": ""}
+{"id": "val-00055", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00056", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc6\",\"host\",\"proc6 cpu_pct_avg 64.7 with cpu_pct_last_5m falling from 97.6 to 33.6 and cpu_trend falling: one busy process finishing on its own\",\"proc1\",\"proc3\",\"proc2\",\"proc4\",\"proc5\",\"other processes stay steady at low CPU (4-9% avg), so no single process is pinned near 100 and this is not sustained_load\"],\"confidence\":0.8}", "output_tokens": 160, "error": ""}
+{"id": "val-00057", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.85}", "output_tokens": 33, "error": ""}
+{"id": "val-00058", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.9}", "output_tokens": 33, "error": ""}
+{"id": "val-00059", "text": "{\"category\":\"transient_spike\",\"evidence\":[\"proc6\",\"proc6 cpu_pct_avg 66.2 with cpu_pct_last_5m falling from 94.3 to 38.8 and cpu_trend falling, matching transient_spike: a single process finishing on its own\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc7\",\"proc8\",\"other processes are all low and steady, so no single process is pinned near 100 (runaway_process not supported) and this is not broad moderate demand (sustained_load not supported)\",\"host\"],\"confidence\":0.8}", "output_tokens": 187, "error": ""}
+{"id": "val-00060", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00061", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00062", "text": "{\"category\": \"hardware_or_os\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\"], \"confidence\": 0.85}", "output_tokens": 46, "error": ""}
+{"id": "val-00063", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00064", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00065", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00066", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00067", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00068", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.9}", "output_tokens": 41, "error": ""}
+{"id": "val-00069", "text": "{\"category\": \"hardware_or_os\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\"], \"confidence\": 0.8}", "output_tokens": 46, "error": ""}
+{"id": "val-00070", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00071", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.8}", "output_tokens": 41, "error": ""}
+{"id": "val-00072", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00073", "text": "{\"category\": \"hardware_or_os\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\"], \"confidence\": 0.8}", "output_tokens": 46, "error": ""}
+{"id": "val-00074", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00075", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.9}", "output_tokens": 41, "error": ""}
+{"id": "val-00076", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00077", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.8}", "output_tokens": 41, "error": ""}
+{"id": "val-00078", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00079", "text": "{\"category\":\"hardware_or_os\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\"],\"confidence\":0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00080", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 38, "error": ""}
+{"id": "val-00081", "text": "{\"category\": \"service_crash\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\"], \"confidence\": 0.85}", "output_tokens": 43, "error": ""}
+{"id": "val-00082", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.82}", "output_tokens": 38, "error": ""}
+{"id": "val-00083", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 38, "error": ""}
+{"id": "val-00084", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc3\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00085", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.8}", "output_tokens": 38, "error": ""}
+{"id": "val-00086", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00087", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc3\"],\"confidence\":0.8}", "output_tokens": 38, "error": ""}
+{"id": "val-00088", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.9}", "output_tokens": 38, "error": ""}
+{"id": "val-00089", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00090", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00091", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.8}", "output_tokens": 38, "error": ""}
+{"id": "val-00092", "text": "{\"category\": \"service_crash\", \"evidence\": [\"evt1\", \"evt2\", \"svc3\"], \"confidence\": 0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00093", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.9}", "output_tokens": 38, "error": ""}
+{"id": "val-00094", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00095", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 38, "error": ""}
+{"id": "val-00096", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc2\"],\"confidence\":0.82}", "output_tokens": 38, "error": ""}
+{"id": "val-00097", "text": "{\"category\": \"service_crash\", \"evidence\": [\"evt1\", \"evt2\", \"svc2\"], \"confidence\": 0.82}", "output_tokens": 43, "error": ""}
+{"id": "val-00098", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.9}", "output_tokens": 38, "error": ""}
+{"id": "val-00099", "text": "{\"category\":\"service_crash\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\"],\"confidence\":0.85}", "output_tokens": 38, "error": ""}
+{"id": "val-00100", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.85}", "output_tokens": 44, "error": ""}
+{"id": "val-00101", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00102", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00103", "text": "{\"category\": \"transient\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\", \"svc2\"], \"confidence\": 0.85}", "output_tokens": 46, "error": ""}
+{"id": "val-00104", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 40, "error": ""}
+{"id": "val-00106", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00107", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 40, "error": ""}
+{"id": "val-00108", "text": "{\"category\": \"transient\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\"], \"confidence\": 0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00109", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00110", "text": "{\"category\": \"transient\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\", \"svc2\", \"svc3\"], \"confidence\": 0.85}", "output_tokens": 51, "error": ""}
+{"id": "val-00111", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 40, "error": ""}
+{"id": "val-00112", "text": "{\"category\": \"transient\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\"], \"confidence\": 0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00113", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 40, "error": ""}
+{"id": "val-00114", "text": "{\"category\": \"transient\", \"evidence\": [\"evt1\", \"evt2\", \"svc1\"], \"confidence\": 0.85}", "output_tokens": 41, "error": ""}
+{"id": "val-00116", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.8}", "output_tokens": 44, "error": ""}
+{"id": "val-00117", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 40, "error": ""}
+{"id": "val-00118", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00119", "text": "{\"category\":\"transient\",\"evidence\":[\"evt1\",\"evt2\",\"svc1\",\"svc2\"],\"confidence\":0.9}", "output_tokens": 40, "error": ""}
+{"id": "val-00120", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 45, "error": ""}
+{"id": "val-00121", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.8}", "output_tokens": 49, "error": ""}
+{"id": "val-00122", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.7}", "output_tokens": 49, "error": ""}
+{"id": "val-00123", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.6}", "output_tokens": 49, "error": ""}
+{"id": "val-00124", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\"],\"confidence\":0.7}", "output_tokens": 41, "error": ""}
+{"id": "val-00125", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\"], \"confidence\": 0.6}", "output_tokens": 52, "error": ""}
+{"id": "val-00126", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\"], \"confidence\": 0.7}", "output_tokens": 52, "error": ""}
+{"id": "val-00127", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 45, "error": ""}
+{"id": "val-00128", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\", \"svc3\"], \"confidence\": 0.6}", "output_tokens": 57, "error": ""}
+{"id": "val-00129", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 45, "error": ""}
+{"id": "val-00130", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\"], \"confidence\": 0.6}", "output_tokens": 52, "error": ""}
+{"id": "val-00131", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.7}", "output_tokens": 49, "error": ""}
+{"id": "val-00132", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 45, "error": ""}
+{"id": "val-00133", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 45, "error": ""}
+{"id": "val-00134", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.55}", "output_tokens": 49, "error": ""}
+{"id": "val-00135", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 45, "error": ""}
+{"id": "val-00136", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\", \"svc3\"], \"confidence\": 0.7}", "output_tokens": 57, "error": ""}
+{"id": "val-00137", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\",\"svc3\"],\"confidence\":0.6}", "output_tokens": 49, "error": ""}
+{"id": "val-00138", "text": "{\"category\": \"unknown\", \"evidence\": [\"evt1\", \"evt2\", \"evt3\", \"svc1\", \"svc2\", \"svc3\"], \"confidence\": 0.8}", "output_tokens": 57, "error": ""}
+{"id": "val-00139", "text": "{\"category\":\"unknown\",\"evidence\":[\"evt1\",\"evt2\",\"evt3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 45, "error": ""}
+{"id": "val-00140", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00141", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00142", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00143", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00145", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool3\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00146", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.95}", "output_tokens": 37, "error": ""}
+{"id": "val-00147", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.95}", "output_tokens": 37, "error": ""}
+{"id": "val-00148", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.9}", "output_tokens": 37, "error": ""}
+{"id": "val-00149", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00150", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00151", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00152", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.92}", "output_tokens": 37, "error": ""}
+{"id": "val-00153", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.9}", "output_tokens": 37, "error": ""}
+{"id": "val-00154", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00155", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00156", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00157", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool3\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00158", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool1\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00159", "text": "{\"category\":\"app_pool_stopped\",\"evidence\":[\"probe\",\"pool2\"],\"confidence\":0.95}", "output_tokens": 37, "error": ""}
+{"id": "val-00160", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00161", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00162", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00163", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00164", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 43, "error": ""}
+{"id": "val-00165", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00166", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00167", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00168", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00169", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00170", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00171", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00172", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00173", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00174", "text": "{\"category\": \"transient\", \"evidence\": [\"probe\", \"pool1\", \"pool2\", \"svc1\", \"svc2\"], \"confidence\": 0.8}", "output_tokens": 50, "error": ""}
+{"id": "val-00175", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 47, "error": ""}
+{"id": "val-00176", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00177", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 43, "error": ""}
+{"id": "val-00178", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00179", "text": "{\"category\":\"transient\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 43, "error": ""}
+{"id": "val-00180", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 48, "error": ""}
+{"id": "val-00181", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00182", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 52, "error": ""}
+{"id": "val-00183", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00184", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 52, "error": ""}
+{"id": "val-00185", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00186", "text": "{\"category\": \"upstream_or_network\", \"evidence\": [\"probe\", \"pool1\", \"pool2\", \"svc1\", \"svc2\"], \"confidence\": 0.7}", "output_tokens": 55, "error": ""}
+{"id": "val-00187", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.85}", "output_tokens": 48, "error": ""}
+{"id": "val-00188", "text": "{\"category\": \"upstream_or_network\", \"evidence\": [\"probe\", \"pool1\", \"pool2\", \"svc1\", \"svc2\"], \"confidence\": 0.85}", "output_tokens": 55, "error": ""}
+{"id": "val-00189", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 52, "error": ""}
+{"id": "val-00190", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00191", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 52, "error": ""}
+{"id": "val-00192", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.7}", "output_tokens": 52, "error": ""}
+{"id": "val-00193", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00194", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00195", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 52, "error": ""}
+{"id": "val-00196", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 52, "error": ""}
+{"id": "val-00197", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"pool3\",\"svc1\",\"svc2\"],\"confidence\":0.6}", "output_tokens": 52, "error": ""}
+{"id": "val-00198", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00199", "text": "{\"category\":\"upstream_or_network\",\"evidence\":[\"probe\",\"pool1\",\"pool2\",\"svc1\",\"svc2\"],\"confidence\":0.8}", "output_tokens": 48, "error": ""}
+{"id": "val-00200", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00201", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00202", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc5\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00203", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc1\",\"proc4\",\"host\"],\"confidence\":0.9}", "output_tokens": 39, "error": ""}
+{"id": "val-00204", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc5\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00205", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc5\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00206", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc1\",\"proc3\",\"proc5\"],\"confidence\":0.93}", "output_tokens": 41, "error": ""}
+{"id": "val-00207", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00208", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc5\",\"host\",\"proc2\"],\"confidence\":0.93}", "output_tokens": 39, "error": ""}
+{"id": "val-00209", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00210", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00211", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00212", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc4\",\"proc2\",\"host\"],\"confidence\":0.93}", "output_tokens": 39, "error": ""}
+{"id": "val-00213", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00214", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00215", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc4\",\"proc4\"],\"confidence\":0.93}", "output_tokens": 37, "error": ""}
+{"id": "val-00216", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc6\",\"host\",\"proc2\",\"proc4\"],\"confidence\":0.95}", "output_tokens": 43, "error": ""}
+{"id": "val-00217", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc1\",\"proc3\",\"host\"],\"confidence\":0.9}", "output_tokens": 39, "error": ""}
+{"id": "val-00218", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00219", "text": "{\"category\":\"app_pool_leak\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.93}", "output_tokens": 35, "error": ""}
+{"id": "val-00220", "text": "{\"category\": \"service_leak\", \"evidence\": [\"proc7\", \"host\"], \"confidence\": 0.85}", "output_tokens": 36, "error": ""}
+{"id": "val-00221", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc6\",\"proc8\"],\"confidence\":0.9}", "output_tokens": 34, "error": ""}
+{"id": "val-00222", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 32, "error": ""}
+{"id": "val-00223", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc4\",\"proc1\",\"proc2\",\"proc3\",\"proc5\"],\"confidence\":0.9}", "output_tokens": 46, "error": ""}
+{"id": "val-00224", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc7\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"host\"],\"confidence\":0.9}", "output_tokens": 56, "error": ""}
+{"id": "val-00225", "text": "{\"category\": \"service_leak\", \"evidence\": [\"proc7\", \"host\"], \"confidence\": 0.9}", "output_tokens": 36, "error": ""}
+{"id": "val-00226", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.9}", "output_tokens": 32, "error": ""}
+{"id": "val-00227", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc3\",\"proc4\",\"proc6\",\"proc7\",\"proc5\",\"proc1\",\"proc2\",\"host\"],\"confidence\":0.85}", "output_tokens": 56, "error": ""}
+{"id": "val-00228", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.9}", "output_tokens": 32, "error": ""}
+{"id": "val-00229", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc3\"],\"confidence\":0.8}", "output_tokens": 30, "error": ""}
+{"id": "val-00230", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc4\",\"proc1\",\"proc2\",\"proc3\",\"proc5\",\"proc6\",\"proc7\",\"host\"],\"confidence\":0.9}", "output_tokens": 56, "error": ""}
+{"id": "val-00231", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc4\",\"proc4\"],\"confidence\":0.9}", "output_tokens": 34, "error": ""}
+{"id": "val-00232", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.9}", "output_tokens": 46, "error": ""}
+{"id": "val-00233", "text": "{\"category\": \"service_leak\", \"evidence\": [\"proc4\", \"host\"], \"confidence\": 0.9}", "output_tokens": 36, "error": ""}
+{"id": "val-00234", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc7\",\"proc6\",\"host\"],\"confidence\":0.8}", "output_tokens": 36, "error": ""}
+{"id": "val-00235", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.9}", "output_tokens": 32, "error": ""}
+{"id": "val-00236", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.85}", "output_tokens": 32, "error": ""}
+{"id": "val-00237", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc4\",\"proc3\",\"proc1\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 42, "error": ""}
+{"id": "val-00238", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 32, "error": ""}
+{"id": "val-00239", "text": "{\"category\":\"service_leak\",\"evidence\":[\"proc2\",\"proc1\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.9}", "output_tokens": 46, "error": ""}
+{"id": "val-00240", "text": "{\"category\":\"transient\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00241", "text": "{\"category\":\"transient\",\"evidence\":[\"proc6\",\"host\"],\"confidence\":0.85}", "output_tokens": 30, "error": ""}
+{"id": "val-00242", "text": "{\"category\":\"transient\",\"evidence\":[\"proc8\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00243", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.85}", "output_tokens": 30, "error": ""}
+{"id": "val-00244", "text": "{\"category\":\"transient\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00245", "text": "{\"category\":\"transient\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00246", "text": "{\"category\":\"transient\",\"evidence\":[\"proc6\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc7\",\"host\"],\"confidence\":0.85}", "output_tokens": 54, "error": ""}
+{"id": "val-00247", "text": "{\"category\":\"transient\",\"evidence\":[\"proc4\",\"proc5\",\"proc1\",\"proc2\",\"proc3\"],\"confidence\":0.9}", "output_tokens": 44, "error": ""}
+{"id": "val-00248", "text": "{\"category\":\"transient\",\"evidence\":[\"proc4\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00249", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\"],\"confidence\":0.85}", "output_tokens": 28, "error": ""}
+{"id": "val-00250", "text": "{\"category\":\"transient\",\"evidence\":[\"proc2\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00251", "text": "{\"category\":\"transient\",\"evidence\":[\"proc1\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00252", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\",\"proc1\",\"proc2\",\"proc4\",\"proc5\",\"host\"],\"confidence\":0.9}", "output_tokens": 46, "error": ""}
+{"id": "val-00253", "text": "{\"category\":\"transient\",\"evidence\":[\"proc7\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00254", "text": "{\"category\": \"transient\", \"evidence\": [\"proc4\", \"host\"], \"confidence\": 0.9}", "output_tokens": 34, "error": ""}
+{"id": "val-00255", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.85}", "output_tokens": 30, "error": ""}
+{"id": "val-00256", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\",\"proc2\",\"proc1\",\"proc4\",\"proc5\",\"host\"],\"confidence\":0.9}", "output_tokens": 46, "error": ""}
+{"id": "val-00257", "text": "{\"category\":\"transient\",\"evidence\":[\"proc8\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00258", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\",\"proc8\"],\"confidence\":0.8}", "output_tokens": 59, "error": ""}
+{"id": "val-00259", "text": "{\"category\":\"transient\",\"evidence\":[\"proc3\",\"host\"],\"confidence\":0.9}", "output_tokens": 30, "error": ""}
+{"id": "val-00260", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00261", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc3\",\"proc6\"],\"confidence\":0.8}", "output_tokens": 39, "error": ""}
+{"id": "val-00262", "text": "{\"category\": \"unknown\", \"evidence\": [\"proc1\", \"proc3\", \"proc6\", \"proc2\", \"proc4\", \"proc5\", \"host\"], \"confidence\": 0.85}", "output_tokens": 60, "error": ""}
+{"id": "val-00263", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00264", "text": "{\"category\": \"unknown\", \"evidence\": [\"host\", \"proc1\", \"proc2\", \"proc3\", \"proc4\", \"proc6\"], \"confidence\": 0.8}", "output_tokens": 55, "error": ""}
+{"id": "val-00265", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00266", "text": "{\"category\":\"unknown\",\"evidence\":[\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\",\"proc8\",\"host\"],\"confidence\":0.8}", "output_tokens": 59, "error": ""}
+{"id": "val-00267", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.8}", "output_tokens": 55, "error": ""}
+{"id": "val-00268", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.8}", "output_tokens": 55, "error": ""}
+{"id": "val-00269", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\",\"proc8\"],\"confidence\":0.8}", "output_tokens": 59, "error": ""}
+{"id": "val-00270", "text": "{\"category\":\"unknown\",\"evidence\":[\"proc2\",\"proc3\",\"proc1\",\"proc4\",\"proc5\"],\"confidence\":0.85}", "output_tokens": 45, "error": ""}
+{"id": "val-00271", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc2\",\"proc3\"],\"confidence\":0.8}", "output_tokens": 35, "error": ""}
+{"id": "val-00272", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00273", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc2\",\"proc3\",\"proc5\",\"proc7\",\"proc8\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00274", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00275", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.85}", "output_tokens": 55, "error": ""}
+{"id": "val-00276", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.8}", "output_tokens": 55, "error": ""}
+{"id": "val-00277", "text": "{\"category\":\"unknown\",\"evidence\":[\"proc1\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc6\",\"proc7\"],\"confidence\":0.85}", "output_tokens": 53, "error": ""}
+{"id": "val-00278", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc2\",\"proc3\",\"proc4\",\"proc5\",\"proc8\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}
+{"id": "val-00279", "text": "{\"category\":\"unknown\",\"evidence\":[\"host\",\"proc2\",\"proc3\",\"proc1\",\"proc4\",\"proc5\"],\"confidence\":0.8}", "output_tokens": 47, "error": ""}

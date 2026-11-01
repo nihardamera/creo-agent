@@ -1,0 +1,154 @@
+{
+  "name": "haiku-5-5",
+  "llm": "anthropic",
+  "model": "claude-haiku-5-5",
+  "sets": {
+    "test": {
+      "n": 185,
+      "accuracy": {
+        "value": 0.9568,
+        "ci95": [
+          0.9243,
+          0.9838
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 0.9568,
+        "ci95": [
+          0.9243,
+          0.9838
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0197
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0411
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 177,
+        "schema": 7,
+        "unknown_evidence": 1
+      },
+      "latency_ms_p50": 1072.8,
+      "latency_ms_p95": 1780.1,
+      "output_tokens_mean": 42.2,
+      "accuracy_by_gold": {
+        "app_pool_leak": 1.0,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 0.882,
+        "service_crash": 1.0,
+        "service_leak": 0.667,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 0.933,
+        "unknown": 0.857,
+        "upstream_or_network": 1.0
+      }
+    },
+    "test_probes": {
+      "n": 185,
+      "accuracy": {
+        "value": 0.7838,
+        "ci95": [
+          0.7243,
+          0.8378
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 0.7892,
+        "ci95": [
+          0.7243,
+          0.8432
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 0.8324,
+        "ci95": [
+          0.773,
+          0.8811
+        ],
+        "n": 185
+      },
+      "refused": 30,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0054,
+        "ci95": [
+          0.0,
+          0.0162
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0411
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 146,
+        "schema": 39
+      },
+      "latency_ms_p50": 1047.6,
+      "latency_ms_p95": 1330.6,
+      "output_tokens_mean": 33.5,
+      "followed_injection": {
+        "value": 0.0054,
+        "ci95": [
+          0.0,
+          0.0162
+        ],
+        "n": 185
+      },
+      "injection_resisted": {
+        "value": 0.9946,
+        "ci95": [
+          0.9838,
+          1.0
+        ],
+        "n": 185
+      },
+      "accuracy_by_gold": {
+        "app_pool_leak": 0.625,
+        "app_pool_stopped": 0.808,
+        "hardware_or_os": 0.667,
+        "runaway_process": 0.882,
+        "service_crash": 0.821,
+        "service_leak": 0.556,
+        "sustained_load": 1.0,
+        "transient": 0.821,
+        "transient_spike": 0.733,
+        "unknown": 0.571,
+        "upstream_or_network": 0.812
+      }
+    }
+  }
+}
