@@ -1,0 +1,253 @@
+# Runbooks are configuration, not retrieval. A monitor's `runbook:` tag picks
+# one entry here (or, when the tag is missing, the single entry whose
+# monitor_types and roles match). The same alert always takes the same path.
+#
+# Per entry:
+#   monitor_types / roles  what the entry applies to (roles come from inventory)
+#   diagnostics            read-only checks run before classifying
+#   judgement              true: the model picks a category from the diagnostics
+#   wait                   first wait, number of rechecks, minutes between rechecks
+#   categories             category -> plan (+ ordered fixes, each needing approval)
+#   escalation             where a human takes over
+#
+# Plans: wait_then_fix, wait_then_escalate, fix_now, escalate_now.
+version: 1
+runbooks:
+  win-service-down:
+    description: A Windows service on an app, web or batch host has stopped.
+    monitor_types: [service_down]
+    roles: [app, web, batch]
+    diagnostics: [get_service_status, get_recent_events]
+    judgement: false
+    wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: restart_windows_service
+    escalation: {group: app-support, priority: P3}
+
+  iis-app-pool-stopped:
+    description: An IIS application pool on a web host is stopped.
+    monitor_types: [app_pool_stopped]
+    roles: [web]
+    diagnostics: [get_app_pool_state, get_recent_events]
+    judgement: false
+    wait: {minutes: 2, rechecks: 1, interval_minutes: 3}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: start_app_pool
+          - action: restart_iis
+    escalation: {group: web-platform, priority: P3}
+
+  disk-space-low-windows:
+    description: Free space on a Windows drive is below threshold.
+    monitor_types: [disk_space_low]
+    roles: [app, web, batch, sql, fs]
+    diagnostics: [get_disk_usage, get_large_dirs]
+    judgement: false
+    wait: {minutes: 10, rechecks: 1, interval_minutes: 10}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: clear_temp_files
+            params: {older_than_days: 7}
+          - action: rotate_iis_logs
+            roles: [web]
+            params: {older_than_days: 14}
+          - action: clear_wu_cache
+            roles: [app, batch, sql, fs]
+    escalation: {group: windows-infra, priority: P3}
+
+  disk-space-low-linux:
+    description: Free space on a Linux filesystem is below threshold.
+    monitor_types: [disk_space_low]
+    roles: [proxy, queue]
+    diagnostics: [get_disk_usage, get_large_dirs]
+    judgement: false
+    wait: {minutes: 10, rechecks: 1, interval_minutes: 10}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: vacuum_journal
+            params: {max_size_mb: 500}
+          - action: clean_package_cache
+    escalation: {group: linux-infra, priority: P3}
+
+  cpu-high:
+    description: Sustained high CPU on a Windows app, web or batch host.
+    monitor_types: [cpu_high]
+    roles: [app, web, batch]
+    diagnostics: [get_top_processes]
+    judgement: true
+    wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
+    categories:
+      transient_spike:
+        plan: wait_then_escalate
+      runaway_process:
+        plan: wait_then_fix
+        fixes:
+          - action: kill_process
+      sustained_load:
+        plan: escalate_now
+    # Worker processes their parent service respawns. Nothing else is killable.
+    allowed_processes: [KfRateCalcWorker.exe, KfLabelRender.exe, KfManifestDiff.exe]
+    escalation: {group: app-support, priority: P2}
+
+  memory-high:
+    description: Memory use on a Windows app or web host is above threshold.
+    monitor_types: [memory_high]
+    roles: [app, web]
+    diagnostics: [get_top_processes]
+    judgement: true
+    wait: {minutes: 5, rechecks: 1, interval_minutes: 5}
+    categories:
+      service_leak:
+        plan: wait_then_fix
+        fixes:
+          - action: restart_windows_service
+            roles: [app]
+      app_pool_leak:
+        plan: wait_then_fix
+        fixes:
+          - action: recycle_app_pool
+            roles: [web]
+      transient:
+        plan: wait_then_escalate
+      unknown:
+        plan: escalate_now
+    escalation: {group: app-support, priority: P3}
+
+  http-check-failed:
+    description: A synthetic HTTP check against a web host is failing.
+    monitor_types: [http_check_failed]
+    roles: [web]
+    diagnostics: [http_probe, get_app_pool_state, get_service_status]
+    judgement: true
+    wait: {minutes: 3, rechecks: 2, interval_minutes: 3}
+    categories:
+      app_pool_stopped:
+        plan: wait_then_fix
+        fixes:
+          - action: start_app_pool
+      upstream_or_network:
+        plan: escalate_now
+      transient:
+        plan: wait_then_escalate
+    escalation: {group: web-platform, priority: P2}
+
+  event-log-errors:
+    description: A burst of errors in a Windows event log.
+    monitor_types: [event_log_errors]
+    roles: [app, web, batch, sql, fs]
+    diagnostics: [get_recent_events, get_service_status]
+    judgement: true
+    wait: {minutes: 10, rechecks: 1, interval_minutes: 10}
+    categories:
+      transient:
+        plan: wait_then_escalate
+      service_crash:
+        plan: wait_then_fix
+        fixes:
+          - action: restart_windows_service
+      hardware_or_os:
+        plan: escalate_now
+      unknown:
+        plan: escalate_now
+    escalation: {group: windows-infra, priority: P3}
+
+  scheduled-task-failed:
+    description: A scheduled task on a batch host exited with an error.
+    monitor_types: [scheduled_task_failed]
+    roles: [batch]
+    diagnostics: [get_task_history, get_recent_events]
+    judgement: false
+    wait: {minutes: 0, rechecks: 0, interval_minutes: 0}
+    categories:
+      default:
+        plan: fix_now
+        fixes:
+          - action: rerun_scheduled_task
+    escalation: {group: app-support, priority: P3}
+
+  cert-expiring:
+    description: A TLS certificate expires within the warning window.
+    monitor_types: [cert_expiring]
+    roles: [web, proxy]
+    diagnostics: [get_cert_info]
+    judgement: false
+    wait: {minutes: 0, rechecks: 0, interval_minutes: 0}
+    categories:
+      default:
+        plan: escalate_now
+    escalation: {group: security-ops, priority: P3}
+
+  host-unreachable:
+    description: A host stopped answering pings and agent heartbeats.
+    monitor_types: [host_unreachable]
+    roles: [app, web, batch, sql, fs, dc, proxy, queue]
+    diagnostics: [ping_host]
+    judgement: false
+    wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
+    categories:
+      default:
+        plan: wait_then_escalate
+    escalation: {group: noc, priority: P2}
+
+  queue-backlog:
+    description: A message queue's depth is growing on a queue host.
+    monitor_types: [queue_backlog]
+    roles: [queue]
+    diagnostics: [get_queue_stats]
+    judgement: false
+    wait: {minutes: 10, rechecks: 2, interval_minutes: 5}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: restart_queue_consumer
+    escalation: {group: middleware, priority: P3}
+
+  systemd-unit-failed:
+    description: A systemd unit on a Linux host is in the failed state.
+    monitor_types: [systemd_unit_failed]
+    roles: [proxy, queue]
+    diagnostics: [get_systemd_status, get_journal_tail]
+    judgement: false
+    wait: {minutes: 3, rechecks: 1, interval_minutes: 3}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: restart_systemd_unit
+    escalation: {group: linux-infra, priority: P3}
+
+  sql-blocking:
+    description: Long-running blocking sessions on a SQL host.
+    monitor_types: [sql_blocking]
+    roles: [sql]
+    diagnostics: [get_sql_blocking]
+    judgement: false
+    wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
+    categories:
+      default:
+        plan: wait_then_escalate
+    escalation: {group: dba, priority: P2}
+
+  dns-resolution-failed:
+    description: A host cannot resolve an internal name it depends on.
+    monitor_types: [dns_resolution_failed]
+    roles: [app, web, batch]
+    diagnostics: [resolve_name]
+    judgement: false
+    wait: {minutes: 2, rechecks: 1, interval_minutes: 2}
+    categories:
+      default:
+        plan: wait_then_fix
+        fixes:
+          - action: flush_dns_cache
+    escalation: {group: windows-infra, priority: P3}

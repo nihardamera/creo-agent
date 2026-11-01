@@ -8,7 +8,10 @@ license = "MIT"
 authors = [{ name = "Nihar Damera" }]
 # Runtime dependencies are added milestone by milestone, each pinned to a
 # version checked against its current docs when it is added.
-dependencies = []
+dependencies = [
+    "pydantic==2.14.2",
+    "pyyaml==6.0.3",
+]
 
 [dependency-groups]
 dev = [
@@ -17,6 +20,7 @@ dev = [
     "ruff==0.17.3",
     "mypy==2.4.1",
     "pre-commit==4.7.0",
+    "types-pyyaml==6.0.12.20261030",
 ]
 
 [build-system]

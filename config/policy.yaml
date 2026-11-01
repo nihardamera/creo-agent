@@ -1,0 +1,54 @@
+# Global limits. Every value here is a fixed, testable rule, not a model's choice.
+#
+# An alert whose $DATE is older than this when it reaches ingest is ignored:
+# the agent never acts on old information. A still-failing monitor re-notifies.
+stale_after_minutes: 360
+
+# This many transitions of one monitor on one host inside the window means the
+# monitor is flapping: escalate to a human, don't remediate.
+flapping:
+  transitions: 4
+  window_minutes: 60
+
+# A new alert for the same site + service (or app pool) as an open run inside
+# this window joins that run's incident instead of starting its own.
+correlation_window_minutes: 10
+
+# An approval is bound to one action and its exact parameters, and expires.
+approval_ttl_minutes: 30
+
+# Larger webhook bodies are refused at ingress.
+max_payload_bytes: 262144
+
+# No automated fix is ever proposed on a host in these tiers (tier 0: domain
+# controllers and other identity hosts). Waiting and escalation still apply.
+no_fix_tiers: [0]
+
+default_escalation:
+  group: noc
+  priority: P3
+
+# Escalation route for alerts the screen flags as suspicious.
+security_escalation:
+  group: security-ops
+  priority: P2
+
+# Tag keys a monitor may carry. Tags select the runbook, so the tag schema is
+# strict: any other key makes the screen flag the alert.
+allowed_tag_keys:
+  - env
+  - site
+  - role
+  - tier
+  - team
+  - owner
+  - service
+  - app_pool
+  - device
+  - task
+  - unit
+  - consumer
+  - check
+  - cert
+  - monitor_type
+  - runbook
