@@ -125,56 +125,85 @@ def _leak(field: str, text: Callable[[Case], str]) -> Callable[[Case], Case]:
     return mutate
 
 
-PLANTED: dict[str, tuple[str, Callable[[Case], Case]]] = {
+# name -> (class to start from, mutation, text the targeted rule's error must contain).
+# Checking the message matters: a defect caught by some other rule would hide
+# a rule that never fires.
+PLANTED: dict[str, tuple[str, Callable[[Case], Case], str]] = {
     "final state contradicts path": (
         "fix_succeeds",
         lambda c: _with(c, labels={"expected_final_state": FinalState.ESCALATED}),
+        "path ends at resolve but final state is escalated",
     ),
-    "action on another host": ("fix_succeeds", _other_host),
+    "action on another host": ("fix_succeeds", _other_host, "host other than the alert's"),
     "execution without approval": (
         "fix_succeeds",
         lambda c: _with(c, world={"approvals": ("deny",)}),
+        "not approved first",
     ),
-    "scenario class in title": ("fix_succeeds", _leak("title", lambda c: "(fix succeeds)")),
+    "scenario class in title": (
+        "fix_succeeds",
+        _leak("title", lambda c: "(fix succeeds)"),
+        "label leak: title contains label value 'fix succeeds'",
+    ),
     "runbook key in message": (
         "fix_succeeds",
         _leak("message", lambda c: f"see {c.labels.expected_runbook}"),
+        "label leak: message contains the runbook key",
     ),
     "category in message": (
         "classified",
         _leak("message", lambda c: str(c.labels.expected_classification)),
+        "label leak: message contains label value",
     ),
-    "tag key outside schema": ("fix_succeeds", _leak("tags", lambda c: ",approver:bob")),
-    "hidden character": ("unicode", _leak("message", lambda c: "​")),
+    "unknown runbook": (
+        "fix_succeeds",
+        lambda c: _with(c, labels={"expected_runbook": "no-such-runbook"}),
+        "unknown runbook no-such-runbook",
+    ),
+    "tag key outside schema": (
+        "fix_succeeds",
+        _leak("tags", lambda c: ",approver:bob"),
+        "tag keys outside the schema: ['approver']",
+    ),
+    "hidden character": (
+        "unicode",
+        _leak("message", lambda c: "\u200b"),
+        "zero-width or bidi control characters",
+    ),
     "path missing finalize": (
         "fix_succeeds",
         lambda c: _with(c, labels={"expected_path": c.labels.expected_path[:-1]}),
+        "must start at ingest and end at finalize",
     ),
     "malformed but not rejected": (
         "malformed_payload",
         lambda c: _with(c, labels={"expected_final_state": FinalState.ESCALATED}),
+        "ingress would refuse it",
     ),
     "llm step not on path": (
         "recovers_during_wait",
         lambda c: _with(c, labels={"expected_llm_steps": (Node.ESCALATE,)}),
+        "llm step escalate is not an LLM node on the path",
     ),
 }
 
 
 def test_clean_cases_pass() -> None:
-    for cls in {name for name, _ in PLANTED.values()}:
+    for cls in {cls for cls, _, _ in PLANTED.values()}:
         assert check_case(_first(cls)) == []
 
 
 @pytest.mark.parametrize("name", sorted(PLANTED))
-def test_validator_catches_planted_defect(name: str) -> None:
-    cls, mutate = PLANTED[name]
-    assert check_case(mutate(_first(cls))), f"validator missed: {name}"
+def test_validator_catches_planted_defect_with_the_right_rule(name: str) -> None:
+    cls, mutate, expected = PLANTED[name]
+    errors = check_case(mutate(_first(cls)))
+    assert any(expected in e for e in errors), f"{name}: wanted {expected!r}, got {errors}"
 
 
-def test_host_rule_fires_on_its_own() -> None:
-    errors = check_case(_other_host(_first("fix_succeeds")))
-    assert any("host other than the alert's" in e for e in errors)
+def test_duplicate_case_ids_are_caught() -> None:
+    a = _first("fix_succeeds")
+    b = _first("stale").model_copy(update={"id": a.id})
+    assert "duplicate case ids" in validate([a, b])
 
 
 # ---- the wait loop -------------------------------------------------------------
