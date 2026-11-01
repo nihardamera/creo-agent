@@ -22,6 +22,7 @@ from langgraph.types import Command
 from openinference.semconv.trace import OpenInferenceSpanKindValues as Kind
 from pydantic import ValidationError
 
+from creo import actions as act
 from creo import approvals, tracing
 from creo.agent.env import Env
 from creo.agent.graph import compile_graph
@@ -143,7 +144,10 @@ class Agent:
                     self._resume(p["run_id"], {"reason": "timer"})
                 elif p["kind"] == "approval":
                     self.env.store.decide(p["payload"]["approval_id"], "timeout", None)
-                    self._resume(p["run_id"], {"decision": "timeout"})
+                    if p["payload"].get("standalone"):
+                        self.env.store.clear_pending(p["run_id"])
+                    else:
+                        self._resume(p["run_id"], {"decision": "timeout"})
                 else:
                     continue
                 n += 1
@@ -183,7 +187,91 @@ class Agent:
                 raise ApprovalError("expired")
             grant = approvals.sign(self.env.approval_key, req, decision, approver, now)
             self.env.store.decide(approval_id, decision, grant)
+            if pending[0]["payload"].get("standalone"):
+                self.env.store.clear_pending(req.run_id)
+                if decision == "approve":
+                    payload = {
+                        "action": req.action,
+                        "params": req.params,
+                        "run_id": req.run_id,
+                        "grant": grant.model_dump_json(),
+                        "trace": tracing.inject(),
+                    }
+                    self.env.store.add_job(f"{req.run_id}:act0", req.run_id, "action", payload, now)
+                return
             self._resume(req.run_id, {"decision": decision, "grant": grant.model_dump()})
+
+    # ---- requests from outside the workflow (the MCP server) -------------------------
+
+    def request_action(self, action: str, params: dict[str, Any], *, client: str, why: str) -> str:
+        """Ask a human to approve one action. Never executes anything by itself.
+
+        The action must be allowlisted, well-typed, target a known host and an
+        existing resource, and not touch a no-fix tier. Approval follows the same
+        named-human gate and signed, expiring grant as the workflow's own fixes.
+        """
+        with self.lock:
+            if self.env.store.killswitch():
+                raise act.ActionRefused("killswitch", "the kill switch is on")
+            kind, typed = act.parse(action, params)
+            host = act.check_inventory(kind, typed, self.env.inventory)
+            if host.tier in self.env.policy.no_fix_tiers:
+                raise act.ActionRefused("no_fix_tier", f"{host.name} is tier {host.tier}")
+            now = self.env.clock.now_ms()
+            rid = f"mcp-{self.env.store.new_run_id().removeprefix('run-')}"
+            req = approvals.ApprovalRequest(
+                approval_id=f"{rid}:fix0",
+                run_id=rid,
+                action=kind.value,
+                params=typed.model_dump(),
+                requested_ms=now,
+                expires_ms=now + self.env.policy.approval_ttl_minutes * 60_000,
+            )
+            self.env.store.add_approval(req)
+            self.env.store.index_run(
+                rid, now, host.name, f"[MCP request by {client}] {kind.value}: {why[:150]}"
+            )
+            self.env.store.set_pending(
+                rid,
+                "approval",
+                req.expires_ms,
+                {
+                    "kind": "approval",
+                    "approval_id": req.approval_id,
+                    "standalone": True,
+                    "client": client,
+                    "since_ms": now,
+                },
+            )
+            return req.approval_id
+
+    def request_status(self, approval_id: str) -> dict[str, Any]:
+        found = self.env.store.approval(approval_id)
+        if found is None:
+            raise ApprovalError("unknown request")
+        req, decision = found
+        jobs = self.env.store.job_results([f"{req.run_id}:act0"]) or {}
+        result = jobs.get(f"{req.run_id}:act0")
+        return {
+            "approval_id": approval_id,
+            "action": req.action,
+            "params": req.params,
+            "decision": decision or "pending",
+            "expires_ms": req.expires_ms,
+            "execution": result,
+        }
+
+    def run_diagnostic(self, host: str, name: str) -> str:
+        """Queue one read-only diagnostic for the executor; returns the job id."""
+        with self.lock:
+            now = self.env.clock.now_ms()
+            jid = f"mcp-diag-{self.env.store.new_run_id().removeprefix('run-')}:{name}"
+            self.env.store.add_job(jid, jid, "diagnostic", {"host": host, "name": name}, now)
+            return jid
+
+    def job_result(self, job_id: str) -> dict[str, Any] | None:
+        results = self.env.store.job_results([job_id])
+        return results[job_id] if results else None
 
     # ---- executor jobs (the executor polls; nothing calls in to it) ------------------
 

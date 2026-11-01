@@ -2,12 +2,14 @@
 [extend]
 useDefault = true
 
-# The dataset samples carry Datadog's aggreg_key and alert_cycle_key fields,
-# whose names contain "key" and whose values are 32-character hex hashes of
-# synthetic monitor IDs. Ignore a finding only when it is in a sample file AND
-# the value is exactly 32 hex characters, so anything else is still caught.
+# Two kinds of committed hash look like keys to the generic-api-key rule:
+# - dataset samples: Datadog's aggreg_key / alert_cycle_key, 32-hex hashes of
+#   synthetic monitor ids;
+# - recorded model responses: "key" is the SHA-256 of the request (64 hex).
+# Ignore a finding only when it is in one of those files AND the value is
+# exactly such a hex hash, so anything else there (or anywhere) is still caught.
 [allowlist]
-description = "Synthetic Datadog aggregation and cycle hashes in dataset samples"
+description = "Synthetic hashes in dataset samples and model-response cassettes"
 condition = "AND"
-paths = ['''^dataset/v1/samples/[a-z0-9_-]+\.json$''']
-regexes = ['''^[0-9a-f]{32}$''']
+paths = ['''^dataset/v1/samples/[a-z0-9_-]+\.json$''', '''^cassettes/[a-z0-9_.-]+\.jsonl$''']
+regexes = ['''^[0-9a-f]{32}$''', '''^[0-9a-f]{64}$''']

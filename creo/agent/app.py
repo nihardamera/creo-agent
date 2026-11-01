@@ -16,6 +16,7 @@ import hmac
 import html
 import sqlite3
 import threading
+import time
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Annotated, Any, Literal
@@ -26,6 +27,7 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from pydantic import BaseModel
 
 from creo import tracing
+from creo.actions import ActionRefused
 from creo.agent.env import Env
 from creo.agent.llm import CassetteLLM, LLMClient, OllamaLLM, OpenAICompatLLM
 from creo.agent.runtime import Agent, ApprovalError
@@ -66,6 +68,18 @@ def build_agent(
 
 def _same(a: str | None, b: str) -> bool:
     return a is not None and hmac.compare_digest(a.encode(), b.encode())
+
+
+class ActionRequest(BaseModel):
+    action: str
+    params: dict[str, Any]
+    client: str
+    why: str
+
+
+class DiagnosticRequest(BaseModel):
+    host: str
+    name: str
 
 
 class Decision(BaseModel):
@@ -198,6 +212,46 @@ def create_app(
         _executor(x_creo_executor_token)
         ag.complete_job(job_id, body)
         return {"status": "recorded"}
+
+    # ---- the MCP server's way in: read-only diagnostics and approval requests -------
+
+    def _mcp(token: str | None) -> None:
+        if not _same(token, s.mcp_token):
+            raise HTTPException(401, "bad or missing MCP token")
+
+    @app.post("/api/requests", status_code=201)
+    def request_action(
+        body: ActionRequest, x_creo_mcp_token: Annotated[str | None, Header()] = None
+    ) -> dict[str, str]:
+        _mcp(x_creo_mcp_token)
+        try:
+            aid = ag.request_action(body.action, body.params, client=body.client, why=body.why)
+        except ActionRefused as e:
+            raise HTTPException(422, {"code": e.code, "detail": e.detail}) from None
+        return {"approval_id": aid, "status": "pending human approval"}
+
+    @app.get("/api/requests/{approval_id}")
+    def request_status(
+        approval_id: str, x_creo_mcp_token: Annotated[str | None, Header()] = None
+    ) -> dict[str, Any]:
+        _mcp(x_creo_mcp_token)
+        try:
+            return ag.request_status(approval_id)
+        except ApprovalError as e:
+            raise HTTPException(404, str(e)) from None
+
+    @app.post("/api/diagnostics")
+    def diagnostic(
+        body: DiagnosticRequest, x_creo_mcp_token: Annotated[str | None, Header()] = None
+    ) -> dict[str, Any]:
+        _mcp(x_creo_mcp_token)
+        jid = ag.run_diagnostic(body.host, body.name)
+        for _ in range(100):  # the executor polls every 0.5 s
+            r = ag.job_result(jid)
+            if r is not None:
+                return r
+            time.sleep(0.2)
+        raise HTTPException(504, "executor did not answer in time")
 
     @app.post("/api/killswitch")
     def killswitch(

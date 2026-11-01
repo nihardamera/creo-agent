@@ -30,6 +30,8 @@ class Settings:
     executor_token: str = field(
         default_factory=lambda: _env("CREO_EXECUTOR_TOKEN", "demo-executor-token")
     )
+    # The MCP server's credential for the agent's request and diagnostic APIs.
+    mcp_token: str = field(default_factory=lambda: _env("CREO_MCP_TOKEN", "demo-mcp-token"))
     approval_key: bytes = field(
         default_factory=lambda: _env("CREO_APPROVAL_KEY", "demo-approval-signing-key").encode()
     )
@@ -38,6 +40,7 @@ class Settings:
         default_factory=lambda: _env("CREO_TICKETS_URL", "http://localhost:8001")
     )
     sim_url: str = field(default_factory=lambda: _env("CREO_SIM_URL", "http://localhost:8002"))
+    mcp_url: str = field(default_factory=lambda: _env("CREO_MCP_URL", "http://localhost:8003/mcp"))
     # mock (recorded responses), ollama, or openai (any OpenAI-compatible API).
     llm_mode: str = field(default_factory=lambda: _env("CREO_LLM", "mock"))
     cassette: Path = field(

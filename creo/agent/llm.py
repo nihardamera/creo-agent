@@ -17,6 +17,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -138,11 +139,12 @@ class RecordingLLM:
 
     def __init__(self, inner: LLMClient, path: Path) -> None:
         self.inner, self.path, self.name = inner, path, f"recording:{inner.name}"
+        self.lock = threading.Lock()
 
     def complete(self, req: LLMRequest) -> LLMResponse:
         resp = self.inner.complete(req)
         rec = {"key": req.key, "task": req.task, **resp.__dict__}
-        with self.path.open("a", encoding="utf-8") as f:
+        with self.lock, self.path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(rec, sort_keys=True) + "\n")
         return resp
 

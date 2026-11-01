@@ -2,6 +2,8 @@
 #   docker compose up -d          # agent, executor, sim, mock tickets
 #   docker compose run --rm replayer
 # Dashboard: http://localhost:8000  (mock-LLM mode: no model, no keys)
+# Traces:    http://localhost:6006  (Arize Phoenix)
+# MCP:       http://localhost:8003/mcp  (token: docker compose exec mcp python -m creo.mcp_server token --scopes creo:read)
 #
 # Demo secrets below are placeholders for synthetic data only. Set real ones
 # in .env for anything else.
@@ -20,6 +22,8 @@ x-common: &common
     CREO_AGENT_URL: http://agent:8000
     CREO_TICKETS_URL: http://tickets:8001
     CREO_SIM_URL: http://sim:8002
+    CREO_MCP_TOKEN: ${CREO_MCP_TOKEN:-demo-mcp-token}
+    CREO_OTLP_ENDPOINT: ${CREO_OTLP_ENDPOINT:-http://phoenix:6006/v1/traces}
 
 services:
   agent:
@@ -75,7 +79,27 @@ services:
     depends_on:
       agent: {condition: service_healthy}
 
+  # Read-only MCP tools; actions only as approval requests. Bearer JWTs with scopes.
+  mcp:
+    <<: *common
+    command: python -m creo.mcp_server serve
+    ports: ["8003:8003"]
+    volumes: [mcp-data:/data]
+    depends_on:
+      agent: {condition: service_healthy}
+
+  # OpenTelemetry traces: every node, model call, executor job and wait.
+  phoenix:
+    image: arizephoenix/phoenix:version-20.26.1
+    restart: unless-stopped
+    ports: ["6006:6006"]
+    environment:
+      PHOENIX_WORKING_DIR: /mnt/data
+    volumes: [phoenix-data:/mnt/data]
+
 volumes:
+  mcp-data:
+  phoenix-data:
   agent-data:
   executor-data:
   tickets-data:

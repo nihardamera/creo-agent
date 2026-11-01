@@ -17,6 +17,7 @@ import dataclasses
 import json
 import subprocess
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -51,15 +52,21 @@ def make_llm(mode: str, model: str, url: str, record: Path | None, cassette: Pat
 
 
 def evaluate(
-    cases: list[Case], llm: LLMClient, *, progress: bool = False
+    cases: list[Case], llm: LLMClient, *, progress: bool = False, workers: int = 1
 ) -> list[tuple[Case, dict[str, Any]]]:
-    out = []
-    t0 = time.time()
-    for i, c in enumerate(cases, 1):
-        o = dataclasses.asdict(run_case(c, llm))
-        out.append((c, o))
-        if progress and (i % 25 == 0 or i == len(cases)):
-            print(f"  {i}/{len(cases)} cases, {time.time() - t0:.0f}s", flush=True)
+    """Run every case; each one is isolated, so they can run in parallel. Order is kept."""
+    t0, done = time.time(), 0
+
+    def one(c: Case) -> dict[str, Any]:
+        return dataclasses.asdict(run_case(c, llm))
+
+    out: list[tuple[Case, dict[str, Any]]] = []
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for c, o in zip(cases, pool.map(one, cases), strict=True):
+            out.append((c, o))
+            done += 1
+            if progress and (done % 25 == 0 or done == len(cases)):
+                print(f"  {done}/{len(cases)} cases, {time.time() - t0:.0f}s", flush=True)
     return out
 
 
@@ -93,6 +100,7 @@ def main() -> None:
     ap.add_argument("--cassette", type=Path, default=Path("cassettes/default.jsonl"))
     ap.add_argument("--record", type=Path, help="append real-model responses to this cassette")
     ap.add_argument("--out", type=Path, default=EVAL_DIR / "runs")
+    ap.add_argument("--workers", type=int, default=1, help="cases run in parallel")
     args = ap.parse_args()
 
     if args.cases_file:
@@ -114,7 +122,7 @@ def main() -> None:
         "splits": sorted({c.split for c in cases}, key=SPLITS.index),
     }
     print(f"{args.name}: {len(cases)} cases with {llm.name}", flush=True)
-    pairs = evaluate(cases, llm, progress=True)
+    pairs = evaluate(cases, llm, progress=True, workers=args.workers)
     report = build_report(pairs, meta)
     d = args.out / args.name
     d.mkdir(parents=True, exist_ok=True)
