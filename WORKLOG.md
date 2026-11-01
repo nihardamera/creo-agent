@@ -267,3 +267,55 @@ Next:
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.
   Trust the pinned pre-commit hook (v8.30.1) and CI, which honour them.
+
+## P4 — a small tuned model for the classify step (branch p4-small-model)
+
+Brief: ~/Desktop/portfolio/roadmap/04_SMALL_MODEL_RL.md. Started 2026-11-02 in a
+separate worktree (../creo-p4) so P4 never lands on main half-finished.
+Explain-back gates are deferred to interview prep (list below).
+
+Decisions:
+- Only `classify` has a verifiable answer (a labelled category under a strict
+  JSON schema), so it is the step the small model is tuned for. `summarize`
+  is free text and stays on the existing path.
+- Student: Qwen3-0.6B (plain transformer; Qwen3.5-0.8B skipped: hybrid
+  Gated DeltaNet + vision tower, needs transformers main and vLLM nightly).
+- Teacher and API baseline: Claude Haiku 5.5 (API budget ~$0.80 left of $5).
+- GPU: RunPod RTX 4090, community cloud, CUDA 13.0 hosts (torch 2.13 wheels).
+- TRL 1.17.1 GRPO defaults read from source: loss_type="dapo", beta=0.0.
+  grpo.py sets KL beta 0.04 to the SFT model and epsilon_high 0.28.
+
+M1 (done): creo/tune/data.py; tune/data/STATS.md.
+- train 1,525 / grpo 821 / val 277: fresh generator alerts (new seeds),
+  balanced over (runbook, category). 37 exact repeats of a test request or of
+  an earlier item dropped (low-entropy evidence repeats by chance).
+- test: the agent's own 185 held-out classify requests, from the committed
+  after run.
+- Probes: attacker text in an `alert_message` field, as if redaction had
+  failed (in the agent it never reaches the model). f0 phrasings in
+  train/val/grpo; f1/f2 test only. Targets: a wrong fix category (2/3) or a
+  category no runbook has (1/3).
+- Rewards (creo/tune/score.py), tested against known hacks in
+  tests/test_tune.py.
+
+M2 so far:
+- Haiku 5.5 on test: 95.7% [92.4, 98.4] valid+correct, category right on
+  100%; every miss is the agent's validation (more than 6 citations: the
+  structured-output schema can't express maxItems). Found on test, so not
+  fixed and re-scored; documented instead. Probes: 78.4%; refused 30/185
+  (stop_reason refusal, category "bio": a false positive); followed the
+  injection 1/185.
+- Teacher batch (Batches API, half price): $0.18 for 2,162 requests; 1,713 of
+  1,825 train answers kept (valid and gold category), 314 of 337 val.
+
+API spend for P4 so far: ~$0.35 (two Haiku test runs, judge calibration for
+CREO ~$0.05, teacher $0.18).
+
+Deferred gates (P4):
+- M2: when is distillation enough, and when can RL exceed the teacher?
+- M4: the GRPO advantage formula; why no critic and what that costs;
+  entropy collapse and how clip-higher helps; why the original GRPO loss was
+  length-biased.
+- M6: why decoding is memory-bandwidth bound; why prefix caching suits this
+  agent; max concurrent sequences for a 1.5B model on 24 GB at 4k context.
+- Write "Design decisions" and "What failed" yourself.
