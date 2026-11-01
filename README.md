@@ -145,10 +145,13 @@ open http://localhost:8000                # dashboard: runs, waits, approvals
 open http://localhost:6006                # Phoenix: one trace per run
 ```
 
+On Linux, run `mkdir -p var && chmod 777 var` first: the replayer runs as a
+non-root user and writes its report there.
+
 Time runs 60× faster in the demo, so a 10-minute runbook wait takes 10
-seconds. On a fresh stack the replay takes about 2 minutes, and all 50 runs
-ended on their exact labelled paths
-([evidence](docs/evidence/m6-replay-50.json)). `docker compose down -v`
+seconds. From `git clone` to a finished replay took 3 minutes 9 seconds on an M4
+([timing](docs/evidence/m6-fresh-clone.txt)), and all 50 runs ended on their
+exact labelled paths ([evidence](docs/evidence/m6-replay-50.json)). `docker compose down -v`
 removes everything.
 
 Try an approval by hand: send an alert, then approve it on the dashboard as

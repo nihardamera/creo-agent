@@ -234,7 +234,8 @@ Done:
   data), design decisions; RESUME_CLAIMS.md filled.
 
 Next:
-- Fresh-clone test (time the quickstart); judge calibration once labels exist.
+- Fresh clone to finished replay: 3 min 9 s (docs/evidence/m6-fresh-clone.txt).
+- Judge calibration once labels exist.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.

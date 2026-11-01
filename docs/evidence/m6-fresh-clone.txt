@@ -1,0 +1,19 @@
+# Fresh-clone quickstart, 2026-11-01, Apple M4, 16 GB, OrbStack
+# git clone, then the README quickstart verbatim. The project's images were
+# removed and the build ran with --no-cache. Of the two base images (uv,
+# Phoenix), docker rmi untagged one; BuildKit may still have reused cached
+# base layers. On a slow connection the first pull adds download time.
+# Script: the steps below, timed with date +%s.
+
+{
+  "cases": 50,
+  "finished": 50,
+  "final_state_matches": 50,
+  "path_matches": 50,
+  "unfinished": [],
+  "llm": "cassette:default.jsonl",
+  "time_scale": 60.0
+}
+dashboard HTTP 200
+phoenix HTTP 200
+clone 2s, build+start 66s, replay 121s, total 189s
