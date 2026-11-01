@@ -22,6 +22,8 @@ from typing import Any
 import httpx
 from pydantic import BaseModel, ConfigDict, ValidationError
 
+from creo.dataset.io import load
+
 JUDGE_DIR = Path(__file__).resolve().parents[2] / "eval" / "judge"
 SAMPLE = JUDGE_DIR / "sample.jsonl"
 HUMAN = JUDGE_DIR / "human_labels.jsonl"
@@ -57,10 +59,16 @@ def cohen_kappa(a: list[str], b: list[str]) -> float | None:
 
 
 def sample(run_dir: Path, n: int = 80, seed: int = 3) -> list[dict[str, Any]]:
-    """Model-written escalation notes from a run, one per case, stratified by reason."""
+    """Model-written escalation notes from a run's dev cases, one per case, stratified by reason.
+
+    Dev only: the rubric gets tuned against these labels, so held-out notes stay out.
+    """
+    dev = {c.id for s in ("dev", "adversarial_dev") for c in load(s, purpose="tune")}
     notes = []
     for line in (run_dir / "outcomes.jsonl").read_text().splitlines():
         o = json.loads(line)
+        if o["case"] not in dev:
+            continue
         s = o.get("summary") or {}
         calls = [c for c in o["llm_calls"] if c["node"] == "escalate"]
         if s.get("source") != "model" or not calls:
