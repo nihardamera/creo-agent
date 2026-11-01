@@ -1,0 +1,9 @@
+{
+  "checked": "2026-11-01",
+  "source": "https://platform.claude.com/docs/en/about-claude/pricing (standard API, global routing, no batch or caching discounts)",
+  "usd_per_million_tokens": {
+    "local qwen3.5:4b (Ollama, Apple M4)": {"input": 0.0, "output": 0.0, "note": "no per-token charge; hardware and electricity not counted"},
+    "claude-haiku-5-5": {"input": 0.10, "output": 0.50, "note": "prompts up to 100,000 tokens"},
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "note": ""}
+  }
+}
