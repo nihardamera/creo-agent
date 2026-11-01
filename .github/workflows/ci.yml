@@ -21,6 +21,8 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run mypy
       - run: uv run pytest -q
+      # Committed dataset: manifest hashes, config hashes and every label.
+      - run: uv run python -m creo.dataset.validate
 
   secrets:
     runs-on: ubuntu-latest
