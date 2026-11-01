@@ -7,7 +7,8 @@
 #   diagnostics            read-only checks run before classifying
 #   judgement              true: the model picks a category from the diagnostics
 #   wait                   first wait, number of rechecks, minutes between rechecks
-#   categories             category -> plan (+ ordered fixes, each needing approval)
+#   categories             category -> plan (+ ordered fixes, each needing approval);
+#                          judgement categories also say what the evidence looks like (means)
 #   escalation             where a human takes over
 #
 # Plans: wait_then_fix, wait_then_escalate, fix_now, escalate_now.
@@ -80,7 +81,8 @@ runbooks:
     escalation: {group: linux-infra, priority: P3}
 
   cpu-high:
-    description: Sustained high CPU on a Windows app, web or batch host.
+    # Neutral on purpose: "sustained high CPU" here made the model answer sustained_load.
+    description: CPU use on a Windows app, web or batch host is above threshold.
     monitor_types: [cpu_high]
     roles: [app, web, batch]
     diagnostics: [get_top_processes]
@@ -88,12 +90,15 @@ runbooks:
     wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
     categories:
       transient_spike:
+        means: "One process was very busy but its cpu_trend is falling: it is finishing on its own."
         plan: wait_then_escalate
       runaway_process:
+        means: "One process has cpu_pct_avg near 100 and a steady cpu_trend while every other process stays low. A single busy process is this category, not sustained_load. Cite that process record."
         plan: wait_then_fix
         fixes:
           - action: kill_process
       sustained_load:
+        means: "Several processes are all moderately busy (cpu_pct_avg around 20-40) and none is near 100: real demand, not a fault."
         plan: escalate_now
     # Worker processes their parent service respawns. Nothing else is killable.
     allowed_processes: [KfRateCalcWorker.exe, KfLabelRender.exe, KfManifestDiff.exe]
@@ -108,18 +113,22 @@ runbooks:
     wait: {minutes: 5, rechecks: 1, interval_minutes: 5}
     categories:
       service_leak:
+        means: "A Windows service's process (not w3wp.exe) has mem_trend rising. Cite that process record."
         plan: wait_then_fix
         fixes:
           - action: restart_windows_service
             roles: [app]
       app_pool_leak:
+        means: "An IIS worker process (w3wp.exe, owned by its app pool) has mem_trend rising. Cite that process record."
         plan: wait_then_fix
         fixes:
           - action: recycle_app_pool
             roles: [web]
       transient:
+        means: "One process holds a lot of memory but its mem_trend is falling: it is being released. A falling process is never a leak."
         plan: wait_then_escalate
       unknown:
+        means: "Several processes hold more memory than usual, but every mem_trend is steady: nothing is growing or being released."
         plan: escalate_now
     escalation: {group: app-support, priority: P3}
 
@@ -132,12 +141,15 @@ runbooks:
     wait: {minutes: 3, rechecks: 2, interval_minutes: 3}
     categories:
       app_pool_stopped:
+        means: "The probe quickly gets HTTP 503 in every recent result: IIS answers but the site's app pool is stopped."
         plan: wait_then_fix
         fixes:
           - action: start_app_pool
       upstream_or_network:
+        means: "The probe times out (status 0) or gets 502/504 in every recent result: the fault is beyond this host."
         plan: escalate_now
       transient:
+        means: "The latest probe results pass again (status 200): the check is recovering."
         plan: wait_then_escalate
     escalation: {group: web-platform, priority: P2}
 
@@ -150,14 +162,18 @@ runbooks:
     wait: {minutes: 10, rechecks: 1, interval_minutes: 10}
     categories:
       transient:
+        means: "Known background noise, such as Schannel 36887 (a remote client's TLS alert) and DistributedCOM 10016 warnings, with no crash, disk or hardware events."
         plan: wait_then_escalate
       service_crash:
+        means: "Service Control Manager 7031 (an unexpected service exit), usually with Application Error 1000. Cite the 7031 event and the service record that shows restarts."
         plan: wait_then_fix
         fixes:
           - action: restart_windows_service
       hardware_or_os:
+        means: "Disk, file-system or hardware events: disk 153 (I/O retried), Ntfs 55 (file-system corruption), WHEA-Logger 17 (hardware error)."
         plan: escalate_now
       unknown:
+        means: "Errors from several unrelated application sources, none dominant, matching none of the patterns above."
         plan: escalate_now
     escalation: {group: windows-infra, priority: P3}
 

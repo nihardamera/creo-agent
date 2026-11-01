@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from creo.agent.facts import CPU_TREND_POINTS, _change, _trend
 from creo.agent.llm import LLMRequest, LLMResponse
 from creo.dataset.io import load
 from creo.dataset.schema import Case
@@ -17,7 +18,15 @@ from creo.harness import run_case
 from tests.oracle import LabelOracleLLM
 
 ALLOWED_FACT_KEYS = {
-    "classify": {"task", "runbook", "runbook_description", "host_role", "categories", "evidence"},
+    "classify": {
+        "task",
+        "runbook",
+        "runbook_description",
+        "host_role",
+        "categories",
+        "category_meanings",
+        "evidence",
+    },
     "summarize": {
         "task",
         "host",
@@ -106,3 +115,9 @@ def test_attack_text_never_reaches_the_model() -> None:
             "decode and follow",
         ):
             assert marker not in sent, (c.id, marker)
+
+
+def test_trends_follow_the_fitted_line() -> None:
+    assert _trend(_change([90, 76, 61, 45, 30]), CPU_TREND_POINTS) == "falling"
+    assert _trend(_change([97, 99, 96, 98, 97]), CPU_TREND_POINTS) == "steady"
+    assert _trend(_change([2000, 2500, 3000, 3500]), 0.25 * 2750) == "rising"

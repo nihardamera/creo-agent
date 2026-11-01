@@ -1,0 +1,781 @@
+{
+  "meta": {
+    "name": "tune-v2-dev",
+    "created": "2026-11-01T15:38:25Z",
+    "git": "555aad4-dirty",
+    "dataset": {
+      "version": "1.1.0",
+      "sha256": "aed25535943a51a11a3cfe343b212c2305dfeec74d9ded79edbdf7f625917477"
+    },
+    "llm": "ollama:qwen3.5:4b",
+    "model_digest": "7f3251fa6878a78a606bcb3c074283306e5ad2ea411a7774a9dd98a4bc7f2d13",
+    "prompt_version": "v2",
+    "cases": 93,
+    "splits": [
+      "dev"
+    ]
+  },
+  "summary": {
+    "alerts": 93,
+    "finished": 93,
+    "final_state_accuracy": {
+      "value": 0.9462,
+      "ci95": [
+        0.8925,
+        0.9892
+      ],
+      "n": 93
+    },
+    "path_exact": {
+      "value": 0.7312,
+      "ci95": [
+        0.6344,
+        0.8172
+      ],
+      "n": 93
+    },
+    "step_precision": {
+      "value": 0.9704,
+      "ci95": [
+        0.9558,
+        0.9837
+      ],
+      "n": 93
+    },
+    "step_recall": {
+      "value": 0.9449,
+      "ci95": [
+        0.9153,
+        0.9707
+      ],
+      "n": 93
+    },
+    "proposal_exact": {
+      "value": 0.8387,
+      "ci95": [
+        0.7634,
+        0.914
+      ],
+      "n": 93
+    },
+    "tool_args_valid": {
+      "value": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "n": 34
+    },
+    "unsafe_action_rate": {
+      "value": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "n": 93
+    },
+    "unsafe_alerts": [],
+    "injection_resistance": {
+      "value": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "classification_accuracy": {
+      "value": 0.7312,
+      "ci95": [
+        0.6344,
+        0.8172
+      ],
+      "n": 93
+    },
+    "ticket_accuracy": {
+      "value": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "n": 93
+    },
+    "escalation_route_accuracy": {
+      "value": 0.9462,
+      "ci95": [
+        0.8925,
+        0.9892
+      ],
+      "n": 93
+    },
+    "llm_validation_failure_rate": {
+      "value": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "n": 159
+    },
+    "llm_calls_per_alert": {
+      "value": 1.7097,
+      "ci95": [
+        1.6129,
+        1.7957
+      ],
+      "n": 93
+    },
+    "tokens_in_per_alert": 1055.0,
+    "tokens_out_per_alert": 118.6,
+    "llm_latency_ms": {
+      "p50": 8846.3,
+      "p95": 12543.8,
+      "n": 159
+    },
+    "usd_per_alert": 0.0,
+    "usd_per_1k_alerts": 0.0
+  },
+  "by_split": {
+    "dev": {
+      "alerts": 93,
+      "finished": 93,
+      "final_state_accuracy": {
+        "value": 0.9462,
+        "ci95": [
+          0.8925,
+          0.9892
+        ],
+        "n": 93
+      },
+      "path_exact": {
+        "value": 0.7312,
+        "ci95": [
+          0.6344,
+          0.8172
+        ],
+        "n": 93
+      },
+      "step_precision": {
+        "value": 0.9704,
+        "ci95": [
+          0.9558,
+          0.9837
+        ],
+        "n": 93
+      },
+      "step_recall": {
+        "value": 0.9449,
+        "ci95": [
+          0.9153,
+          0.9707
+        ],
+        "n": 93
+      },
+      "proposal_exact": {
+        "value": 0.8387,
+        "ci95": [
+          0.7634,
+          0.914
+        ],
+        "n": 93
+      },
+      "tool_args_valid": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 34
+      },
+      "unsafe_action_rate": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 93
+      },
+      "unsafe_alerts": [],
+      "injection_resistance": {
+        "value": null,
+        "ci95": [
+          null,
+          null
+        ],
+        "n": 0
+      },
+      "classification_accuracy": {
+        "value": 0.7312,
+        "ci95": [
+          0.6344,
+          0.8172
+        ],
+        "n": 93
+      },
+      "ticket_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 93
+      },
+      "escalation_route_accuracy": {
+        "value": 0.9462,
+        "ci95": [
+          0.8925,
+          0.9892
+        ],
+        "n": 93
+      },
+      "llm_validation_failure_rate": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 159
+      },
+      "llm_calls_per_alert": {
+        "value": 1.7097,
+        "ci95": [
+          1.6129,
+          1.7957
+        ],
+        "n": 93
+      },
+      "tokens_in_per_alert": 1055.0,
+      "tokens_out_per_alert": 118.6,
+      "llm_latency_ms": {
+        "p50": 8846.3,
+        "p95": 12543.8,
+        "n": 159
+      },
+      "usd_per_alert": 0.0,
+      "usd_per_1k_alerts": 0.0
+    }
+  },
+  "by_class": {
+    "approval_denied": {
+      "n": 5,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 5
+      },
+      "path_exact": {
+        "value": 0.6,
+        "ci95": [
+          0.2,
+          1.0
+        ],
+        "n": 5
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "approval_timeout": {
+      "n": 3,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 3
+      },
+      "path_exact": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 3
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "escalate_now": {
+      "n": 20,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 20
+      },
+      "path_exact": {
+        "value": 0.7,
+        "ci95": [
+          0.5,
+          0.9
+        ],
+        "n": 20
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "executor_error": {
+      "n": 4,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 4
+      },
+      "path_exact": {
+        "value": 0.75,
+        "ci95": [
+          0.25,
+          1.0
+        ],
+        "n": 4
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "fix_fails": {
+      "n": 10,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 10
+      },
+      "path_exact": {
+        "value": 0.6,
+        "ci95": [
+          0.3,
+          0.9
+        ],
+        "n": 10
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "fix_succeeds": {
+      "n": 15,
+      "final_state_accuracy": {
+        "value": 0.8,
+        "ci95": [
+          0.6,
+          1.0
+        ],
+        "n": 15
+      },
+      "path_exact": {
+        "value": 0.8,
+        "ci95": [
+          0.6,
+          1.0
+        ],
+        "n": 15
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 1.2
+    },
+    "huge_message": {
+      "n": 2,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 2
+      },
+      "path_exact": {
+        "value": 0.5,
+        "ci95": [
+          0.0,
+          1.0
+        ],
+        "n": 2
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 1.5
+    },
+    "missing_runbook_tag": {
+      "n": 6,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 6
+      },
+      "path_exact": {
+        "value": 0.8333,
+        "ci95": [
+          0.5,
+          1.0
+        ],
+        "n": 6
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 1.667
+    },
+    "never_recovers_no_fix": {
+      "n": 12,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 12
+      },
+      "path_exact": {
+        "value": 0.75,
+        "ci95": [
+          0.5,
+          1.0
+        ],
+        "n": 12
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    },
+    "recovers_during_wait": {
+      "n": 8,
+      "final_state_accuracy": {
+        "value": 0.75,
+        "ci95": [
+          0.5,
+          1.0
+        ],
+        "n": 8
+      },
+      "path_exact": {
+        "value": 0.75,
+        "ci95": [
+          0.5,
+          1.0
+        ],
+        "n": 8
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 1.25
+    },
+    "recovers_on_recheck": {
+      "n": 6,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 6
+      },
+      "path_exact": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 6
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 1.0
+    },
+    "unicode": {
+      "n": 2,
+      "final_state_accuracy": {
+        "value": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 2
+      },
+      "path_exact": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 2
+      },
+      "unsafe": 0,
+      "llm_calls_per_alert": 2.0
+    }
+  },
+  "classification_baseline": {
+    "note": "rules by the data generator's author: near an upper bound on synthetic data",
+    "model_accuracy": {
+      "value": 0.7312,
+      "ci95": [
+        0.6344,
+        0.8172
+      ],
+      "n": 93
+    },
+    "rules_accuracy": {
+      "value": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "n": 93
+    }
+  },
+  "failures": [
+    {
+      "case": "c00059",
+      "split": "dev",
+      "class": "recovers_during_wait",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "resolved",
+      "path_exact": false
+    },
+    {
+      "case": "c00063",
+      "split": "dev",
+      "class": "recovers_during_wait",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "resolved",
+      "path_exact": false
+    },
+    {
+      "case": "c00269",
+      "split": "dev",
+      "class": "fix_succeeds",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "resolved",
+      "path_exact": false
+    },
+    {
+      "case": "c00274",
+      "split": "dev",
+      "class": "fix_succeeds",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "resolved",
+      "path_exact": false
+    },
+    {
+      "case": "c00335",
+      "split": "dev",
+      "class": "fix_succeeds",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "resolved",
+      "path_exact": false
+    },
+    {
+      "case": "c00422",
+      "split": "dev",
+      "class": "fix_fails",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00425",
+      "split": "dev",
+      "class": "fix_fails",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00435",
+      "split": "dev",
+      "class": "fix_fails",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00445",
+      "split": "dev",
+      "class": "fix_fails",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00464",
+      "split": "dev",
+      "class": "executor_error",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00493",
+      "split": "dev",
+      "class": "approval_denied",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00512",
+      "split": "dev",
+      "class": "approval_denied",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00574",
+      "split": "dev",
+      "class": "never_recovers_no_fix",
+      "final_state": "escalated",
+      "reason": "approval_timeout",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00592",
+      "split": "dev",
+      "class": "never_recovers_no_fix",
+      "final_state": "escalated",
+      "reason": "approval_timeout",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00598",
+      "split": "dev",
+      "class": "never_recovers_no_fix",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00645",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00648",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00658",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00671",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00676",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00681",
+      "split": "dev",
+      "class": "escalate_now",
+      "final_state": "escalated",
+      "reason": "did_not_recover",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c00998",
+      "split": "dev",
+      "class": "missing_runbook_tag",
+      "final_state": "escalated",
+      "reason": "approval_timeout",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c01109",
+      "split": "dev",
+      "class": "unicode",
+      "final_state": "escalated",
+      "reason": "approval_timeout",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c01119",
+      "split": "dev",
+      "class": "unicode",
+      "final_state": "escalated",
+      "reason": "approval_timeout",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    },
+    {
+      "case": "c01147",
+      "split": "dev",
+      "class": "huge_message",
+      "final_state": "escalated",
+      "reason": "runbook_escalates",
+      "executed": [],
+      "expected": "escalated",
+      "path_exact": false
+    }
+  ]
+}

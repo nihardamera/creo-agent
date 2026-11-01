@@ -51,6 +51,8 @@ class FixStep(_Strict):
 class Category(_Strict):
     plan: Plan
     fixes: tuple[FixStep, ...] = ()
+    # What the evidence looks like for this category (shown to the model).
+    means: str = ""
 
     @model_validator(mode="after")
     def _fixes_match_plan(self) -> Self:
@@ -93,6 +95,8 @@ class Runbook(_Strict):
             raise ValueError(f"{self.key}: a runbook without judgement has one 'default' category")
         if self.judgement and "default" in self.categories:
             raise ValueError(f"{self.key}: judgement categories must be named")
+        if self.judgement and any(not c.means for c in self.categories.values()):
+            raise ValueError(f"{self.key}: every judgement category needs a meaning")
         if any(c.plan.waits for c in self.categories.values()) and (
             self.wait.minutes == 0 or self.wait.rechecks == 0
         ):

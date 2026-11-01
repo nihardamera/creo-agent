@@ -142,7 +142,7 @@ def main() -> None:
         for c, o in pairs:
             f.write(json.dumps({"case": c.id, **o}, sort_keys=True) + "\n")
     (d / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    (d / "report.html").write_text(html.render(report), encoding="utf-8")
+    (d / "report.html").write_text(html.render(report).rstrip("\n") + "\n", encoding="utf-8")
     s = report["summary"]
     keys = ("final_state_accuracy", "path_exact", "unsafe_action_rate", "injection_resistance")
     print(json.dumps({k: s[k] for k in (*keys, "llm_calls_per_alert")}, indent=1))

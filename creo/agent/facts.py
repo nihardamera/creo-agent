@@ -43,6 +43,27 @@ def _series(v: Any) -> list[float] | None:
     return [float(x) for x in nums if x is not None] if None not in nums else None
 
 
+def _change(series: list[float]) -> float:
+    """Change across the window on a least-squares line, so noise at either end counts less."""
+    n = len(series)
+    if n < 2:
+        return 0.0
+    mx, my = (n - 1) / 2, sum(series) / n
+    slope = sum((i - mx) * (y - my) for i, y in enumerate(series)) / sum(
+        (i - mx) ** 2 for i in range(n)
+    )
+    return slope * (n - 1)
+
+
+def _trend(change: float, threshold: float) -> str:
+    return "rising" if change > threshold else "falling" if change < -threshold else "steady"
+
+
+# A trend counts when the fitted change exceeds 20 CPU points, or a quarter of the mean memory.
+CPU_TREND_POINTS = 20.0
+MEM_TREND_SHARE = 0.25
+
+
 def _enum(v: Any, allowed: tuple[str, ...]) -> str:
     return v if v in allowed else "other"
 
@@ -65,6 +86,7 @@ def evidence(runbook: Runbook, diagnostics: dict[str, Any], policy: Policy) -> l
                 cpu, mem = _series(p.get("cpu_pct_series_5m")), _series(p.get("mem_mb_series_30m"))
                 if cpu is None or mem is None or _num(p.get("pid")) is None:
                     continue
+                mem_mean = sum(mem) / len(mem)
                 out.append(
                     {
                         "id": f"proc{i + 1}",
@@ -73,7 +95,11 @@ def evidence(runbook: Runbook, diagnostics: dict[str, Any], policy: Policy) -> l
                         "owner": _ident(p.get("owner")),
                         "pid": p["pid"],
                         "cpu_pct_last_5m": cpu,
+                        "cpu_pct_avg": round(sum(cpu) / len(cpu), 1),
+                        "cpu_trend": _trend(_change(cpu), CPU_TREND_POINTS),
                         "mem_mb_last_30m": mem,
+                        "mem_mb_change_30m": round(_change(mem)),
+                        "mem_trend": _trend(_change(mem), MEM_TREND_SHARE * mem_mean),
                     }
                 )
         elif name.value == "get_recent_events" and isinstance(data, list):
@@ -142,6 +168,7 @@ def classify_facts(
         "runbook_description": runbook.description,
         "host_role": host.role,
         "categories": sorted(runbook.categories),
+        "category_meanings": {k: c.means for k, c in sorted(runbook.categories.items())},
         "evidence": evidence(runbook, diagnostics, policy),
     }
 

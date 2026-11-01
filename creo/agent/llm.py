@@ -28,15 +28,18 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from creo.approvals import canonical
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"
 Task = Literal["classify", "summarize"]
 
 SYSTEM = {
     "classify": (
         "You classify the likely cause of a server alert for an operations runbook. "
-        "You get JSON facts: the runbook, the host's role, the allowed categories and "
-        "typed evidence records from read-only diagnostics. Choose exactly one category "
-        "from the allowed list. Cite the ids of the evidence records that support it. "
+        "You get JSON facts: the runbook, the host's role, the allowed categories, what "
+        "each category's evidence looks like (category_meanings) and typed evidence records "
+        "from read-only diagnostics. Compare the evidence with each meaning, including how "
+        "numeric series change over time, and choose exactly one category from the allowed "
+        "list. Cite the ids of the evidence records that support it, including the process "
+        "or service record the category is about. "
         "If the evidence does not clearly support a category that implies a fix, prefer "
         "a category that waits or escalates. Reply with JSON only."
     ),

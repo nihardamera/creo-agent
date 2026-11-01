@@ -78,3 +78,10 @@ def test_judgement_free_runbook_needs_single_default_category() -> None:
     rb["categories"]["other"] = {"plan": "escalate_now"}
     with pytest.raises(ValidationError):
         Runbook.model_validate(rb)
+
+
+def test_judgement_categories_must_say_what_their_evidence_looks_like() -> None:
+    rb = load_runbooks()["cpu-high"].model_dump()
+    rb["categories"]["runaway_process"]["means"] = ""
+    with pytest.raises(ValidationError, match="needs a meaning"):
+        Runbook.model_validate(rb)
