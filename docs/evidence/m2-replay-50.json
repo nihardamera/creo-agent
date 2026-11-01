@@ -1,0 +1,597 @@
+{
+  "summary": {
+    "cases": 50,
+    "finished": 50,
+    "final_state_matches": 47,
+    "path_matches": 41,
+    "unfinished": [],
+    "llm": "cassette:default.jsonl",
+    "time_scale": 60.0
+  },
+  "cases": [
+    {
+      "case": "c00521",
+      "class": "approval_denied",
+      "run_id": "run-000005",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00544",
+      "class": "approval_timeout",
+      "run_id": "run-000006",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01027",
+      "class": "conflicting_tags",
+      "run_id": "run-000008",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00777",
+      "class": "duplicate",
+      "run_id": "run-000009",
+      "final_state": "escalated",
+      "expected_final_state": "duplicate",
+      "final_ok": false,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00660",
+      "class": "escalate_now",
+      "run_id": "run-000010",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00462",
+      "class": "executor_error",
+      "run_id": "run-000011",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": [
+        "flush_dns_cache"
+      ]
+    },
+    {
+      "case": "c00435",
+      "class": "fix_fails",
+      "run_id": "run-000012",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": [
+        "kill_process"
+      ]
+    },
+    {
+      "case": "c00373",
+      "class": "fix_retry_succeeds",
+      "run_id": "run-000013",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "vacuum_journal",
+        "clean_package_cache"
+      ],
+      "expected_actions": [
+        "vacuum_journal",
+        "clean_package_cache"
+      ]
+    },
+    {
+      "case": "c00279",
+      "class": "fix_succeeds",
+      "run_id": "run-000014",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "restart_systemd_unit"
+      ],
+      "expected_actions": [
+        "restart_systemd_unit"
+      ]
+    },
+    {
+      "case": "c00742",
+      "class": "flapping",
+      "run_id": "run-000015",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01162",
+      "class": "huge_message",
+      "run_id": "run-000016",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "restart_systemd_unit"
+      ],
+      "expected_actions": [
+        "restart_systemd_unit"
+      ]
+    },
+    {
+      "case": "c01099",
+      "class": "malformed_payload",
+      "run_id": null,
+      "final_state": "rejected",
+      "expected_final_state": "rejected",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00993",
+      "class": "missing_runbook_tag",
+      "run_id": "run-000018",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00837",
+      "class": "multi_alert_incident",
+      "run_id": "run-000019",
+      "final_state": "correlated",
+      "expected_final_state": "correlated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00574",
+      "class": "never_recovers_no_fix",
+      "run_id": "run-000020",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00932",
+      "class": "orphan_recovery",
+      "run_id": "run-000021",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00193",
+      "class": "recovered_before_triage",
+      "run_id": "run-000022",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00017",
+      "class": "recovers_during_wait",
+      "run_id": "run-000023",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00186",
+      "class": "recovers_on_recheck",
+      "run_id": "run-000024",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00883",
+      "class": "stale",
+      "run_id": "run-000025",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00722",
+      "class": "tier0_host",
+      "run_id": "run-000026",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01123",
+      "class": "unicode",
+      "run_id": "run-000027",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "restart_systemd_unit"
+      ],
+      "expected_actions": [
+        "restart_systemd_unit"
+      ]
+    },
+    {
+      "case": "c00955",
+      "class": "unknown_monitor",
+      "run_id": "run-000028",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00903",
+      "class": "warn_only",
+      "run_id": "run-000029",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00515",
+      "class": "approval_denied",
+      "run_id": "run-000030",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00557",
+      "class": "approval_timeout",
+      "run_id": "run-000031",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01030",
+      "class": "conflicting_tags",
+      "run_id": "run-000033",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00772",
+      "class": "duplicate",
+      "run_id": "run-000034",
+      "final_state": "duplicate",
+      "expected_final_state": "duplicate",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00645",
+      "class": "escalate_now",
+      "run_id": "run-000035",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00463",
+      "class": "executor_error",
+      "run_id": "run-000036",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": [
+        "vacuum_journal"
+      ]
+    },
+    {
+      "case": "c00445",
+      "class": "fix_fails",
+      "run_id": "run-000037",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": [
+        "kill_process"
+      ]
+    },
+    {
+      "case": "c00372",
+      "class": "fix_retry_succeeds",
+      "run_id": "run-000038",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "start_app_pool",
+        "restart_iis"
+      ],
+      "expected_actions": [
+        "start_app_pool",
+        "restart_iis"
+      ]
+    },
+    {
+      "case": "c00281",
+      "class": "fix_succeeds",
+      "run_id": "run-000039",
+      "final_state": "escalated",
+      "expected_final_state": "resolved",
+      "final_ok": false,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": [
+        "restart_windows_service"
+      ]
+    },
+    {
+      "case": "c00758",
+      "class": "flapping",
+      "run_id": "run-000040",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01148",
+      "class": "huge_message",
+      "run_id": "run-000041",
+      "final_state": "escalated",
+      "expected_final_state": "resolved",
+      "final_ok": false,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01073",
+      "class": "malformed_payload",
+      "run_id": null,
+      "final_state": "rejected",
+      "expected_final_state": "rejected",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00977",
+      "class": "missing_runbook_tag",
+      "run_id": "run-000043",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00861",
+      "class": "multi_alert_incident",
+      "run_id": "run-000045",
+      "final_state": "correlated",
+      "expected_final_state": "correlated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00580",
+      "class": "never_recovers_no_fix",
+      "run_id": "run-000046",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00939",
+      "class": "orphan_recovery",
+      "run_id": "run-000047",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00226",
+      "class": "recovered_before_triage",
+      "run_id": "run-000048",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00061",
+      "class": "recovers_during_wait",
+      "run_id": "run-000049",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00158",
+      "class": "recovers_on_recheck",
+      "run_id": "run-000050",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00888",
+      "class": "stale",
+      "run_id": "run-000051",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00706",
+      "class": "tier0_host",
+      "run_id": "run-000052",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c01136",
+      "class": "unicode",
+      "run_id": "run-000053",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00972",
+      "class": "unknown_monitor",
+      "run_id": "run-000054",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00912",
+      "class": "warn_only",
+      "run_id": "run-000055",
+      "final_state": "ignored",
+      "expected_final_state": "ignored",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00523",
+      "class": "approval_denied",
+      "run_id": "run-000056",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": false,
+      "executed": [],
+      "expected_actions": []
+    },
+    {
+      "case": "c00560",
+      "class": "approval_timeout",
+      "run_id": "run-000057",
+      "final_state": "escalated",
+      "expected_final_state": "escalated",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [],
+      "expected_actions": []
+    }
+  ]
+}

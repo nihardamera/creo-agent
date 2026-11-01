@@ -152,6 +152,7 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=50)
     ap.add_argument("--rate", type=float, default=2.0, help="primary alerts per wall-clock second")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--cases", nargs="*", default=[], help="replay exactly these case ids")
     ap.add_argument("--auto-approve", action="store_true")
     ap.add_argument(
         "--timeout", type=float, default=600, help="wall seconds to wait for runs to finish"
@@ -163,7 +164,11 @@ def main() -> None:
     clk = clock(s)
     agent = httpx.Client(base_url=s.agent_url, timeout=30.0)
     sim = httpx.Client(base_url=s.sim_url, timeout=30.0)
-    cases = pick(load(args.split, purpose="eval"), args.n, args.seed)
+    pool = load(args.split, purpose="eval")
+    if args.cases:
+        cases = [c for c in pool if c.id in set(args.cases)]
+    else:
+        cases = pick(pool, args.n, args.seed)
 
     # Every primary alert gets a slot; setup alerts go before it on the scaled clock.
     lead_s = max([-e.at_s for c in cases for e in c.world.prior_events] + [0]) / s.time_scale + 2
@@ -214,7 +219,10 @@ def main() -> None:
         for lc in replayed:
             rid = primary_run.get(lc.id)
             if rid and lc.id not in results:
-                run = agent.get(f"/api/runs/{rid}").json()
+                try:
+                    run = agent.get(f"/api/runs/{rid}").json()
+                except httpx.HTTPError:
+                    break  # the agent is restarting; try again shortly
                 if run.get("final_state"):
                     results[lc.id] = run
         if all(lc.id in results or not primary_run.get(lc.id) for lc in replayed):

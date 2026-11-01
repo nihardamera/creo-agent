@@ -1,0 +1,81 @@
+# CREO: workflow-first alert remediation on synthetic data.
+#   docker compose up -d          # agent, executor, sim, mock tickets
+#   docker compose run --rm replayer
+# Dashboard: http://localhost:8000  (mock-LLM mode: no model, no keys)
+#
+# Demo secrets below are placeholders for synthetic data only. Set real ones
+# in .env for anything else.
+x-common: &common
+  build: .
+  image: creo:dev
+  restart: unless-stopped
+  environment: &env
+    CREO_WEBHOOK_SECRET: ${CREO_WEBHOOK_SECRET:-demo-webhook-secret}
+    CREO_APPROVER_TOKEN: ${CREO_APPROVER_TOKEN:-demo-approver-token}
+    CREO_EXECUTOR_TOKEN: ${CREO_EXECUTOR_TOKEN:-demo-executor-token}
+    CREO_APPROVAL_KEY: ${CREO_APPROVAL_KEY:-demo-approval-signing-key}
+    # Every service must agree on the clock: a fixed epoch and a speed-up.
+    CREO_CLOCK_EPOCH_MS: ${CREO_CLOCK_EPOCH_MS:-1793000000000}
+    CREO_TIME_SCALE: ${CREO_TIME_SCALE:-60}
+    CREO_AGENT_URL: http://agent:8000
+    CREO_TICKETS_URL: http://tickets:8001
+    CREO_SIM_URL: http://sim:8002
+
+services:
+  agent:
+    <<: *common
+    command: python -m creo.agent.app
+    environment:
+      <<: *env
+      CREO_LLM: ${CREO_LLM:-mock}
+      OLLAMA_URL: ${OLLAMA_URL:-http://llm:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+    ports: ["8000:8000"]
+    volumes: [agent-data:/data]
+    depends_on:
+      tickets: {condition: service_healthy}
+      sim: {condition: service_healthy}
+    healthcheck: &health
+      test: ["CMD", "python", "-c", "import urllib.request,sys; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # The simulated jump host. Outbound only: it polls the agent and opens no port.
+  executor:
+    <<: *common
+    command: python -m creo.executor.worker
+    volumes: [executor-data:/data]
+    depends_on:
+      agent: {condition: service_healthy}
+
+  tickets:
+    <<: *common
+    command: uvicorn creo.tickets.app:create_app --factory --host 0.0.0.0 --port 8001
+    ports: ["8001:8001"]
+    volumes: [tickets-data:/data]
+    healthcheck:
+      <<: *health
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthz')"]
+
+  # Stand-ins for the monitoring API and the fleet's hosts.
+  sim:
+    <<: *common
+    command: uvicorn creo.sim.app:create_app --factory --host 0.0.0.0 --port 8002
+    healthcheck:
+      <<: *health
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/healthz')"]
+
+  replayer:
+    <<: *common
+    restart: "no"
+    profiles: [replay]
+    command: python -m creo.replayer --split dev --n 50 --rate 2 --auto-approve --report /data/replay-report.json
+    volumes: [./var:/data]
+    depends_on:
+      agent: {condition: service_healthy}
+
+volumes:
+  agent-data:
+  executor-data:
+  tickets-data:

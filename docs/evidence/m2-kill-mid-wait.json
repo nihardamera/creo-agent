@@ -1,0 +1,28 @@
+{
+  "summary": {
+    "cases": 1,
+    "finished": 1,
+    "final_state_matches": 1,
+    "path_matches": 1,
+    "unfinished": [],
+    "llm": "cassette:default.jsonl",
+    "time_scale": 60.0
+  },
+  "cases": [
+    {
+      "case": "c00309",
+      "class": "fix_succeeds",
+      "run_id": "run-000058",
+      "final_state": "resolved",
+      "expected_final_state": "resolved",
+      "final_ok": true,
+      "path_ok": true,
+      "executed": [
+        "restart_queue_consumer"
+      ],
+      "expected_actions": [
+        "restart_queue_consumer"
+      ]
+    }
+  ]
+}

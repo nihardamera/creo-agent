@@ -24,6 +24,18 @@ jobs:
       # Committed dataset: manifest hashes, config hashes and every label.
       - run: uv run python -m creo.dataset.validate
 
+  # The stack a stranger runs: build, start, replay alerts end to end.
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose up -d --build --wait
+      - run: mkdir -p var && chmod 777 var
+      - run: docker compose run --rm replayer python -m creo.replayer --split dev --n 12 --rate 2 --auto-approve --timeout 240 --report /data/replay-report.json
+      - run: python3 -c "import json,sys; s=json.load(open('var/replay-report.json'))['summary']; print(s); sys.exit(s['finished'] != s['cases'])"
+      - if: failure()
+        run: docker compose logs --tail 80
+
   secrets:
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,22 @@
+ Container creo-tickets-1 Running
+ Container creo-sim-1 Running
+ Container creo-agent-1 Running
+ Container creo-tickets-1 Waiting
+ Container creo-sim-1 Waiting
+ Container creo-sim-1 Healthy
+ Container creo-tickets-1 Healthy
+ Container creo-agent-1 Waiting
+ Container creo-agent-1 Healthy
+ Container creo-replayer-run-1aa850f6143e Creating
+ Container creo-replayer-run-1aa850f6143e Created
+replaying 1 cases from dev (time x60)
+c00309 fix_succeeds             -> 202 {'status': 'accepted', 'run_id': 'run-000058'}
+{
+  "cases": 1,
+  "finished": 1,
+  "final_state_matches": 1,
+  "path_matches": 1,
+  "unfinished": [],
+  "llm": "cassette:default.jsonl",
+  "time_scale": 60.0
+}

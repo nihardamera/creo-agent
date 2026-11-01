@@ -75,7 +75,7 @@ def _ask(
     env: Env, run_id: str, node: Node, req: LLMRequest, parse: Callable[[str, dict[str, Any]], Any]
 ) -> Any:
     """One model call: validated output (None on any failure) and the reason, always logged."""
-    out, why, resp = None, "llm_error", None
+    out, why, resp = None, "unavailable", None
     try:
         resp = env.llm.complete(req)
         out, why = parse(resp.text, req.facts)

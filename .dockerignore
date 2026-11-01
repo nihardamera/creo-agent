@@ -1,0 +1,12 @@
+.git
+.venv
+.venv.nosync
+var
+var.nosync
+**/__pycache__
+.mypy_cache
+.pytest_cache
+.ruff_cache
+.hypothesis
+tests
+.env
