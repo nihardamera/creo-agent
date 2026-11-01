@@ -1,7 +1,7 @@
 """Run one dataset case through the real agent and executor, in-process.
 
 Everything is real except the outside world: the graph, checkpointer, store,
-screen, executor and approval checks are the production code paths. The
+screen, executor and approval checks are the same code the services run. The
 monitoring system, hosts and approver follow the case's world script, and
 the clock is simulated, so a two-hour wait takes milliseconds.
 

@@ -7,7 +7,7 @@ with **Next**.
 
 - Synthetic data only. Everything here (the company, its fleet, hostnames,
   runbooks, ticket formats, alerts) is invented for this repo.
-- Never write "production", "deployed" or "handles N alerts/day". Every number
+- Never claim real-world use, real users or an alert volume. Every number
   in the README comes from a committed eval artifact.
 - Work in milestones M0–M6. Each ends with an explain-back gate; the
   "Design decisions" section of the README is written by Nihar, not generated.

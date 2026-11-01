@@ -168,7 +168,7 @@ agent.
 - **Frequencies are not real.** Real alert streams are dominated by a few
   noisy monitors and by alerts that clear on their own. Here, rare paths
   (executor errors, tier-0 hosts, flapping) are deliberately over-sampled.
-  Don't read a dataset-wide rate as an expected production rate.
+  Don't read a dataset-wide rate as a rate to expect from real alerts.
 - **Clean, consistent evidence.** For runbooks with judgement, the expected
   category can be read from typed diagnostic fields (process series, event
   IDs, probe results) by design. That makes the model's classification step
