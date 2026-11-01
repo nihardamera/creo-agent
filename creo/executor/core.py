@@ -120,6 +120,8 @@ class Executor:
     def _action(self, job: dict[str, Any], p: dict[str, Any]) -> dict[str, Any]:
         if self.killswitch():
             return self._log(job, "refused", "killswitch")
+        if self._recent_changes() >= self.policy.max_actions_per_hour:
+            return self._log(job, "refused", "rate_limited")
         try:
             action, typed = actions.parse(str(p.get("action")), dict(p.get("params") or {}))
             actions.check_inventory(action, typed, self.inventory)
@@ -149,6 +151,15 @@ class Executor:
             return self._log(job, "refused", "approval_already_used", grant)
         status, detail = self.backend.execute(action.value, params)
         return {**self._log(job, status, detail, grant), "detail": detail}
+
+    def _recent_changes(self) -> int:
+        since = self.clock.now_ms() - 3_600_000
+        row = self.conn.execute(
+            "SELECT COUNT(*) FROM attempts WHERE kind='action' AND status IN ('ok', 'error')"
+            " AND at_ms >= ?",
+            (since,),
+        ).fetchone()
+        return int(row[0])
 
     def attempts(self, run_id: str | None = None) -> list[dict[str, Any]]:
         if run_id:

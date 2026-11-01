@@ -24,7 +24,7 @@
   },
   "config_sha256": {
     "runbooks.yaml": "9b6ec31f480b3f67f32a4bf18c3be14170d99e4831c9cb80e6c32f762f2ae2d3",
-    "policy.yaml": "c1b95d0023385add8513dc8847887308bd9afae9d7041e1d0f64db710caac2cb",
+    "policy.yaml": "729bd2ff61811cefd08fad9163532a14b9c7066b7dd36e641391ef4a0acfc1c1",
     "inventory.yaml": "c49aaf11c85284386e7e0755a15efba5e192d976c401eaec887f61148b2f6f90"
   },
   "dataset_sha256": "aed25535943a51a11a3cfe343b212c2305dfeec74d9ded79edbdf7f625917477",

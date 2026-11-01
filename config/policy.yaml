@@ -31,6 +31,10 @@ approvers:
 allowed_link_domains:
   - kestrel-freight.example
 
+# The executor refuses changes beyond this many in any rolling hour, however
+# well approved: a ceiling on how far a cascade (or a compromised agent) can go.
+max_actions_per_hour: 20
+
 # Larger webhook bodies are refused at ingress.
 max_payload_bytes: 262144
 

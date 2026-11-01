@@ -130,6 +130,19 @@ def test_the_kill_switch_stops_even_approved_actions() -> None:
     assert hosts.calls == []
 
 
+def test_changes_per_hour_are_capped_however_well_approved() -> None:
+    ex, hosts, clock = _setup()
+    cap = load_policy().max_actions_per_hour
+    for i in range(cap):
+        job = _job("restart_windows_service", GOOD, run_id=f"r{i}", job_id=f"j{i}")
+        assert ex.run(job)["status"] == "ok"
+    over = ex.run(_job("restart_windows_service", GOOD, run_id="rx", job_id="jx"))
+    assert over["code"] == "rate_limited" and len(hosts.calls) == cap
+    clock.advance_to(clock.now_ms() + 3_600_001)  # an hour later the window has moved on
+    later = _job("restart_windows_service", GOOD, run_id="ry", job_id="jy", ttl_ms=7_200_000)
+    assert ex.run(later)["status"] == "ok"
+
+
 def test_diagnostics_are_read_only_and_allowlisted() -> None:
     ex, _, _ = _setup()
     ok = ex.run(

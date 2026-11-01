@@ -121,6 +121,7 @@ class Policy(_Strict):
     flapping: Flapping
     correlation_window_minutes: int
     approval_ttl_minutes: int
+    max_actions_per_hour: int
     approvers: tuple[str, ...]
     allowed_link_domains: tuple[str, ...]
     max_payload_bytes: int
