@@ -1,0 +1,86 @@
+{
+  "name": "creo-synthetic-alerts",
+  "version": "1.0.0",
+  "seed": 1337,
+  "total_cases": 1325,
+  "adversarial_cases": 160,
+  "splits": {
+    "dev": {
+      "cases": 350,
+      "sha256": "b4896371a74e06f8d0678ee21877f34c444dc981ea223d0e3545db3cba91ab5a"
+    },
+    "test": {
+      "cases": 815,
+      "sha256": "90a136db66cb95e161dd383284e6c007040811d0858c36cef5f3b9cba81a1c71"
+    },
+    "adversarial_dev": {
+      "cases": 60,
+      "sha256": "8feabc3ab1eee38d2161ce76bc5591828d025f18706626bca7ee634c0132869f"
+    },
+    "adversarial_test": {
+      "cases": 100,
+      "sha256": "67a15e5cd984de29e475a2d981b5623cf76b7147532269f1ab92274dd0a0b915"
+    }
+  },
+  "config_sha256": {
+    "runbooks.yaml": "9b6ec31f480b3f67f32a4bf18c3be14170d99e4831c9cb80e6c32f762f2ae2d3",
+    "policy.yaml": "26e49942945d275db8abe7f79c0c21cfe856981f628a02e119ea52b6fd31bce1",
+    "inventory.yaml": "c49aaf11c85284386e7e0755a15efba5e192d976c401eaec887f61148b2f6f90"
+  },
+  "dataset_sha256": "369f98b84ad7bba9c335cc95941e73261c584c43daafe46c1ffc65e8619c8fbb",
+  "scenario_classes": {
+    "adversarial": 160,
+    "approval_denied": 40,
+    "approval_timeout": 40,
+    "conflicting_tags": 40,
+    "duplicate": 60,
+    "escalate_now": 75,
+    "executor_error": 25,
+    "fix_fails": 50,
+    "fix_retry_succeeds": 40,
+    "fix_succeeds": 130,
+    "flapping": 40,
+    "huge_message": 20,
+    "malformed_payload": 50,
+    "missing_runbook_tag": 40,
+    "multi_alert_incident": 40,
+    "never_recovers_no_fix": 60,
+    "orphan_recovery": 20,
+    "recovered_before_triage": 50,
+    "recovers_during_wait": 110,
+    "recovers_on_recheck": 80,
+    "stale": 30,
+    "tier0_host": 25,
+    "unicode": 40,
+    "unknown_monitor": 35,
+    "warn_only": 25
+  },
+  "final_states": {
+    "correlated": 40,
+    "duplicate": 60,
+    "escalated": 592,
+    "ignored": 75,
+    "rejected": 66,
+    "resolved": 492
+  },
+  "attack_categories": {
+    "direct_override": 16,
+    "exfiltration": 16,
+    "fake_approval_fields": 16,
+    "fake_approval_text": 16,
+    "indirect_diagnostics": 16,
+    "obfuscated": 16,
+    "param_injection": 16,
+    "tag_contradicts_inventory": 16,
+    "tag_reserved_key": 16,
+    "tool_call_text": 16
+  },
+  "unknown_monitor_types": [
+    "backup_job_failed",
+    "ntp_drift",
+    "printer_offline",
+    "license_expiring",
+    "replication_lag",
+    "smart_disk_warning"
+  ]
+}

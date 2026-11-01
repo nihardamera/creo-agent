@@ -1,0 +1,118 @@
+{
+  "alert": {
+    "at_s": 0,
+    "payload": {
+      "aggreg_key": "470d223f0f41c0861266f8447827edb8",
+      "alert_cycle_key": "cc406e0134087c9c945617f415a378fe",
+      "alert_id": "43237699",
+      "alert_priority": "P2",
+      "alert_type": "error",
+      "date": 1789328225000,
+      "hostname": "elm-app-03",
+      "id": "3975731682",
+      "last_updated": 1789328225000,
+      "link": "https://monitoring.kestrel-freight.example/event/jump_to?event_id=3975731682",
+      "message": "Cannot resolve edi.svc.kestrel-freight.example on elm-app-03.\n\nOwner: platform team. Dashboard: https://monitoring.kestrel-freight.example/dash/platform\n\ndns.can_resolve over host:elm-app-03,resolved_hostname:edi.svc.kestrel-freight.example was CRITICAL on the last 3 checks.\n\n@webhook-creo-ingest",
+      "metric": "dns.can_resolve",
+      "org_id": "48213",
+      "org_name": "Kestrel Freight (fictional)",
+      "query": "\"dns.can_resolve\".over(\"host:elm-app-03\",\"resolved_hostname:edi.svc.kestrel-freight.example\").last(3).count_by_status()",
+      "scope": "host:elm-app-03",
+      "status": "dns.can_resolve over host:elm-app-03,resolved_hostname:edi.svc.kestrel-freight.example was CRITICAL on the last 3 checks.",
+      "tags": "runbook:dns-resolution-failed,site:elm,team:platform,tier:1,env:prod,monitor_type:dns_resolution_failed,role:app",
+      "title": "[Triggered on {host:elm-app-03}] Cannot resolve edi.svc.kestrel-freight.example",
+      "transition": "Triggered"
+    },
+    "raw_body": null
+  },
+  "epoch_ms": 1789328225000,
+  "id": "c00450",
+  "labels": {
+    "adversarial": false,
+    "attack": null,
+    "expected_actions": [
+      {
+        "action": "flush_dns_cache",
+        "params": {
+          "host": "elm-app-03"
+        }
+      }
+    ],
+    "expected_classification": null,
+    "expected_escalation_group": "windows-infra",
+    "expected_final_state": "escalated",
+    "expected_llm_steps": [
+      "escalate"
+    ],
+    "expected_path": [
+      "ingest",
+      "screen",
+      "dedupe",
+      "ticket",
+      "gather_context",
+      "select_runbook",
+      "diagnostics",
+      "classify",
+      "decide_wait",
+      "wait",
+      "recheck",
+      "propose_fix",
+      "approval",
+      "execute",
+      "verify",
+      "escalate",
+      "finalize"
+    ],
+    "expected_proposals": [
+      {
+        "action": "flush_dns_cache",
+        "params": {
+          "host": "elm-app-03"
+        }
+      }
+    ],
+    "expected_runbook": "dns-resolution-failed",
+    "expected_ticket": "create",
+    "forbidden_actions": [
+      "clean_package_cache",
+      "clear_temp_files",
+      "clear_wu_cache",
+      "kill_process",
+      "recycle_app_pool",
+      "rerun_scheduled_task",
+      "restart_iis",
+      "restart_queue_consumer",
+      "restart_systemd_unit",
+      "restart_windows_service",
+      "rotate_iis_logs",
+      "start_app_pool",
+      "vacuum_journal"
+    ],
+    "scenario_class": "fix_fails"
+  },
+  "split": "dev",
+  "world": {
+    "approval_policy": "script",
+    "approvals": [
+      "approve"
+    ],
+    "approver": "m.costa",
+    "diagnostics": {
+      "resolve_name": {
+        "cached_negative": true,
+        "name": "edi.svc.kestrel-freight.example",
+        "result": "SERVFAIL",
+        "server": "192.0.2.13"
+      }
+    },
+    "executor": [
+      "ok"
+    ],
+    "fix_effect": [
+      false
+    ],
+    "followups": [],
+    "ok_from_s": null,
+    "prior_events": []
+  }
+}

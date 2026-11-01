@@ -44,6 +44,12 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 
+[tool.ruff.lint.per-file-ignores]
+# Test data: non-ASCII text and Cyrillic homoglyphs are the point of these files.
+"creo/dataset/text.py" = ["RUF001"]
+# Each attack template reads best as one line of text.
+"creo/dataset/adversarial.py" = ["RUF001", "E501"]
+
 [tool.mypy]
 python_version = "3.12"
 packages = ["creo"]

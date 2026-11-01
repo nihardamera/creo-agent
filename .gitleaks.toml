@@ -1,0 +1,13 @@
+# gitleaks config: the default rules, plus one narrow allowlist.
+[extend]
+useDefault = true
+
+# The dataset samples carry Datadog's aggreg_key and alert_cycle_key fields,
+# whose names contain "key" and whose values are 32-character hex hashes of
+# synthetic monitor IDs. Ignore a finding only when it is in a sample file AND
+# the value is exactly 32 hex characters, so anything else is still caught.
+[allowlist]
+description = "Synthetic Datadog aggregation and cycle hashes in dataset samples"
+condition = "AND"
+paths = ['''^dataset/v1/samples/[a-z0-9_-]+\.json$''']
+regexes = ['''^[0-9a-f]{32}$''']

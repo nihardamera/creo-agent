@@ -14,9 +14,10 @@
 version: 1
 runbooks:
   win-service-down:
-    description: A Windows service on an app, web or batch host has stopped.
+    description: A Windows service has stopped.
     monitor_types: [service_down]
-    roles: [app, web, batch]
+    # dc is listed so that tier-0 policy, not a missing role, is what blocks fixes there.
+    roles: [app, web, batch, dc]
     diagnostics: [get_service_status, get_recent_events]
     judgement: false
     wait: {minutes: 5, rechecks: 2, interval_minutes: 5}
@@ -45,7 +46,7 @@ runbooks:
   disk-space-low-windows:
     description: Free space on a Windows drive is below threshold.
     monitor_types: [disk_space_low]
-    roles: [app, web, batch, sql, fs]
+    roles: [app, web, batch, sql, fs, dc]
     diagnostics: [get_disk_usage, get_large_dirs]
     judgement: false
     wait: {minutes: 10, rechecks: 1, interval_minutes: 10}
