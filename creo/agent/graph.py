@@ -12,10 +12,13 @@ from collections.abc import Callable
 from enum import StrEnum
 from typing import Any
 
+from langgraph.errors import GraphInterrupt
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.runtime import Runtime
+from openinference.semconv.trace import OpenInferenceSpanKindValues as Kind
 
+from creo import tracing
 from creo.agent.env import Env
 from creo.agent.nodes import NODES
 from creo.agent.state import RunState
@@ -67,8 +70,21 @@ def _plain(value: Any) -> Any:
 
 
 def _node(fn: Callable[[RunState, Runtime[Env]], dict[str, Any]]) -> Any:
+    kind = Kind.GUARDRAIL if fn.__name__ == "screen" else Kind.CHAIN
+
     def run(state: RunState, runtime: Runtime[Env]) -> dict[str, Any]:
-        return {k: _plain(v) for k, v in fn(state, runtime).items()}
+        with tracing.span(
+            f"node {fn.__name__}", kind, state.get("run_id"), **{"creo.node": fn.__name__}
+        ) as sp:
+            try:
+                out = {k: _plain(v) for k, v in fn(state, runtime).items()}
+            except GraphInterrupt:
+                sp.set_attribute("creo.paused", True)
+                raise
+            sp.set_attribute("creo.route", str(out.get("route")))
+            if out.get("reason"):
+                sp.set_attribute("creo.reason", str(out["reason"]))
+            return out
 
     run.__name__ = fn.__name__
     return run

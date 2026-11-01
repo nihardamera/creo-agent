@@ -14,6 +14,7 @@ from pathlib import Path
 
 import httpx
 
+from creo import tracing
 from creo.clients import HttpHosts
 from creo.config import load_inventory, load_policy
 from creo.executor.core import Executor
@@ -22,6 +23,7 @@ from creo.settings import Settings, clock
 
 def main() -> None:
     s = Settings()
+    tracing.setup("creo-executor")
     s.data_dir.mkdir(parents=True, exist_ok=True)
     local_switch = Path(os.environ.get("CREO_KILLSWITCH_FILE", str(s.data_dir / "KILLSWITCH")))
     remote_switch = {"on": False}

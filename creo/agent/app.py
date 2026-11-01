@@ -25,6 +25,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from langgraph.checkpoint.sqlite import SqliteSaver
 from pydantic import BaseModel
 
+from creo import tracing
 from creo.agent.env import Env
 from creo.agent.llm import CassetteLLM, LLMClient, OllamaLLM, OpenAICompatLLM
 from creo.agent.runtime import Agent, ApprovalError
@@ -76,6 +77,7 @@ def create_app(
     settings: Settings | None = None, agent: Agent | None = None, *, scheduler: bool = True
 ) -> FastAPI:
     s = settings or Settings()
+    tracing.setup("creo-agent")
     ag = agent or build_agent(s)
     stop = threading.Event()
 

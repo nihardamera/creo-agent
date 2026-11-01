@@ -19,9 +19,10 @@ from typing import Any, Literal
 
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import Command
+from openinference.semconv.trace import OpenInferenceSpanKindValues as Kind
 from pydantic import ValidationError
 
-from creo import approvals
+from creo import approvals, tracing
 from creo.agent.env import Env
 from creo.agent.graph import compile_graph
 from creo.catalog import Transition
@@ -51,15 +52,28 @@ class Agent:
         return {"configurable": {"thread_id": run_id}}
 
     def _drive(self, run_id: str, inp: Any) -> None:
-        result = self.graph.invoke(inp, self._config(run_id), context=self.env, durability="sync")
-        interrupts = result.get("__interrupt__") if isinstance(result, dict) else None
-        if interrupts:
-            value = interrupts[0].value
-            self.env.store.set_pending(run_id, value["kind"], value.get("due_ms"), value)
-        else:
-            self.env.store.clear_pending(run_id)
+        with tracing.span("run segment", Kind.AGENT, run_id) as sp:
+            result = self.graph.invoke(
+                inp, self._config(run_id), context=self.env, durability="sync"
+            )
+            interrupts = result.get("__interrupt__") if isinstance(result, dict) else None
+            if interrupts:
+                value = {**interrupts[0].value, "since_ms": self.env.clock.now_ms()}
+                self.env.store.set_pending(run_id, value["kind"], value.get("due_ms"), value)
+                sp.set_attribute("creo.paused_for", value["kind"])
+            else:
+                self.env.store.clear_pending(run_id)
+                sp.set_attribute("creo.final_state", str(result.get("final_state")))
 
     def _resume(self, run_id: str, value: Any) -> None:
+        pending = self.env.store.pending(run_id)
+        if pending and pending[0]["kind"] in ("wait", "approval"):
+            p, now = pending[0], self.env.clock.now_ms()
+            why = (
+                (value.get("reason") or value.get("decision")) if isinstance(value, dict) else None
+            )
+            since = p["payload"].get("since_ms", now)
+            tracing.record_wait(p["kind"], run_id, since, now, **{"creo.woke_by": why})
         self.env.store.clear_pending(run_id)
         self._drive(run_id, Command(resume=value))
 

@@ -16,9 +16,10 @@ from typing import Any
 
 from langgraph.runtime import Runtime
 from langgraph.types import interrupt
+from openinference.semconv.trace import OpenInferenceSpanKindValues as Kind
 
 from creo import actions as act
-from creo import approvals
+from creo import approvals, tracing
 from creo.agent.env import Env
 from creo.agent.facts import classify_facts, evidence, summary_facts
 from creo.agent.llm import LLMError, LLMRequest, parse_classify, parse_summary, template_summary
@@ -76,11 +77,23 @@ def _ask(
 ) -> Any:
     """One model call: validated output (None on any failure) and the reason, always logged."""
     out, why, resp = None, "unavailable", None
-    try:
-        resp = env.llm.complete(req)
-        out, why = parse(resp.text, req.facts)
-    except LLMError:
-        pass
+    with tracing.span(f"llm {req.task}", Kind.LLM, run_id, **{"creo.node": node}) as sp:
+        try:
+            resp = env.llm.complete(req)
+            out, why = parse(resp.text, req.facts)
+        except LLMError:
+            pass
+        tracing.llm_span(
+            sp,
+            model=resp.model if resp else env.llm.name,
+            facts=req.facts,
+            text=resp.text if resp else None,
+            tokens_in=resp.input_tokens if resp else 0,
+            tokens_out=resp.output_tokens if resp else 0,
+            latency_ms=resp.latency_ms if resp else 0.0,
+            ok=out is not None,
+            reason=why,
+        )
     env.store.log_llm(
         run_id,
         node,
@@ -250,9 +263,8 @@ def diagnostics(s: RunState, runtime: Runtime[Env]) -> Out:
     ids = []
     for name in rb.diagnostics:
         jid = f"{run}:diag:{name.value}"
-        env.store.add_job(
-            jid, run, "diagnostic", {"host": s["host"], "name": name.value}, s["received_ms"]
-        )
+        payload = {"host": s["host"], "name": name.value, "trace": tracing.inject()}
+        env.store.add_job(jid, run, "diagnostic", payload, s["received_ms"])
         ids.append(jid)
     results: dict[str, dict[str, Any]] = interrupt({"kind": "jobs", "job_ids": ids})
     outputs = {
@@ -458,9 +470,8 @@ def execute(s: RunState, runtime: Runtime[Env]) -> Out:
     grant_json = next(
         a["grant_json"] for a in env.store.approvals(run) if a["approval_id"] == s["approval_id"]
     )
-    env.store.add_job(
-        jid, run, "action", {**proposal, "run_id": run, "grant": grant_json}, env.clock.now_ms()
-    )
+    payload = {**proposal, "run_id": run, "grant": grant_json, "trace": tracing.inject()}
+    env.store.add_job(jid, run, "action", payload, env.clock.now_ms())
     results: dict[str, dict[str, Any]] = interrupt({"kind": "jobs", "job_ids": [jid]})
     r = results[jid]
     done = [{**proposal, "result": r.get("status"), "code": r.get("code")}]

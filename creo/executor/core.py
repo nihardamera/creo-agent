@@ -17,9 +17,11 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any, Literal, Protocol
 
+from openinference.semconv.trace import OpenInferenceSpanKindValues as Kind
+from openinference.semconv.trace import SpanAttributes as A
 from pydantic import ValidationError
 
-from creo import actions, approvals
+from creo import actions, approvals, tracing
 from creo.agent.env import Clock
 from creo.catalog import Diagnostic
 from creo.config import Inventory, Policy
@@ -86,13 +88,23 @@ class Executor:
         return {"status": status, "code": code}
 
     def run(self, job: dict[str, Any]) -> dict[str, Any]:
-        with self.lock:
-            kind, p = job.get("kind"), job.get("payload", {})
+        kind, p = job.get("kind"), job.get("payload", {})
+        name = str(p.get("action") or p.get("name"))
+        attrs = {A.TOOL_NAME: name}
+        with (
+            self.lock,
+            tracing.extracted(p.get("trace")),
+            tracing.span(f"executor {kind}", Kind.TOOL, job.get("run_id"), **attrs) as sp,
+        ):
             if kind == "diagnostic":
-                return self._diagnostic(job, p)
-            if kind == "action":
-                return self._action(job, p)
-            return self._log(job, "refused", "unknown_job_kind")
+                result = self._diagnostic(job, p)
+            elif kind == "action":
+                result = self._action(job, p)
+            else:
+                result = self._log(job, "refused", "unknown_job_kind")
+            sp.set_attribute("creo.executor.status", result["status"])
+            sp.set_attribute("creo.executor.code", result["code"])
+            return result
 
     def _diagnostic(self, job: dict[str, Any], p: dict[str, Any]) -> dict[str, Any]:
         try:
