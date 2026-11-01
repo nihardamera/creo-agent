@@ -24,7 +24,15 @@ from typing import Any
 
 import httpx
 
-from creo.agent.llm import PROMPT_VERSION, CassetteLLM, LLMClient, OllamaLLM, RecordingLLM
+from creo.agent.llm import (
+    PROMPT_VERSION,
+    AnthropicLLM,
+    CassetteLLM,
+    LLMClient,
+    OllamaLLM,
+    RecordingLLM,
+    RouterLLM,
+)
 from creo.dataset.io import DATASET_DIR, load
 from creo.dataset.schema import SPLITS, Case
 from creo.eval import baseline, html
@@ -55,10 +63,31 @@ def model_digest(url: str, model: str) -> str | None:
     return next((m["digest"] for m in tags if m["name"] == model), None)
 
 
-def make_llm(mode: str, model: str, url: str, record: Path | None, cassette: Path) -> LLMClient:
+def client(spec: str, url: str) -> LLMClient:
+    """`ollama:<model>` or `anthropic:<model>`."""
+    kind, _, model = spec.partition(":")
+    return AnthropicLLM(model) if kind == "anthropic" else OllamaLLM(url, model)
+
+
+def make_llm(
+    mode: str,
+    model: str,
+    url: str,
+    record: Path | None,
+    cassette: Path,
+    routes: dict[str, str] | None = None,
+) -> LLMClient:
     if mode == "mock":
         return CassetteLLM(cassette)
-    llm: LLMClient = OllamaLLM(url, model)
+    llm: LLMClient
+    if mode == "router":
+        llm = RouterLLM(
+            {t: [client(x, url) for x in spec.split(",")] for t, spec in (routes or {}).items()}
+        )
+    elif mode == "anthropic":
+        llm = AnthropicLLM(model)
+    else:
+        llm = OllamaLLM(url, model)
     return RecordingLLM(llm, record) if record else llm
 
 
@@ -124,7 +153,11 @@ def main() -> None:
     ap.add_argument("--name", required=True)
     ap.add_argument("--splits", nargs="*", default=["test", "adversarial_test"])
     ap.add_argument("--cases-file", type=Path, help="JSON list of case ids (overrides --splits)")
-    ap.add_argument("--llm", choices=["mock", "ollama"], default="mock")
+    ap.add_argument("--llm", choices=["mock", "ollama", "anthropic", "router"], default="mock")
+    ap.add_argument(
+        "--route-classify", default="", help="router: comma list, e.g. ollama:m,anthropic:m"
+    )
+    ap.add_argument("--route-summarize", default="", help="router: comma list of clients")
     ap.add_argument("--model", default="")
     ap.add_argument("--url", default="http://localhost:11434")
     ap.add_argument("--cassette", type=Path, default=Path("cassettes/default.jsonl"))
@@ -145,7 +178,8 @@ def main() -> None:
         cases = [c for c in pool if c.id in set(wanted)]
     else:
         cases = [c for s in args.splits for c in load(s, purpose="eval")]
-    llm = make_llm(args.llm, args.model, args.url, args.record, args.cassette)
+    routes = {"classify": args.route_classify, "summarize": args.route_summarize}
+    llm = make_llm(args.llm, args.model, args.url, args.record, args.cassette, routes)
     manifest = json.loads((DATASET_DIR / "manifest.json").read_text())
     meta = {
         "name": args.name,

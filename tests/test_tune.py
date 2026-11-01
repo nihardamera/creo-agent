@@ -131,3 +131,39 @@ def test_generated_files_are_reproducible(built: dict[str, Any]) -> None:
     fresh = data.build()
     for name in ("train", "val", "grpo", "test_probes"):
         assert fresh[name] == built[name], name
+
+
+# ---- router --------------------------------------------------------------------------
+
+
+class Fake:
+    def __init__(self, name: str, text: str | None) -> None:
+        self.name, self.text, self.calls = name, text, 0
+
+    def complete(self, req: Any) -> Any:
+        from creo.agent.llm import LLMError, LLMResponse
+
+        self.calls += 1
+        if self.text is None:
+            raise LLMError("down")
+        return LLMResponse(self.text, self.name, 10, 5, 7.0)
+
+
+def route(local_text: str | None) -> tuple[Any, Fake, Fake]:
+    from creo.agent.llm import LLMRequest, RouterLLM
+
+    local, api = Fake("local", local_text), Fake("api", answer("transient_spike"))
+    r = RouterLLM({"classify": [local, api]}).complete(LLMRequest("classify", FACTS))  # type: ignore[list-item]
+    return r, local, api
+
+
+def test_router_uses_the_local_answer_when_it_validates() -> None:
+    r, _, api = route(answer("sustained_load"))
+    assert r.model == "local" and api.calls == 0
+
+
+@pytest.mark.parametrize("bad", ["not json", answer("reboot_host"), None])
+def test_router_falls_back_when_the_local_answer_is_unusable(bad: str | None) -> None:
+    r, local, api = route(bad)
+    assert r.model == "api" and local.calls == api.calls == 1
+    assert r.latency_ms == (14.0 if bad is not None else 7.0)  # failed attempts count

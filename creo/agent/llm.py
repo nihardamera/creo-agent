@@ -331,3 +331,37 @@ def template_summary(facts: dict[str, Any]) -> SummaryOut:
         ),
         next_step="Review the alert and the ticket history, then decide the next step.",
     )
+
+
+PARSERS = {"classify": parse_classify, "summarize": parse_summary}
+
+
+class RouterLLM:
+    """Per task, clients in order: the first answer that passes validation is used.
+
+    Local first, API fallback: the API is paid for only when the local answer
+    is missing or fails the same checks the agent applies. The last client's
+    answer is returned even if invalid, so the agent's own fallback still runs.
+    Latency includes every attempt.
+    """
+
+    def __init__(self, routes: dict[str, list[LLMClient]]) -> None:
+        self.routes = routes
+        self.name = "router:" + ";".join(
+            f"{t}={'>'.join(c.name for c in cs)}" for t, cs in sorted(routes.items())
+        )
+
+    def complete(self, req: LLMRequest) -> LLMResponse:
+        clients = self.routes[req.task]
+        spent_ms, err = 0.0, "no client"
+        for i, client in enumerate(clients):
+            try:
+                r = client.complete(req)
+            except LLMError as e:
+                err = str(e)
+                continue
+            spent_ms += r.latency_ms
+            out, _ = PARSERS[req.task](r.text, req.facts)
+            if out is not None or i == len(clients) - 1:
+                return LLMResponse(r.text, r.model, r.input_tokens, r.output_tokens, spent_ms)
+        raise LLMError(f"every route failed: {err}")
