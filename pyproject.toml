@@ -1,0 +1,46 @@
+[project]
+name = "creo"
+version = "0.1.0.dev0"
+description = "A workflow-first alert-remediation agent: runbooks as config, the LLM only where judgement is needed, and no server change without a named human's approval. Synthetic data only."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Nihar Damera" }]
+# Runtime dependencies are added milestone by milestone, each pinned to a
+# version checked against its current docs when it is added.
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "hypothesis==6.170.14",
+    "ruff==0.17.3",
+    "mypy==2.4.1",
+    "pre-commit==4.7.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.13,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "creo"
+module-root = ""
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Import from the checkout rather than through the editable install's .pth
+# file, which Python skips on macOS when the file is hidden.
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+packages = ["creo"]
+strict = true
