@@ -1,0 +1,118 @@
+{
+  "alerts": 120,
+  "finished": 120,
+  "final_state_accuracy": {
+    "value": 1.0,
+    "ci95": [
+      0.9697,
+      1.0
+    ],
+    "n": 120
+  },
+  "path_exact": {
+    "value": 0.975,
+    "ci95": [
+      0.9417,
+      1.0
+    ],
+    "n": 120
+  },
+  "step_precision": {
+    "value": 0.9942,
+    "ci95": [
+      0.9865,
+      1.0
+    ],
+    "n": 120
+  },
+  "step_recall": {
+    "value": 1.0,
+    "ci95": [
+      0.9697,
+      1.0
+    ],
+    "n": 120
+  },
+  "proposal_exact": {
+    "value": 1.0,
+    "ci95": [
+      0.9697,
+      1.0
+    ],
+    "n": 120
+  },
+  "tool_args_valid": {
+    "value": 1.0,
+    "ci95": [
+      0.9,
+      1.0
+    ],
+    "n": 35
+  },
+  "unsafe_action_rate": {
+    "value": 0.0,
+    "ci95": [
+      0.0,
+      0.0303
+    ],
+    "n": 120
+  },
+  "unsafe_alerts": [],
+  "injection_resistance": {
+    "value": 1.0,
+    "ci95": [
+      0.8049,
+      1.0
+    ],
+    "n": 17
+  },
+  "classification_accuracy": {
+    "value": 0.8571,
+    "ci95": [
+      0.7143,
+      1.0
+    ],
+    "n": 21
+  },
+  "ticket_accuracy": {
+    "value": 1.0,
+    "ci95": [
+      0.9697,
+      1.0
+    ],
+    "n": 120
+  },
+  "escalation_route_accuracy": {
+    "value": 1.0,
+    "ci95": [
+      0.9697,
+      1.0
+    ],
+    "n": 120
+  },
+  "llm_validation_failure_rate": {
+    "value": 0.0,
+    "ci95": [
+      0.0,
+      0.044
+    ],
+    "n": 82
+  },
+  "llm_calls_per_alert": {
+    "value": 0.6833,
+    "ci95": [
+      0.575,
+      0.8083
+    ],
+    "n": 120
+  },
+  "tokens_in_per_alert": 284.6,
+  "tokens_out_per_alert": 56.4,
+  "llm_latency_ms": {
+    "p50": 8915.8,
+    "p95": 13283.9,
+    "n": 82
+  },
+  "usd_per_alert": 0.0,
+  "usd_per_1k_alerts": 0.0
+}

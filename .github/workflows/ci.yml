@@ -24,6 +24,18 @@ jobs:
       # Committed dataset: manifest hashes, config hashes and every label.
       - run: uv run python -m creo.dataset.validate
 
+  # Replays a fixed 120-case held-out subset against the recorded model
+  # responses and compares with eval/ci_baseline.json (see creo/eval/gate.py).
+  eval-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv run python -m creo.eval.gate check
+
   # The stack a stranger runs: build, start, replay alerts end to end.
   compose:
     runs-on: ubuntu-latest
