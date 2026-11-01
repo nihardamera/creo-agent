@@ -18,7 +18,7 @@ with **Next**.
 
 | | Milestone | State |
 |---|---|---|
-| M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done locally; CI pending a GitHub remote |
+| M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done; CI green |
 | M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | next |
 | M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | |
 | M3 | Trajectory evals as a CI gate | |
@@ -41,9 +41,10 @@ Done:
   (setup-uv has no floating major tag), gitleaks-action@v3.
 - iCloud: `.venv` is a symlink to `.venv.nosync`; runtime state will live in
   `var` → `var.nosync`.
+- Remote: github.com/nihardamera/creo-agent (private until M6). First CI run
+  green on both jobs (checks, secrets).
 
 Next:
-- Create the GitHub remote and confirm CI is green (M0 acceptance).
 - M1: name the fictional company and fleet, define the alert and label
   schemas, write the generator.
 
