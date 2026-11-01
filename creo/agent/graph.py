@@ -92,3 +92,19 @@ def compile_graph(checkpointer: Any) -> CompiledStateGraph[RunState, Env, RunSta
 def mermaid() -> str:
     """The graph as a Mermaid diagram, for the README."""
     return compile_graph(None).get_graph().draw_mermaid()
+
+
+def render_doc() -> str:
+    head = (
+        "# The workflow graph\n\n"
+        "Generated from the code by `uv run python -m creo.agent.graph`;\n"
+        "a test checks it is current.\n"
+        "Model calls happen only at `classify` (runbooks with judgement) and `escalate`.\n\n"
+    )
+    return f"{head}```mermaid\n{mermaid().rstrip()}\n```\n"
+
+
+if __name__ == "__main__":
+    from pathlib import Path
+
+    Path("docs/graph.md").write_text(render_doc(), encoding="utf-8")

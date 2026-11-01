@@ -98,3 +98,12 @@ def test_llm_calls_happen_only_where_the_labels_expect() -> None:
         for c in cases:
             nodes = [call["node"] for call in outcome(c.id).llm_calls]
             assert nodes == [str(n) for n in c.labels.expected_llm_steps], c.id
+
+
+def test_graph_doc_is_current() -> None:
+    from pathlib import Path
+
+    from creo.agent.graph import render_doc
+
+    doc = Path(__file__).resolve().parents[1] / "docs" / "graph.md"
+    assert doc.read_text(encoding="utf-8") == render_doc(), "run: uv run python -m creo.agent.graph"

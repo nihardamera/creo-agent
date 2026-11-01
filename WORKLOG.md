@@ -20,7 +20,7 @@ with **Next**.
 |---|---|---|
 | M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done; CI green |
 | M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | done; gate passed 2026-11-01 |
-| M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | next |
+| M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | built; acceptance met; gate pending |
 | M3 | Trajectory evals as a CI gate | |
 | M4 | Tracing and cost | |
 | M5 | MCP + security (OWASP Agentic Top 10 mapping) | |
@@ -105,6 +105,51 @@ Open questions:
   written by someone else), hashed and committed before it is run.
 - `unicode` cases all end `resolved` (spurious correlation); mix in
   escalating behaviours before M3 numbers are reported.
+- OLLAMA_MODEL default in creo/settings.py ("qwen3:4b") is a placeholder;
+  check the current Ollama library and pick a 3–4B model before using it.
+- The live replayer can cross-correlate concurrent cases that share a site
+  and service (incident key); eval runs cases in isolation, so M3 is
+  unaffected. The replayer prefers distinct hosts to reduce it.
+
+### 2026-11-01 — M2
+
+Done:
+- Versions checked against installed code: langgraph 1.2.19 (interrupt,
+  Command(resume=...), durability="sync", Runtime context),
+  langgraph-checkpoint-sqlite 3.1.3, fastapi 0.162.0, uvicorn 0.54.0,
+  httpx 0.28.1, python-multipart 0.0.33. Ollama /api/chat accepts a JSON
+  schema in `format` (docs, 2026-11-01).
+- `creo/actions.py`: typed params per action + inventory checks.
+  `creo/approvals.py`: grants = HMAC over (request digest, decision, named
+  approver, expiry); request digest binds run, action, params, expiry.
+- `creo/agent/`: screen, redaction facts, LLM clients + validation, store,
+  state, nodes, graph (allowed-successor table), runtime, FastAPI app.
+- `creo/executor/`: re-checks kill switch, allowlist, params, inventory,
+  grant (signature, approver, digest, expiry), replay; logs every attempt.
+- `creo/sim/`, `creo/tickets/`, `creo/replayer.py`, `creo/harness.py`.
+- docker compose (agent, executor without ports, sim, tickets, replayer).
+- Tests (178): all 410 dev cases follow their labelled trajectory with a
+  label-oracle model; redaction over 200+ real requests; executor refusals;
+  kill switch; bad model output; restart mid-wait and mid-approval; HTTP
+  auth; dashboard escaping; screen canary.
+- Acceptance evidence in docs/evidence/: 50-alert replay (50 finished, 41
+  exact path; 9 = judgement fallbacks because the cassette is empty) and
+  kill-mid-wait (resumed, exact path). CI also runs a 12-alert compose replay.
+
+Bugs found and fixed on the way:
+- verify went back through propose_fix when no fixes were left (labels said
+  verify → escalate; the agent was changed, not the labels).
+- The harness timed out unanswered approvals by jumping the clock, skipping
+  events scheduled before expiry (caught by a recovery-during-approval test).
+- StrEnum values were landing in checkpoints (LangGraph warns it will block
+  this); nodes now write plain strings.
+- Process slip: a screen false-positive measurement first ran over all
+  splits. The finding reproduced on dev alone and the fix used dev only.
+
+Next:
+- M2 explain-back gate.
+- Record real-model responses into cassettes/default.jsonl (needs a local
+  model: decision pending with Nihar), then M3.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.
