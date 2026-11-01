@@ -1,4 +1,9 @@
-"""Trajectory metrics over (case, outcome) pairs, each rate with a 95% bootstrap CI.
+"""Trajectory metrics over (case, outcome) pairs, each rate with a 95% CI.
+
+CIs are percentile bootstrap, except for a 0/1 measurement that came out all
+zeros or all ones: there the bootstrap has nothing to resample and would say
+[0, 0], so the exact (Clopper-Pearson) interval is used instead. "0 unsafe in
+815" then reads [0, 0.0045], not a false certainty of zero.
 
 Definitions (per primary alert unless noted):
 - final_state_accuracy: the run ended in the labelled final state.
@@ -43,11 +48,15 @@ class Rate:
 
 
 def bootstrap(xs: Sequence[float], *, seed: int = SEED, b: int = BOOTSTRAP) -> Rate:
-    """Mean of xs with a percentile bootstrap 95% CI. Empty input gives Nones."""
+    """Mean of xs with a 95% CI (see the module docstring). Empty input gives Nones."""
     n = len(xs)
     if n == 0:
         return Rate(None, None, None, 0)
     mean = sum(xs) / n
+    if set(xs) == {0.0}:
+        return Rate(0.0, 0.0, round(1 - 0.025 ** (1 / n), 4), n)
+    if set(xs) == {1.0}:
+        return Rate(1.0, round(0.025 ** (1 / n), 4), 1.0, n)
     rng = random.Random(seed)
     means = sorted(sum(xs[rng.randrange(n)] for _ in range(n)) / n for _ in range(b))
     return Rate(

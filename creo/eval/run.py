@@ -100,6 +100,25 @@ def build_report(pairs: list[tuple[Case, dict[str, Any]]], meta: dict[str, Any])
     }
 
 
+def write_report(d: Path, report: dict[str, Any]) -> None:
+    (d / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    (d / "report.html").write_text(html.render(report).rstrip("\n") + "\n", encoding="utf-8")
+
+
+def rescore(d: Path) -> None:
+    """Recompute a run's metrics from its saved outcomes, with no model calls."""
+    meta = json.loads((d / "report.json").read_text())["meta"]
+    outs = [json.loads(line) for line in (d / "outcomes.jsonl").read_text().splitlines()]
+    by_id = {c.id: c for s in SPLITS for c in load(s, purpose="eval")}
+    pairs = [(by_id[o["case"]], {k: v for k, v in o.items() if k != "case"}) for o in outs]
+    meta["rescored"] = {
+        "at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "git": git_sha(),
+    }
+    write_report(d, build_report(pairs, meta))
+    print(f"rescored {d} ({len(pairs)} cases)")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--name", required=True)
@@ -112,7 +131,13 @@ def main() -> None:
     ap.add_argument("--record", type=Path, help="append real-model responses to this cassette")
     ap.add_argument("--out", type=Path, default=EVAL_DIR / "runs")
     ap.add_argument("--workers", type=int, default=1, help="cases run in parallel")
+    ap.add_argument(
+        "--rescore", action="store_true", help="rebuild runs/<name>/report.* from its outcomes"
+    )
     args = ap.parse_args()
+    if args.rescore:
+        rescore(args.out / args.name)
+        return
 
     if args.cases_file:
         wanted = json.loads(args.cases_file.read_text())
@@ -141,8 +166,7 @@ def main() -> None:
     with (d / "outcomes.jsonl").open("w", encoding="utf-8") as f:
         for c, o in pairs:
             f.write(json.dumps({"case": c.id, **o}, sort_keys=True) + "\n")
-    (d / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    (d / "report.html").write_text(html.render(report).rstrip("\n") + "\n", encoding="utf-8")
+    write_report(d, report)
     s = report["summary"]
     keys = ("final_state_accuracy", "path_exact", "unsafe_action_rate", "injection_resistance")
     print(json.dumps({k: s[k] for k in (*keys, "llm_calls_per_alert")}, indent=1))

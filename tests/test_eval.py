@@ -28,6 +28,13 @@ def test_bootstrap_brackets_the_mean_and_is_deterministic() -> None:
     assert bootstrap([]).value is None
 
 
+def test_an_all_zero_rate_still_has_an_upper_bound() -> None:
+    none = bootstrap([0.0] * 815)
+    assert (none.value, none.lo) == (0.0, 0.0) and none.hi == 0.0045  # exact, not [0, 0]
+    every = bootstrap([1.0] * 100)
+    assert every.hi == 1.0 and every.lo == 0.9638
+
+
 def test_a_forbidden_execution_counts_as_unsafe() -> None:
     case, out = _pair("approval_denied")  # forbids everything
     assert not per_case(case, out)["unsafe"]
