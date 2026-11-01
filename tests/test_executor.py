@@ -30,17 +30,36 @@ class FakeHosts:
 
 def _setup(killswitch: bool = False) -> tuple[Executor, FakeHosts, SimClock]:
     clock, hosts = SimClock(1_000_000), FakeHosts()
-    ex = Executor(inventory=INV, policy=load_policy(), approval_key=KEY, backend=hosts,
-                  clock=clock, killswitch=lambda: killswitch)  # fmt: skip
+    ex = Executor(
+        inventory=INV,
+        policy=load_policy(),
+        approval_key=KEY,
+        backend=hosts,
+        clock=clock,
+        killswitch=lambda: killswitch,
+    )
     return ex, hosts, clock
 
 
-def _job(action: str, params: dict[str, Any], *, key: bytes = KEY, approver: str = "a.mehta",
-         sign_params: dict[str, Any] | None = None, run_id: str = "r1", ttl_ms: int = 60_000,
-         job_id: str = "j1") -> dict[str, Any]:  # fmt: skip
-    req = ApprovalRequest(approval_id=f"{run_id}:fix0", run_id=run_id, action=action,
-                          params=sign_params or params, requested_ms=1_000_000,
-                          expires_ms=1_000_000 + ttl_ms)  # fmt: skip
+def _job(
+    action: str,
+    params: dict[str, Any],
+    *,
+    key: bytes = KEY,
+    approver: str = "a.mehta",
+    sign_params: dict[str, Any] | None = None,
+    run_id: str = "r1",
+    ttl_ms: int = 60_000,
+    job_id: str = "j1",
+) -> dict[str, Any]:
+    req = ApprovalRequest(
+        approval_id=f"{run_id}:fix0",
+        run_id=run_id,
+        action=action,
+        params=sign_params or params,
+        requested_ms=1_000_000,
+        expires_ms=1_000_000 + ttl_ms,
+    )
     grant = sign(key, req, "approve", approver, 1_000_100)
     payload = {
         "action": action,
@@ -69,11 +88,17 @@ def test_a_correctly_approved_action_runs_once() -> None:
         (_job("restart_windows_service", GOOD, key=b"forged"), "bad_signature"),
         (_job("restart_windows_service", GOOD, approver="ops-lead"), "unknown_approver"),
         # Approved one service, sent another: the grant doesn't cover it.
-        (_job("restart_windows_service", GOOD,
-              sign_params={**GOOD, "service_name": APP.services[-1] + "x"}), "digest_mismatch"),
+        (
+            _job(
+                "restart_windows_service",
+                GOOD,
+                sign_params={**GOOD, "service_name": APP.services[-1] + "x"},
+            ),
+            "digest_mismatch",
+        ),
         (_job("restart_windows_service", GOOD, ttl_ms=-1), "expired"),
     ],
-)  # fmt: skip
+)
 def test_refusals(job: dict[str, Any], code: str) -> None:
     ex, hosts, _ = _setup()
     result = ex.run(job)
@@ -107,9 +132,21 @@ def test_the_kill_switch_stops_even_approved_actions() -> None:
 
 def test_diagnostics_are_read_only_and_allowlisted() -> None:
     ex, _, _ = _setup()
-    ok = ex.run({"job_id": "d1", "run_id": "r1", "kind": "diagnostic",
-                 "payload": {"host": APP.name, "name": "get_service_status"}})  # fmt: skip
+    ok = ex.run(
+        {
+            "job_id": "d1",
+            "run_id": "r1",
+            "kind": "diagnostic",
+            "payload": {"host": APP.name, "name": "get_service_status"},
+        }
+    )
     assert ok["status"] == "ok"
-    bad = ex.run({"job_id": "d2", "run_id": "r1", "kind": "diagnostic",
-                  "payload": {"host": APP.name, "name": "run_powershell"}})  # fmt: skip
+    bad = ex.run(
+        {
+            "job_id": "d2",
+            "run_id": "r1",
+            "kind": "diagnostic",
+            "payload": {"host": APP.name, "name": "run_powershell"},
+        }
+    )
     assert bad["code"] == "not_allowlisted"

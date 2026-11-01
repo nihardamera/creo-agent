@@ -66,17 +66,27 @@ class CaseRun:
         self.tickets = SqliteTickets(":memory:", self.clock)
         policy = load_policy()
         self.env = Env(
-            inventory=load_inventory(), runbooks=load_runbooks(), policy=policy, store=self.store,
-            tickets=self.tickets, monitoring=self.world, llm=llm, clock=self.clock,
+            inventory=load_inventory(),
+            runbooks=load_runbooks(),
+            policy=policy,
+            store=self.store,
+            tickets=self.tickets,
+            monitoring=self.world,
+            llm=llm,
+            clock=self.clock,
             approval_key=HARNESS_KEY,
-        )  # fmt: skip
+        )
         self.agent = Agent(
             self.env, SqliteSaver(sqlite3.connect(":memory:", check_same_thread=False))
         )
         self.executor = Executor(
-            inventory=self.env.inventory, policy=policy, approval_key=HARNESS_KEY,
-            backend=self.world, clock=self.clock, killswitch=self.store.killswitch,
-        )  # fmt: skip
+            inventory=self.env.inventory,
+            policy=policy,
+            approval_key=HARNESS_KEY,
+            backend=self.world,
+            clock=self.clock,
+            killswitch=self.store.killswitch,
+        )
         self.primary: str | None = None
         self.answers = list(case.world.approvals)
         self.handled: set[str] = set()

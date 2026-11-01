@@ -19,10 +19,18 @@ from tests.oracle import LabelOracleLLM
 ALLOWED_FACT_KEYS = {
     "classify": {"task", "runbook", "runbook_description", "host_role", "categories", "evidence"},
     "summarize": {
-        "task", "host", "host_role", "host_tier", "runbook", "reason", "flags", "category",
-        "steps_taken", "actions",
+        "task",
+        "host",
+        "host_role",
+        "host_tier",
+        "runbook",
+        "reason",
+        "flags",
+        "category",
+        "steps_taken",
+        "actions",
     },
-}  # fmt: skip
+}
 
 
 class Spy(LabelOracleLLM):

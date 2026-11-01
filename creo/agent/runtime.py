@@ -95,6 +95,7 @@ class Agent:
                 if run:
                     return self._recovered(run, alert)
             run_id = store.new_run_id()
+            store.index_run(run_id, now, alert.hostname, alert.title[:200])
             empty: dict[str, Any] = {"path": [], "flags": [], "actions": []}
             self._drive(run_id, {"run_id": run_id, "alert": data, "received_ms": now, **empty})
             return Receipt("accepted", run_id=run_id)

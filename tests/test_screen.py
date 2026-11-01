@@ -104,8 +104,12 @@ def test_tag_rules(tags: str, code: str) -> None:
 
 
 def test_ordinary_tags_pass() -> None:
-    assert screen_tags("env:prod,site:ash,role:app,tier:2,device:C:,device:/var,unit:nginx.service",
-                       POLICY) == []  # fmt: skip
+    assert (
+        screen_tags(
+            "env:prod,site:ash,role:app,tier:2,device:C:,device:/var,unit:nginx.service", POLICY
+        )
+        == []
+    )
 
 
 def _words(text: str) -> list[str]:

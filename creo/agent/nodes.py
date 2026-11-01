@@ -82,10 +82,17 @@ def _ask(
     except LLMError:
         pass
     env.store.log_llm(
-        run_id, node, req.task, resp.model if resp else env.llm.name, out is not None, why,
-        resp.input_tokens if resp else 0, resp.output_tokens if resp else 0,
-        resp.latency_ms if resp else 0.0, req.facts,
-    )  # fmt: skip
+        run_id,
+        node,
+        req.task,
+        resp.model if resp else env.llm.name,
+        out is not None,
+        why,
+        resp.input_tokens if resp else 0,
+        resp.output_tokens if resp else 0,
+        resp.latency_ms if resp else 0.0,
+        req.facts,
+    )
     return out, why
 
 
@@ -284,8 +291,13 @@ def classify(s: RunState, runtime: Runtime[Env]) -> Out:
 def decide_wait(s: RunState, runtime: Runtime[Env]) -> Out:
     plan = _rb(s, runtime.context).categories[s["category"] or "default"].plan
     nxt = Node.WAIT if plan.waits else Node.PROPOSE_FIX
-    return {"path": [Node.DECIDE_WAIT], "route": nxt, "waits": 0, "fix_index": 0,
-            "wait_anchor_ms": runtime.context.clock.now_ms()}  # fmt: skip
+    return {
+        "path": [Node.DECIDE_WAIT],
+        "route": nxt,
+        "waits": 0,
+        "fix_index": 0,
+        "wait_anchor_ms": runtime.context.clock.now_ms(),
+    }
 
 
 # ---- waiting -------------------------------------------------------------------------
@@ -426,9 +438,14 @@ def approval(s: RunState, runtime: Runtime[Env]) -> Out:
         return _stop(me, "approval_denied" if decision == "deny" else "approval_timeout")
     grant = approvals.Grant.model_validate(answer.get("grant"))
     problem = approvals.check(
-        env.approval_key, grant, run_id=s["run_id"], action=req.action, params=req.params,
-        now_ms=env.clock.now_ms(), approvers=env.policy.approvers,
-    )  # fmt: skip
+        env.approval_key,
+        grant,
+        run_id=s["run_id"],
+        action=req.action,
+        params=req.params,
+        now_ms=env.clock.now_ms(),
+        approvers=env.policy.approvers,
+    )
     if problem:
         return _stop(me, "approval_invalid", flags=[problem])
     return {"path": [me], "route": Node.EXECUTE}
@@ -504,14 +521,27 @@ def escalate(s: RunState, runtime: Runtime[Env]) -> Out:
     tid = s.get("ticket_id")
     if not tid:
         a = _alert(s)
-        tid = env.tickets.create(title=a.title, body=a.message, host=a.hostname,
-                                 priority=a.alert_priority or "P3", source_run=run)  # fmt: skip
+        tid = env.tickets.create(
+            title=a.title,
+            body=a.message,
+            host=a.hostname,
+            priority=a.alert_priority or "P3",
+            source_run=run,
+        )
     env.tickets.comment(tid, f"{note.summary}\nNext: {note.next_step}")
     env.tickets.transition(tid, "escalated", group=group)
-    return {"path": [Node.ESCALATE], "route": Node.FINALIZE, "final_state": FinalState.ESCALATED,
-            "escalation_group": group, "ticket_id": tid,
-            "summary": {"summary": note.summary, "next_step": note.next_step,
-                        "source": "model" if summary else "template"}}  # fmt: skip
+    return {
+        "path": [Node.ESCALATE],
+        "route": Node.FINALIZE,
+        "final_state": FinalState.ESCALATED,
+        "escalation_group": group,
+        "ticket_id": tid,
+        "summary": {
+            "summary": note.summary,
+            "next_step": note.next_step,
+            "source": "model" if summary else "template",
+        },
+    }
 
 
 def finalize(s: RunState, runtime: Runtime[Env]) -> Out:

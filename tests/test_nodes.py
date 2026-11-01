@@ -43,7 +43,7 @@ def test_invalid_classification_escalates_with_a_template_note() -> None:
         ({"category": "PLACEHOLDER", "evidence": [], "confidence": 1}, "llm_schema"),
         ({"category": "PLACEHOLDER", "evidence": ["proc1"], "confidence": 7}, "llm_schema"),
     ],
-)  # fmt: skip
+)
 def test_model_output_outside_its_limits_is_never_used(reply: dict[str, object], flag: str) -> None:
     c = _case("fix_succeeds", judgement=True)
     if reply["category"] == "PLACEHOLDER":

@@ -33,39 +33,60 @@ TEXT_RULES: tuple[tuple[str, re.Pattern[str]], ...] = tuple(
     (code, re.compile(p, re.IGNORECASE))
     for code, p in (
         # Speaking to the automation, or about its instructions.
-        ("addresses_automation", r"\b(ignore|disregard|forget|override|bypass)\b[^.\n]{0,40}"
-         r"\b(instructions?|rules|runbooks?|polic(y|ies)|previous|above|guardrails?)\b"),
+        (
+            "addresses_automation",
+            r"\b(ignore|disregard|forget|override|bypass)\b[^.\n]{0,40}"
+            r"\b(instructions?|rules|runbooks?|polic(y|ies)|previous|above|guardrails?)\b",
+        ),
         ("addresses_automation", r"\b(system|assistant|developer)\s*(prompt|override|message)\b"),
-        ("addresses_automation", r"\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?"
-         r"(automation|assistant|bot|operator\s+ai|ai|llm|model)\b"),
-        ("addresses_automation", r"\b(you are|act as|pretend to be)\b[^.\n]{0,30}"
-         r"\b(assistant|automation|ai|admin|root)\b"),
+        (
+            "addresses_automation",
+            r"\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?"
+            r"(automation|assistant|bot|operator\s+ai|ai|llm|model)\b",
+        ),
+        (
+            "addresses_automation",
+            r"\b(you are|act as|pretend to be)\b[^.\n]{0,30}"
+            r"\b(assistant|automation|ai|admin|root)\b",
+        ),
         # Approvals, authorisation and change references never belong in an alert.
         ("claims_approval", r"\bapprov\w*|\bauthori[sz]\w*|\bsign(ed)?[\s-]?off\b|\bCHG\d+\b"),
         # Fleet-wide scope: a single alert is about one host.
-        ("fleet_wide_scope", r"\b(all|every|each)\s+(\w+\s+){0,2}(servers?|hosts?|machines?|"
-         r"nodes?|services?|instances?)\b"),
+        (
+            "fleet_wide_scope",
+            r"\b(all|every|each)\s+(\w+\s+){0,2}(servers?|hosts?|machines?|"
+            r"nodes?|services?|instances?)\b",
+        ),
         # Secrets and exfiltration targets.
-        ("asks_for_secrets", r"\b(passwords?|passwd|api[\s_-]?keys?|secrets?|credentials?|"
-         r"connection\s+strings?|private\s+keys?|(access|auth|bearer|session|api)\s+tokens?|"
-         r"web\.config|environment\s+variables|"
-         r"env\s+vars)\b"),
+        (
+            "asks_for_secrets",
+            r"\b(passwords?|passwd|api[\s_-]?keys?|secrets?|credentials?|"
+            r"connection\s+strings?|private\s+keys?|(access|auth|bearer|session|api)\s+tokens?|"
+            r"web\.config|environment\s+variables|"
+            r"env\s+vars)\b",
+        ),
     )
-)  # fmt: skip
+)
 
 # Code or tool-call syntax. Applied to alert text only: diagnostic output
 # legitimately contains things like "code=exited".
 CODE_RULES: tuple[tuple[str, re.Pattern[str]], ...] = tuple(
     (code, re.compile(p, re.IGNORECASE))
     for code, p in (
-        ("code_or_tool_syntax", r"[{\[,]\s*\"(tool|function|action|cmd|command|arguments|"
-         r"name|params?)\"\s*:"),
+        (
+            "code_or_tool_syntax",
+            r"[{\[,]\s*\"(tool|function|action|cmd|command|arguments|"
+            r"name|params?)\"\s*:",
+        ),
         ("code_or_tool_syntax", r"<\s*/?\s*(function|tool|invoke|action|call)\w*[\s>]"),
         ("code_or_tool_syntax", r"```"),
-        ("code_or_tool_syntax", r"\b(host|hosts|process_name|pid|service_name|cmd|command|"
-         r"action|approver)=\S"),
+        (
+            "code_or_tool_syntax",
+            r"\b(host|hosts|process_name|pid|service_name|cmd|command|"
+            r"action|approver)=\S",
+        ),
     )
-)  # fmt: skip
+)
 
 URL = re.compile(r"\bhttps?://([^/\s:?#]+)", re.IGNORECASE)
 BLOB = re.compile(r"[A-Za-z0-9+/]{24,}={0,2}")

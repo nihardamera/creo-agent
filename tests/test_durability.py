@@ -33,15 +33,25 @@ class Process:
         self.cp = sqlite3.connect(d / "checkpoints.db", check_same_thread=False)
         self.store = Store(d / "agent.db")
         env = Env(
-            inventory=load_inventory(), runbooks=load_runbooks(), policy=load_policy(),
-            store=self.store, tickets=SqliteTickets(d / "tickets.db", clock), monitoring=world,
-            llm=LabelOracleLLM(case), clock=clock, approval_key=HARNESS_KEY,
-        )  # fmt: skip
+            inventory=load_inventory(),
+            runbooks=load_runbooks(),
+            policy=load_policy(),
+            store=self.store,
+            tickets=SqliteTickets(d / "tickets.db", clock),
+            monitoring=world,
+            llm=LabelOracleLLM(case),
+            clock=clock,
+            approval_key=HARNESS_KEY,
+        )
         self.agent = Agent(env, SqliteSaver(self.cp))
         self.executor = Executor(
-            inventory=env.inventory, policy=env.policy, approval_key=HARNESS_KEY,
-            backend=world, clock=clock, db=d / "executor.db",
-        )  # fmt: skip
+            inventory=env.inventory,
+            policy=env.policy,
+            approval_key=HARNESS_KEY,
+            backend=world,
+            clock=clock,
+            db=d / "executor.db",
+        )
 
     def run_jobs(self) -> None:
         while jobs := self.agent.claim_jobs():

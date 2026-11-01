@@ -20,6 +20,9 @@ from creo.approvals import ApprovalRequest, Grant
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS events (event_id TEXT PRIMARY KEY, run_id TEXT, at_ms INTEGER);
+CREATE TABLE IF NOT EXISTS run_index (
+    run_id TEXT PRIMARY KEY, received_ms INTEGER, host TEXT, title TEXT
+);
 CREATE TABLE IF NOT EXISTS runs (
     run_id TEXT PRIMARY KEY, monitor_id TEXT, host TEXT, incident_key TEXT,
     opened_ms INTEGER, closed_ms INTEGER, final_state TEXT, ticket_id TEXT,
@@ -66,6 +69,18 @@ class Store:
             n = int(row["v"]) + 1 if row else 1
             self.conn.execute("INSERT OR REPLACE INTO meta (k, v) VALUES ('run_seq', ?)", (str(n),))
             return f"run-{n:06d}"
+
+    def index_run(self, run_id: str, received_ms: int, host: str, title: str) -> None:
+        self._q(
+            "INSERT OR IGNORE INTO run_index VALUES (?, ?, ?, ?)",
+            (run_id, received_ms, host, title),
+        )
+
+    def recent_runs(self, limit: int = 50) -> list[dict[str, Any]]:
+        rows = self._q(
+            "SELECT * FROM run_index ORDER BY received_ms DESC, run_id DESC LIMIT ?", (limit,)
+        )
+        return [dict(r) for r in rows]
 
     def killswitch(self) -> bool:
         rows = self._q("SELECT v FROM meta WHERE k='killswitch'")
@@ -228,14 +243,34 @@ class Store:
 
     # ---- model calls -----------------------------------------------------------
 
-    def log_llm(self, run_id: str, node: str, task: str, model: str, ok: bool, reason: str,
-                input_tokens: int, output_tokens: int, latency_ms: float,
-                request: dict[str, Any]) -> None:  # fmt: skip
+    def log_llm(
+        self,
+        run_id: str,
+        node: str,
+        task: str,
+        model: str,
+        ok: bool,
+        reason: str,
+        input_tokens: int,
+        output_tokens: int,
+        latency_ms: float,
+        request: dict[str, Any],
+    ) -> None:
         self._q(
             "INSERT INTO llm_calls VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (run_id, node, task, model, int(ok), reason, input_tokens, output_tokens, latency_ms,
-             json.dumps(request, sort_keys=True)),
-        )  # fmt: skip
+            (
+                run_id,
+                node,
+                task,
+                model,
+                int(ok),
+                reason,
+                input_tokens,
+                output_tokens,
+                latency_ms,
+                json.dumps(request, sort_keys=True),
+            ),
+        )
 
     def llm_calls(self, run_id: str) -> list[dict[str, Any]]:
         return [dict(r) for r in self._q("SELECT * FROM llm_calls WHERE run_id=?", (run_id,))]

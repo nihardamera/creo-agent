@@ -70,10 +70,19 @@ class Executor:
         self.conn.execute(
             "INSERT INTO attempts (at_ms, job_id, run_id, kind, action, params, approval_id,"
             " approver, status, code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (self.clock.now_ms(), job.get("job_id"), job.get("run_id"), job.get("kind"),
-             p.get("action") or p.get("name"), json.dumps(p.get("params", {}), sort_keys=True),
-             grant.approval_id if grant else None, grant.approver if grant else None, status, code),
-        )  # fmt: skip
+            (
+                self.clock.now_ms(),
+                job.get("job_id"),
+                job.get("run_id"),
+                job.get("kind"),
+                p.get("action") or p.get("name"),
+                json.dumps(p.get("params", {}), sort_keys=True),
+                grant.approval_id if grant else None,
+                grant.approver if grant else None,
+                status,
+                code,
+            ),
+        )
         return {"status": status, "code": code}
 
     def run(self, job: dict[str, Any]) -> dict[str, Any]:
@@ -110,9 +119,14 @@ class Executor:
             return self._log(job, "refused", "no_grant")
         params = typed.model_dump()
         problem = approvals.check(
-            self.key, grant, run_id=str(p.get("run_id") or job.get("run_id")), action=action.value,
-            params=params, now_ms=self.clock.now_ms(), approvers=self.policy.approvers,
-        )  # fmt: skip
+            self.key,
+            grant,
+            run_id=str(p.get("run_id") or job.get("run_id")),
+            action=action.value,
+            params=params,
+            now_ms=self.clock.now_ms(),
+            approvers=self.policy.approvers,
+        )
         if problem:
             return self._log(job, "refused", problem, grant)
         try:

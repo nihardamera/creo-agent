@@ -98,8 +98,13 @@ def _first(cls: str) -> Case:
     return next(c for c in generated() if c.labels.scenario_class == cls)
 
 
-def _with(case: Case, *, labels: dict | None = None, world: dict | None = None,
-          payload: dict | None = None) -> Case:  # fmt: skip
+def _with(
+    case: Case,
+    *,
+    labels: dict | None = None,
+    world: dict | None = None,
+    payload: dict | None = None,
+) -> Case:
     update: dict = {}
     if labels:
         update["labels"] = case.labels.model_copy(update=labels)
