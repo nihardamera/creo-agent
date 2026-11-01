@@ -20,11 +20,29 @@ with **Next**.
 |---|---|---|
 | M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done; CI green |
 | M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | done; gate passed 2026-11-01 |
-| M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | built; acceptance met; gate pending |
-| M3 | Trajectory evals as a CI gate | |
-| M4 | Tracing and cost | |
-| M5 | MCP + security (OWASP Agentic Top 10 mapping) | |
+| M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | done; gate deferred |
+| M3 | Trajectory evals as a CI gate | tooling done; real-model runs in progress |
+| M4 | Tracing and cost | tracing done; cost table needs the eval run; screenshots pending |
+| M5 | MCP + security (OWASP Agentic Top 10 mapping) | done (Inspector check pending) |
 | M6 | Ship it (README, demo video, fresh-clone test) | |
+
+## Deferred explain-back gates (Nihar answers all of these at the end)
+
+Decided 2026-11-01: gates are batched at the end instead of after each milestone.
+
+- M1 (done 2026-11-01).
+- M2: draw the graph from memory; LangGraph super-step, reducer, thread ID
+  (and where each shows up in CREO); what happens if the approver never
+  answers (and if the agent restarts during that wait); how an approval for
+  one command fails to authorise another, and the weakness that remains.
+- M3: why final-state accuracy isn't enough alone; how a judge is calibrated
+  and what kappa = 0.4 means; how to avoid overfitting to the eval set.
+- M5: stdio vs Streamable HTTP; why write actions over MCP must not bypass
+  HITL; which ASI risks this design can't fully address.
+- Judge calibration needs ~60-100 hand labels: `uv run python -m
+  creo.eval.judge sample --run eval/runs/<after-run>`, then
+  `uv run python scripts/label_summaries.py`.
+- Write the README "Design decisions" section yourself.
 
 ## Log
 
@@ -146,10 +164,31 @@ Bugs found and fixed on the way:
 - Process slip: a screen false-positive measurement first ran over all
   splits. The finding reproduced on dev alone and the fix used dev only.
 
+### 2026-11-01 — M3/M4/M5 (in progress)
+
+Done:
+- Ollama 0.40.13 CLI build installed natively (checksum-verified, in
+  ~/.local/opt, binary ~/.local/bin/ollama; `ollama serve` runs in the
+  background, Metal GPU). Models pulled: qwen3.5:4b, gemma3:4b.
+- Model choice on 40 dev cases: both 45% classify accuracy; qwen3.5:4b had 0
+  invalid notes and p50 4.3 s vs gemma3:4b 4 invalid and 6.1 s → qwen3.5:4b.
+- Dataset v1.1.0: unicode correlation removed; validator checks it.
+- M3 tooling: creo.eval.run/metrics/baseline/gate/judge/failures/cost;
+  CI subset (120 held-out cases, eval/ci_subset.json).
+- M4: OpenTelemetry spans (AGENT/CHAIN/GUARDRAIL/LLM/TOOL + waits), traced
+  executor via traceparent in jobs; Phoenix 20.26.1 in compose.
+- M5: FastMCP 4.1.4 server (Streamable HTTP, RS256 JWT, per-tool scopes),
+  standalone approval requests, executor hourly cap, SECURITY.md (OWASP ASI
+  mapping verified against the 2025-12-09 list).
+
+Running: the "before" eval over all 1,325 cases with qwen3.5:4b, recording
+to cassettes/v1-before.jsonl (2 workers; one Ollama slot: 4 slots made the
+16 GB Mac swap).
+
 Next:
-- M2 explain-back gate.
-- Record real-model responses into cassettes/default.jsonl (needs a local
-  model: decision pending with Nihar), then M3.
+- Error analysis on dev failures → eval/FAILURES.md → fixes → after-run
+  (record cassettes/default.jsonl) → CI gate baseline → README numbers.
+- Phoenix screenshots; MCP Inspector via a node container.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.
