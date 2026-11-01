@@ -206,9 +206,9 @@ Done:
   counts, $0.06 per 1,000 alerts on claude-haiku-5-5 and $1.15 on
   claude-sonnet-5-5 (prices checked 2026-11-01).
 
-- Two recorded escalation notes say "verify … in production": the model's
-  own words, not a claim about CREO. Left verbatim; editing a recorded run
-  would falsify it.
+- Two recorded escalation notes use a word this repo's rules avoid: the
+  model's own words about the fictional service, not a claim about CREO. Left
+  verbatim; editing a recorded run would falsify it.
 
 ### 2026-11-01 — M6
 
