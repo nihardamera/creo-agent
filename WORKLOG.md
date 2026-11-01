@@ -19,7 +19,7 @@ with **Next**.
 | | Milestone | State |
 |---|---|---|
 | M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done; CI green |
-| M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | built; explain-back gate pending |
+| M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | done; gate passed 2026-11-01 |
 | M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | next |
 | M3 | Trajectory evals as a CI gate | |
 | M4 | Tracing and cost | |
@@ -85,8 +85,12 @@ Decisions made in M1 (M2 must implement them; the labels assume them):
 - Tier-0 hosts: wait and recheck, never propose a fix.
 - Eval runs each case in isolation; setup runs get no approval answers.
 
+Gate (2026-11-01): passed. Corrections given on: runbook tag is routing,
+not leakage; the manifest hash is integrity, not a guard; no near-duplicate
+test exists; planted-defect tests now assert the specific rule.
+
 Next:
-- M1 explain-back gate (questions below), then M2.
+- M2.
 
 Open questions:
 - Live replayer (compose demo) vs. isolation: cases share hosts, so replaying
@@ -94,6 +98,13 @@ Open questions:
   per-case monitor-id namespace, or only replay cases in isolation-safe order.
 - Classify is solvable from typed fields by design; M3 should report a
   rules baseline next to the model.
+- Author contamination: the defences' author wrote the test attacks. M2:
+  screen rules from dev family + principles only, plus a test that the
+  screen source contains no 4+-word phrase from a test template. M3: score
+  once on an external red-team set (public injection dataset or attacks
+  written by someone else), hashed and committed before it is run.
+- `unicode` cases all end `resolved` (spurious correlation); mix in
+  escalating behaviours before M3 numbers are reported.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.

@@ -174,6 +174,12 @@ agent.
   IDs, probe results) by design. That makes the model's classification step
   measurable, but it also means a hand-written rule could do well. The eval
   should report a rules baseline next to the model.
+- **Wording can correlate with the answer.** The leak guard catches label
+  values written out in the text, not correlations. One is known: every
+  `unicode` case ends `resolved`, because only resolving behaviours were
+  layered under the decorations. A system that keyed on non-ASCII text would
+  look better than it is. This is to be removed before the M3 numbers are
+  reported.
 - **Thin categories.** Some judgement categories have few cases (see
   STATS.md, for example `event-log-errors/hardware_or_os`). Per-category
   accuracy there has wide confidence intervals and should be reported with
