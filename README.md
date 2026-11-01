@@ -11,6 +11,16 @@ changes unless a named human approves that exact action.
 > for alert triage at work; this repo is a clean-room rebuild on invented
 > data. Every number below links to a committed artifact.
 
+## Demo
+
+![A live run: the agent waits, proposes a restart, a named approver approves, and the run resolves](docs/demo/approval.gif)
+
+The full two-minute walkthrough is [docs/demo/creo-demo.mp4](docs/demo/creo-demo.mp4).
+It shows a live alert end to end with a human approval, a prompt-injection
+attack being stopped, the traces in Phoenix, and the results. It was recorded
+against the running stack by [scripts/demo/run.sh](scripts/demo/run.sh), with
+no edits other than the captions.
+
 ## Results
 
 The "after" run: [`eval/runs/after-qwen3.5-4b`](eval/runs/after-qwen3.5-4b/),

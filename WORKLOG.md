@@ -235,6 +235,15 @@ Done:
 
 Next:
 - Fresh clone to finished replay: 3 min 9 s (docs/evidence/m6-fresh-clone.txt).
+- Git history audit (all 34 commits): no employer names, work paths or emails,
+  real IPs (only 192.0.2.x documentation addresses) or secrets (gitleaks
+  8.30.1, full history). Old versions of three files used a word the repo's
+  rules avoid, never as a claim; history left as is, because rewriting it
+  would break the commit references in the reports.
+- Demo video (docs/demo/creo-demo.mp4, 1:59) recorded by scripts/demo/run.sh:
+  Playwright drives the live stack (a fix approved on the dashboard, an
+  attack screened, Phoenix traces) between HTML slides; approval.gif is the
+  16 s excerpt shown in the README.
 - Judge calibration once labels exist.
 
 Gotcha:
