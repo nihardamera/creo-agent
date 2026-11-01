@@ -4,7 +4,7 @@ Prices checked 2026-11-01 (https://platform.claude.com/docs/en/about-claude/pric
 | Model | $ / M input | $ / M output | $ per alert | $ per 1,000 alerts |
 |---|--:|--:|--:|--:|
 | local qwen3.5:4b (Ollama, Apple M4) | 0.00 | 0.00 | 0.000000 | 0.0000 |
-| claude-haiku-5-5 | 0.10 | 0.50 | 0.000057 | 0.0573 |
-| claude-sonnet-5-5 | 2.00 | 10.00 | 0.001146 | 1.1456 |
+| claude-haiku-5-5 | 0.10 | 0.50 | 0.000065 | 0.0649 |
+| claude-sonnet-5-5 | 2.00 | 10.00 | 0.001298 | 1.2982 |
 
-API rows assume the same token counts as the local model's tokenizer measured.
+Claude rows use Claude's input token counts for the same requests (1.25x the local count; system prompt and facts, no structured-output schema), and the local model's output counts.

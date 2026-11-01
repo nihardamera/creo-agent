@@ -244,7 +244,25 @@ Next:
   Playwright drives the live stack (a fix approved on the dashboard, an
   attack screened, Phoenix traces) between HTML slides; approval.gif is the
   16 s excerpt shown in the README.
-- Judge calibration once labels exist.
+- Judge calibration: Nihar labelled 50 of the 80 notes (25 pass / 25
+  fail). Labels split into fixed halves before any rubric change
+  (eval/judge/split.json). Judge qwen3.5:9b: r1 on all 50 kappa -0.16; r2 (adds a
+  reason-code glossary, tuned on the tune half) kappa -0.09 on tune; on the 25
+  held-out labels r1 -0.03 [-0.38, 0.34] and r2 0.10 [-0.23, 0.43]. Thinking
+  mode needed ~16 GB and timed out on this Mac. Verdicts varied between
+  runs at temperature 0 (a re-run of r2 on tune gave -0.02 against -0.09).
+- Another session (P4) ran Claude Haiku 5.5 as judge on the same split, about
+  $0.05: tune r1 0.12, r2 0.36, r2+thinking 0.44; that setup was frozen and
+  scored once on test: 0.28 [-0.13, 0.60]. No judge is used; the human pass
+  rate (50% [36, 64]) is the reported note quality.
+- Token counts checked after the P4 session suspected Ollama undercounts
+  cached prompt tokens: a fresh recount of 20 random recorded calls matched
+  exactly (difference 0), so the local counts stand. Claude's tokenizer
+  counts the same requests 1.25x higher (scripts/claude_token_counts.py,
+  free endpoint), so cost.md's Claude rows now use Claude's counts: Haiku
+  $0.065 and Sonnet $1.30 per 1,000 alerts (were $0.057 and $1.15).
+- Finding: notes misstate reason codes because the note writer gets codes
+  without meanings. Next improvement: give it the glossary, then re-record.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.

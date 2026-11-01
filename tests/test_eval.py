@@ -92,3 +92,15 @@ def test_cohen_kappa_known_values() -> None:
     a = ["pass"] * 20 + ["fail"] * 10
     b = ["pass"] * 15 + ["fail"] * 5 + ["pass"] * 3 + ["fail"] * 7
     assert cohen_kappa(a, b) == 0.4286  # (22/30 - 16/30) / (1 - 16/30)
+
+
+def test_kappa_ci_brackets_kappa_and_is_wide_for_small_samples() -> None:
+    from creo.eval.judge import cohen_kappa, kappa_ci
+
+    a = ["pass"] * 12 + ["fail"] * 13
+    b = ["pass"] * 9 + ["fail"] * 3 + ["pass"] * 4 + ["fail"] * 9
+    k = cohen_kappa(a, b)
+    lo, hi = kappa_ci(a, b)
+    assert k is not None and lo is not None and hi is not None
+    assert lo < k < hi and hi - lo > 0.3  # 25 labels can't pin kappa down
+    assert kappa_ci(a, b) == (lo, hi)  # seeded

@@ -52,11 +52,44 @@ used to build the defences.
 See [DATASET_CARD.md](DATASET_CARD.md).
 
 **Cost and latency** ([cost.md](eval/runs/after-qwen3.5-4b/cost.md)):
-about 307 input and 53 output tokens per alert, so $0 locally. At the
-same token counts that would be $0.06 per 1,000 alerts on
-claude-haiku-5-5 and $1.15 on claude-sonnet-5-5 (prices checked
-2026-11-01). Local model latency on an Apple M4 with 16 GB: p50 8.8 s,
+about 307 input and 53 output tokens per alert, so $0 locally. Claude's
+tokenizer counts the same requests as 383 input tokens per alert
+([counts](eval/runs/after-qwen3.5-4b/claude_tokens.json)), which would be
+about $0.065 per 1,000 alerts on claude-haiku-5-5 and $1.30 on
+claude-sonnet-5-5 (prices checked 2026-11-01; output tokens are the local
+model's). Local model latency on an Apple M4 with 16 GB: p50 8.8 s,
 p95 12.7 s per call.
+
+### Escalation-note quality
+
+When CREO hands over to a human, the model writes a short note. I graded 50
+of those notes from dev cases against a four-rule rubric (faithful,
+complete, actionable, plain): **25 passed, 50% [36, 64]**
+([labels](eval/judge/human_labels.jsonl)). Most failures misstate what the
+reason code means. For example, they read `no_fix_tier` as "no fix was
+available" instead of "a tier-0 host where automated fixes are forbidden".
+The note writer gets bare reason codes, the same gap that category meanings
+closed for classification. Giving it the glossary is the next improvement.
+
+Two LLM judges were tested against those labels, and **neither is used**:
+neither agrees with a human well enough. The labels were split into fixed
+halves of 25 before any rubric change. Rubrics were tuned on one half, and
+each judge's final setup was scored once on the other:
+
+| Judge, scored on the 25 held-out labels | Cohen's kappa [95% CI] | Agreement | Judge pass rate (human: 48%) |
+|---|---|---|---|
+| qwen3.5:9b, rubric r1 | −0.03 [−0.38, 0.34] | 48% | 68% |
+| qwen3.5:9b, rubric r2 | 0.10 [−0.23, 0.43] | 56% | 20% |
+| claude-haiku-5-5, rubric r2 with thinking | 0.28 [−0.13, 0.60] | 64% | 52% |
+
+Rubric r2 adds a glossary of reason codes to r1. On the tune half it lifted
+Claude Haiku 5.5 from kappa 0.12 to 0.36, and thinking took it to 0.44.
+Claude Haiku on the held-out half is the best result, but its interval still
+includes zero, against a target of 0.6. The 9B judge's verdicts also varied
+between runs at temperature 0, and with thinking on it was too slow to finish
+on a 16 GB laptop. More labels (50 can't pin kappa down) and a second human
+grader are the next step. Every run, with each note's verdict:
+[eval/judge/](eval/judge/).
 
 ### What these numbers don't show
 
@@ -72,10 +105,9 @@ p95 12.7 s per call.
   dataset doesn't measure that.
 - **The attacks are mine too.** An external red-team set is the honest
   test; it's on the roadmap.
-- **Escalation-note quality isn't scored yet.** An LLM judge and its
-  calibration against hand labels are built
-  ([creo/eval/judge.py](creo/eval/judge.py)). Until the hand labels are in,
-  no judge number is reported.
+- **Note quality rests on one grader.** The 50 labels are mine, from one
+  pass. Kappa between two humans would say how well the rubric itself is
+  defined.
 
 ## How it works
 

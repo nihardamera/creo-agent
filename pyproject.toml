@@ -9,6 +9,7 @@ authors = [{ name = "Nihar Damera" }]
 # Runtime dependencies are added milestone by milestone, each pinned to a
 # version checked against its current docs when it is added.
 dependencies = [
+    "anthropic==2.3.0",
     "fastapi==0.162.0",
     "fastmcp==4.1.4",
     "httpx==0.28.1",

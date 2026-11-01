@@ -1,0 +1,21 @@
+{
+  "run": "after-qwen3.5-4b",
+  "alerts": 1325,
+  "calls": 893,
+  "claude-haiku-5-5": {
+    "input_tokens_per_alert": 383.1,
+    "mean_by_task": {
+      "classify": 1208.5,
+      "summarize": 274.7
+    },
+    "ratio_to_local": 1.249
+  },
+  "claude-sonnet-5-5": {
+    "input_tokens_per_alert": 383.1,
+    "mean_by_task": {
+      "classify": 1208.5,
+      "summarize": 274.7
+    },
+    "ratio_to_local": 1.249
+  }
+}

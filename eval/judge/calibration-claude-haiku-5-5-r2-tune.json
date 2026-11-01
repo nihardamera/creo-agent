@@ -1,0 +1,168 @@
+{
+  "rubric": "r2",
+  "subset": "tune",
+  "think": false,
+  "judge": "claude-haiku-5-5",
+  "n": 25,
+  "kappa": 0.3631,
+  "kappa_ci95": [
+    -0.0317,
+    0.6815
+  ],
+  "agreement": 0.68,
+  "human_pass_rate": 0.52,
+  "judge_pass_rate": 0.44,
+  "judge_errors": 0,
+  "items": [
+    {
+      "case": "c00498",
+      "reason": "approval_denied",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c00560",
+      "reason": "approval_timeout",
+      "human": "pass",
+      "judge": "fail"
+    },
+    {
+      "case": "c01314",
+      "reason": "diagnostics_flagged",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c01044",
+      "reason": "runbook_conflict",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00694",
+      "reason": "runbook_escalates",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c01170",
+      "reason": "screen_flagged",
+      "human": "fail",
+      "judge": "pass"
+    },
+    {
+      "case": "c00955",
+      "reason": "unknown_monitor",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c00606",
+      "reason": "did_not_recover",
+      "human": "pass",
+      "judge": "fail"
+    },
+    {
+      "case": "c00434",
+      "reason": "fixes_exhausted",
+      "human": "pass",
+      "judge": "fail"
+    },
+    {
+      "case": "c00758",
+      "reason": "flapping",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00720",
+      "reason": "no_fix_tier",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c00675",
+      "reason": "runbook_escalates",
+      "human": "fail",
+      "judge": "pass"
+    },
+    {
+      "case": "c00952",
+      "reason": "unknown_runbook",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00524",
+      "reason": "approval_denied",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c01001",
+      "reason": "did_not_recover",
+      "human": "pass",
+      "judge": "fail"
+    },
+    {
+      "case": "c00705",
+      "reason": "no_fix_tier",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c01027",
+      "reason": "runbook_conflict",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00422",
+      "reason": "runbook_escalates",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c01246",
+      "reason": "screen_flagged",
+      "human": "fail",
+      "judge": "pass"
+    },
+    {
+      "case": "c01235",
+      "reason": "tag_contradicts_inventory",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c00522",
+      "reason": "approval_denied",
+      "human": "fail",
+      "judge": "fail"
+    },
+    {
+      "case": "c01313",
+      "reason": "diagnostics_flagged",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00483",
+      "reason": "executor_error",
+      "human": "pass",
+      "judge": "pass"
+    },
+    {
+      "case": "c00736",
+      "reason": "flapping",
+      "human": "pass",
+      "judge": "fail"
+    },
+    {
+      "case": "c00709",
+      "reason": "no_fix_tier",
+      "human": "fail",
+      "judge": "fail"
+    }
+  ]
+}

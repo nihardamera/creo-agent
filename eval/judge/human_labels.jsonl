@@ -1,0 +1,50 @@
+{"case": "c00498", "label": "fail", "why": "Rule 1 and 3 failed"}
+{"case": "c00560", "label": "pass", "why": "Rule 2,3,4 are fine but I think Rule 1 should be rephrased better in this case"}
+{"case": "c01314", "label": "pass", "why": ""}
+{"case": "c00590", "label": "fail", "why": "It has invented new claims like automated recovery windows and also we know no actions were performed"}
+{"case": "c00474", "label": "pass", "why": ""}
+{"case": "c00460", "label": "pass", "why": ""}
+{"case": "c00759", "label": "pass", "why": ""}
+{"case": "c00722", "label": "fail", "why": "It failed on Rule 1 and 3"}
+{"case": "c01044", "label": "pass", "why": ""}
+{"case": "c00694", "label": "pass", "why": ""}
+{"case": "c01170", "label": "fail", "why": "It fails on Rule 1 and 3"}
+{"case": "c01234", "label": "pass", "why": ""}
+{"case": "c00955", "label": "fail", "why": "It fails on rule 1 and 3"}
+{"case": "c00962", "label": "fail", "why": "Facts are reported correctly, but the next step doesn\u2019t fit the reason. unknown_runbook means no runbook matched the alert, so the fix is to identify or create the right runbook. Reading host logs for the cause of a missing runbook won\u2019t help."}
+{"case": "c00514", "label": "fail", "why": "Rule 1: note says no fix was proposed, but steps_taken includes propose_fix and approval, so a fix was proposed and then denied. Rule 3: asks to check a \u201cpending\u201d ticket when the approval was denied."}
+{"case": "c00557", "label": "pass", "why": ""}
+{"case": "c01311", "label": "fail", "why": "Rule 1: flags came from diagnostics (get_recent_events), not screening, and there was no \u201cautomation failure.\u201d Rule 3: note never says the recent events were flagged as addressing the automation / fleet-wide scope, so the next step misses why it stopped."}
+{"case": "c00606", "label": "pass", "why": ""}
+{"case": "c00475", "label": "pass", "why": ""}
+{"case": "c00434", "label": "pass", "why": ""}
+{"case": "c00758", "label": "pass", "why": ""}
+{"case": "c00720", "label": "fail", "why": "Rule 1: misstates the reason. no_fix_tier means the host is tier 0 and automation isn\u2019t allowed to fix it, not \u201cdefault tier with no fix available.\u201d Rule 3: \u201cdetermine if manual intervention is required\u201d is circular since the escalation already is manual intervention."}
+{"case": "c01036", "label": "pass", "why": ""}
+{"case": "c00675", "label": "fail", "why": "Rule 1: \u201ccompleted successfully\u201d isn\u2019t in the facts (steps_taken lists steps, not outcomes), the alert wasn\u2019t caused by the runbook escalating (that\u2019s why automation stopped), and \u201crecent changes\u201d is speculation."}
+{"case": "c01264", "label": "fail", "why": "Rule 1: alert was flagged and escalated, not \u201cscreened out,\u201d and a \u201csyntax error in the batch job config / tool failure\u201d is invented; the flag means the alert message contained code or tool syntax. Rule 3: next step should be reviewing the flagged alert message, not hunting a config error."}
+{"case": "c01231", "label": "fail", "why": "Rule 1: alert was escalated, not \u201csuppressed,\u201d and steps_taken shows ingest through select_runbook did run, so \u201cno automation steps executed\u201d is wrong. Rule 3: \u201cre-evaluate if it can be safely escalated\u201d is circular since it already escalated"}
+{"case": "c00960", "label": "fail", "why": "Rule 1: \u201cmonitoring system failed to detect a known issue\u201d is invented (unknown_monitor means the monitor wasn\u2019t recognized), and \u201cno steps executed\u201d contradicts steps_taken (ingest through select_runbook). Rule 3: next step should identify the unrecognized monitor, not read app logs."}
+{"case": "c00952", "label": "pass", "why": "Rule 3: investigating why runbook selection found no match fits, but \u201ccheck if manual intervention is required before escalating further\u201d is circular since the alert is already escalated."}
+{"case": "c00524", "label": "fail", "why": "Rule 1: note says no fix was proposed, but steps_taken includes propose_fix and approval, so a fix was proposed and then denied. Rule 3: refers to \u201cpending approvals\u201d when the approval was denied."}
+{"case": "c00545", "label": "pass", "why": ""}
+{"case": "c01310", "label": "pass", "why": ""}
+{"case": "c01001", "label": "pass", "why": ""}
+{"case": "c00462", "label": "fail", "why": "Rule 1: \u201cfailed to resolve DNS due to an executor error\u201d wrongly makes the executor error the cause of the DNS failure; the executor error is why automation stopped (flush_dns_cache errored)."}
+{"case": "c00420", "label": "fail", "why": "Rule 1: presents the restart as successful needing only follow-up, but verify already ran and fixes were exhausted, so the problem persisted; \u201cnext monitoring window\u201d is invented."}
+{"case": "c00762", "label": "pass", "why": ""}
+{"case": "c00705", "label": "fail", "why": "Rule 1: no_fix_tier means host is tier 0 and automation isn\u2019t allowed to fix it, not that \u201cno fix tier was available\u201d; \u201crunbook execution\u201d is wrong since actions is empty. Rule 3: \u201cdetermine if manual intervention is required\u201d is circular since the escalation already is manual intervention."}
+{"case": "c01027", "label": "pass", "why": ""}
+{"case": "c00422", "label": "fail", "why": "Rule 1: runbook_escalates means the cpu-high runbook escalates to a human, not that \u201cno further automation steps were available\u201d; \u201cno new findings\u201d is invented. Rule 3: tells the engineer to open a ticket, but steps_taken shows a ticket was already created."}
+{"case": "c01246", "label": "fail", "why": "Rule 1: alert was escalated, not \u201cblocked,\u201d and \u201csensitive data in logs/config\u201d is invented; the flag asks_for_secrets@title means the alert title asks for secrets. Rule 3: next step should be reviewing the flagged alert title as untrusted, not searching logs for leaks."}
+{"case": "c01235", "label": "fail", "why": "Rule 1: alert was escalated, not \u201csuppressed,\u201d and steps_taken shows ingest through select_runbook did run, so \u201cno automation steps executed\u201d is wrong. Rule 3: \u201cre-evaluate if it can be safely escalated\u201d is circular since it already escalated."}
+{"case": "c00972", "label": "fail", "why": "Rule 1: alert was escalated, not \u201cautomatically suppressed,\u201d and \u201cmonitor failed due to config changes\u201d is invented; unknown_monitor means the monitor wasn\u2019t recognized. Rule 3: next step should identify the unrecognized monitor, not check the agent."}
+{"case": "c00967", "label": "pass", "why": ""}
+{"case": "c00522", "label": "fail", "why": "Rule 1: note says no fix was proposed, but steps_taken includes propose_fix and approval, so a fix was proposed and then denied. Rule 3: refers to \u201cpending approvals\u201d when the approval was denied."}
+{"case": "c00554", "label": "fail", "why": "Rule 1: \u201ccompleted successfully\u201d isn\u2019t in the facts; steps_taken lists steps, not outcomes."}
+{"case": "c01313", "label": "pass", "why": ""}
+{"case": "c01119", "label": "pass", "why": ""}
+{"case": "c00483", "label": "pass", "why": ""}
+{"case": "c00438", "label": "fail", "why": "Rule 1: \u201ccompleted successfully with no new issues found\u201d isn\u2019t in the facts, and fixes being exhausted is why automation stopped, not why the alert fired. Rule 3: \u201cconfirm if manual intervention is required before escalating further\u201d is circular since it already escalated."}
+{"case": "c00736", "label": "pass", "why": ""}
+{"case": "c00709", "label": "fail", "why": "Rule 1: no_fix_tier means host is tier 0 and automation isn\u2019t allowed to fix it, not that \u201cno fixable action was identified.\u201d Rule 3: \u201cif manual intervention is required\u201d is circular since the escalation already is manual intervention."}
