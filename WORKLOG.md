@@ -206,6 +206,10 @@ Done:
   counts, $0.06 per 1,000 alerts on claude-haiku-5-5 and $1.15 on
   claude-sonnet-5-5 (prices checked 2026-11-01).
 
+- Two recorded escalation notes say "verify … in production": the model's
+  own words, not a claim about CREO. Left verbatim; editing a recorded run
+  would falsify it.
+
 Next:
 - Phoenix screenshots; MCP Inspector via a node container.
 - M6: README with these numbers, demo, fresh-clone test.
