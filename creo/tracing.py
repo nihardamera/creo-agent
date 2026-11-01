@@ -9,7 +9,8 @@ Spans:
   redacted facts, never alert text, so traces obey the same boundary.
 - "executor <kind>" (TOOL): in the executor process, a child of the node that
   queued the job via a W3C traceparent carried in the job.
-- "wait timer" / "wait approval": the pause itself, with its real start and end.
+- "wait wait" / "wait approval": the pause itself, on the wall clock, with its
+  length on the agent's clock in creo.wait.seconds.
 
 With CREO_OTLP_ENDPOINT unset, no exporter is installed and spans are no-ops.
 """
@@ -18,6 +19,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from collections.abc import Iterator
 from contextlib import contextmanager
 from typing import Any
@@ -99,9 +101,20 @@ def llm_span(
     s.set_attribute("creo.llm.reason", reason)
 
 
-def record_wait(kind: str, run_id: str, start_ms: int, end_ms: int, **attrs: Any) -> None:
-    """A finished pause, as a span with its real start and end (epoch ms)."""
-    s = tracer.start_span(f"wait {kind}", start_time=start_ms * 1_000_000)
+def record_wait(
+    kind: str, run_id: str, start_ms: int, end_ms: int, *, scale: float = 1.0, **attrs: Any
+) -> None:
+    """A finished pause, as a span ending now.
+
+    start_ms and end_ms are on the agent's clock, which the demo runs `scale`
+    times faster than the wall from a fixed epoch. The span sits on the wall
+    clock like every other span (ending now, lasting the wait's real time);
+    creo.wait.seconds keeps the length on the agent's clock, which is what the
+    runbook waited.
+    """
+    end_ns = time.time_ns()
+    start_ns = end_ns - int((end_ms - start_ms) * 1_000_000 / scale)
+    s = tracer.start_span(f"wait {kind}", start_time=start_ns)
     s.set_attribute(A.OPENINFERENCE_SPAN_KIND, Kind.CHAIN.value)
     s.set_attribute(A.SESSION_ID, run_id)
     s.set_attribute("creo.run_id", run_id)
@@ -109,7 +122,7 @@ def record_wait(kind: str, run_id: str, start_ms: int, end_ms: int, **attrs: Any
     for k, v in attrs.items():
         if v is not None:
             s.set_attribute(k, v)
-    s.end(end_time=end_ms * 1_000_000)
+    s.end(end_time=end_ns)
 
 
 def inject() -> dict[str, str]:

@@ -96,3 +96,18 @@ def test_no_span_carries_raw_alert_text() -> None:
                 for line in (x.strip() for x in text.splitlines()):
                     if len(line) >= 16:
                         assert line not in blob, (c.id, s.name, line[:60])
+
+
+def test_a_wait_span_sits_on_the_wall_clock_even_when_agent_time_runs_ahead() -> None:
+    import time
+
+    from creo import tracing
+
+    EXPORTER.clear()
+    far_future = 2_000_000_000_000  # agent clock years ahead, as in the 60x demo
+    tracing.record_wait("wait", "run-x", far_future, far_future + 600_000, scale=60.0)
+    (s,) = EXPORTER.get_finished_spans()
+    assert s.start_time is not None and s.end_time is not None
+    assert abs(s.end_time / 1e9 - time.time()) < 5
+    assert (s.end_time - s.start_time) / 1e9 == 10.0  # 10 agent minutes at 60x
+    assert (s.attributes or {})["creo.wait.seconds"] == 600.0

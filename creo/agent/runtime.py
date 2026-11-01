@@ -74,7 +74,8 @@ class Agent:
                 (value.get("reason") or value.get("decision")) if isinstance(value, dict) else None
             )
             since = p["payload"].get("since_ms", now)
-            tracing.record_wait(p["kind"], run_id, since, now, **{"creo.woke_by": why})
+            scale = float(getattr(self.env.clock, "scale", 1.0))
+            tracing.record_wait(p["kind"], run_id, since, now, scale=scale, **{"creo.woke_by": why})
         self.env.store.clear_pending(run_id)
         self._drive(run_id, Command(resume=value))
 

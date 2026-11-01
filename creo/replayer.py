@@ -29,12 +29,16 @@ from creo.dataset.schema import Case, Event
 from creo.settings import Settings, clock
 
 
-def _prefix(i: int, value: str) -> str:
-    return f"9{i:04d}{value}"[:20]
+def _prefix(session: int, i: int, value: str) -> str:
+    return f"9{session:05d}{i:04d}{value}"[:20]
 
 
-def localise(case: Case, i: int, shift_ms: int) -> Case:
-    """The case as replay i: prefixed ids, timestamps moved by shift_ms."""
+def localise(case: Case, i: int, shift_ms: int, session: int = 0) -> Case:
+    """The case as replay i of a session: prefixed ids, timestamps moved by shift_ms.
+
+    The session keeps a second replay's event ids distinct from the first's;
+    otherwise the agent rightly drops them as redelivered events.
+    """
 
     def fix(ev: Event) -> Event:
         if ev.payload is None:
@@ -42,7 +46,7 @@ def localise(case: Case, i: int, shift_ms: int) -> Case:
         p = dict(ev.payload)
         for key in ("id", "alert_id"):
             if isinstance(p.get(key), str) and p[key].isdigit():
-                p[key] = _prefix(i, p[key])
+                p[key] = _prefix(session, i, p[key])
         for key in ("date", "last_updated"):
             if isinstance(p.get(key), int):
                 p[key] = p[key] + shift_ms
@@ -174,11 +178,12 @@ def main() -> None:
     lead_s = max([-e.at_s for c in cases for e in c.world.prior_events] + [0]) / s.time_scale + 2
     wall0 = time.time() + lead_s
     plan: list[tuple[float, int, str, Case, Event]] = []
+    session = int(time.time()) % 100_000
     replayed: list[Case] = []
     for i, c in enumerate(cases):
         wall = wall0 + i / args.rate
         shift = int(clk.epoch_ms + (wall - clk.wall_epoch) * 1000 * s.time_scale) - c.epoch_ms
-        lc = localise(c, i, shift)
+        lc = localise(c, i, shift, session)
         replayed.append(lc)
         sim.post(
             "/cases",

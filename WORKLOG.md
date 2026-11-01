@@ -210,9 +210,31 @@ Done:
   own words, not a claim about CREO. Left verbatim; editing a recorded run
   would falsify it.
 
+### 2026-11-01 — M6
+
+- Decided with Nihar: explain-back gates move to interview prep after the
+  project; Nihar does the 80 hand labels; I wrote the README "Design
+  decisions" from the decisions made here (he reviews it before interviews);
+  the demo video is optional, at the end.
+- Judge sample: 80 model-written notes from dev cases only (the rubric is
+  tuned against them). Judge model qwen3.5:9b pulled.
+- Replayer bug: event ids repeated across replays, so a second replay on the
+  same stack was dropped as redelivered (48 of 50). Ids now carry a session.
+- Trace bug: wait spans used the agent's 60x clock, so a demo trace read as
+  9,127 hours long. Wait spans now sit on the wall clock;
+  creo.wait.seconds keeps the agent-clock length.
+- 50-alert replay on a fresh stack: 50 of 50 on the exact labelled path, 2
+  minutes (docs/evidence/m6-replay-50.json); a second replay on the same stack
+  also 50 of 50.
+- MCP Inspector 2.11.0 CLI against the live server
+  (docs/evidence/m5-mcp-inspector.txt): a read token lists only read tools;
+  request_approval is not visible to it; a bad token gets a 401.
+- Phoenix screenshots in docs/screenshots/.
+- README rewritten with results, caveats (rules beat the model on this
+  data), design decisions; RESUME_CLAIMS.md filled.
+
 Next:
-- Phoenix screenshots; MCP Inspector via a node container.
-- M6: README with these numbers, demo, fresh-clone test.
+- Fresh-clone test (time the quickstart); judge calibration once labels exist.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.
