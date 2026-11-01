@@ -22,6 +22,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import httpx
+
 from creo.agent.llm import PROMPT_VERSION, CassetteLLM, LLMClient, OllamaLLM, RecordingLLM
 from creo.dataset.io import DATASET_DIR, load
 from creo.dataset.schema import SPLITS, Case
@@ -42,6 +44,15 @@ def git_sha() -> str:
         return git("rev-parse", "--short", "HEAD").strip() + ("-dirty" if dirty else "")
     except (OSError, subprocess.CalledProcessError):
         return "unknown"
+
+
+def model_digest(url: str, model: str) -> str | None:
+    """The exact model build behind a tag, so a result can be tied to the weights."""
+    try:
+        tags = httpx.get(f"{url.rstrip('/')}/api/tags", timeout=5).json()["models"]
+    except (httpx.HTTPError, KeyError, ValueError):
+        return None
+    return next((m["digest"] for m in tags if m["name"] == model), None)
 
 
 def make_llm(mode: str, model: str, url: str, record: Path | None, cassette: Path) -> LLMClient:
@@ -117,6 +128,7 @@ def main() -> None:
         "git": git_sha(),
         "dataset": {"version": manifest["version"], "sha256": manifest["dataset_sha256"]},
         "llm": llm.name,
+        "model_digest": model_digest(args.url, args.model) if args.llm == "ollama" else None,
         "prompt_version": PROMPT_VERSION,
         "cases": len(cases),
         "splits": sorted({c.split for c in cases}, key=SPLITS.index),
