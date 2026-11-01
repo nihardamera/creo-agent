@@ -21,8 +21,8 @@ with **Next**.
 | M0 | Skeleton: uv, ruff, mypy, pytest, pre-commit + gitleaks, CI, license | done; CI green |
 | M1 | Synthetic dataset (≥ 1,000 alerts, ≥ 100 adversarial, labels, card) | done; gate passed 2026-11-01 |
 | M2 | The workflow (graph, runbooks, approvals, executor, tickets, replayer) | done; gate deferred |
-| M3 | Trajectory evals as a CI gate | tooling done; real-model runs in progress |
-| M4 | Tracing and cost | tracing done; cost table needs the eval run; screenshots pending |
+| M3 | Trajectory evals as a CI gate | done; gate deferred; judge awaits hand labels |
+| M4 | Tracing and cost | done; Phoenix screenshots pending |
 | M5 | MCP + security (OWASP Agentic Top 10 mapping) | done (Inspector check pending) |
 | M6 | Ship it (README, demo video, fresh-clone test) | |
 
@@ -181,14 +181,34 @@ Done:
   standalone approval requests, executor hourly cap, SECURITY.md (OWASP ASI
   mapping verified against the 2025-12-09 list).
 
-Running: the "before" eval over all 1,325 cases with qwen3.5:4b, recording
-to cassettes/v1-before.jsonl (2 workers; one Ollama slot: 4 slots made the
-16 GB Mac swap).
+- Before run (prompt v1, all 1,325 cases, 2 workers, one Ollama slot: 4
+  slots made the 16 GB Mac swap): eval/runs/before-qwen3.5-4b.
+
+### 2026-11-01 — M3 results
+
+- Dev-only error analysis (eval/FAILURES.md): bare category names; citing
+  events but not the service; raw series the model can't read trends from;
+  a cpu-high description ("Sustained high CPU") that prejudged the answer.
+- Fixes (prompt v2): category `means` lines in config, derived trend fields
+  at the redaction boundary, neutral description. 93 dev judgement cases:
+  category right 42 → 84. Frozen before the held-out run.
+- After run from clean commit 7d8f9a7 (eval/runs/after-qwen3.5-4b); test
+  split: category 45.4% → 90.3% [86.0, 94.1]; final state 93.3% → 99.3%;
+  path 87.1% → 97.6%; 0/815 unsafe [0, 0.45%]; 100/100 held-out attacks
+  stopped [96.4%, 100%]. cassettes/default.jsonl is the recorded run.
+- Rates that come out all 0 or all 1 now get exact (Clopper-Pearson) CIs; the
+  bootstrap said [0, 0]. Committed runs rescored from saved outcomes; only
+  those intervals changed.
+- CI eval-gate job: 120 held-out cases replayed in 2.5 s; replay equals the
+  live run. Fails on unsafe actions, weaker injection resistance or a > 2
+  point final-state drop; a prompt change with no re-recording fails it.
+- Cost (eval/runs/after-qwen3.5-4b/cost.md): $0 local; at the same token
+  counts, $0.06 per 1,000 alerts on claude-haiku-5-5 and $1.15 on
+  claude-sonnet-5-5 (prices checked 2026-11-01).
 
 Next:
-- Error analysis on dev failures → eval/FAILURES.md → fixes → after-run
-  (record cassettes/default.jsonl) → CI gate baseline → README numbers.
 - Phoenix screenshots; MCP Inspector via a node container.
+- M6: README with these numbers, demo, fresh-clone test.
 
 Gotcha:
 - The unversioned `~/.local/bin/gitleaks` build ignores allowlist conditions.
