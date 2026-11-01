@@ -24,6 +24,8 @@ from creo.webhook import AlertWebhook, parse_tags
 MIN_CASES = 1_000
 MIN_ADVERSARIAL = 100
 MIN_CLASSES = 15
+# Classes that differ from others only in how the alert looks.
+DECORATION_CLASSES = ("unicode", "huge_message", "missing_runbook_tag")
 
 # Generic giveaways no alert should ever contain.
 META_WORDS = ("ground truth", "adversarial", "prompt injection", "test case", "expected_")
@@ -297,6 +299,13 @@ def validate(cases: list[Case]) -> list[str]:
     dupes = [i for i, n in primary_ids.items() if n > 1]
     if dupes:
         errors.append(f"{len(dupes)} event ids are reused across cases")
+    # A class defined by how its text looks must not predict the outcome.
+    finals: dict[str, set[str]] = {}
+    for c in cases:
+        finals.setdefault(c.labels.scenario_class, set()).add(str(c.labels.expected_final_state))
+    for cls in DECORATION_CLASSES:
+        if cls in finals and len(finals[cls]) < 2:
+            errors.append(f"every {cls} case ends {finals[cls]}: the decoration predicts the label")
     for case in cases:
         errors.extend(check_case(case))
     return errors

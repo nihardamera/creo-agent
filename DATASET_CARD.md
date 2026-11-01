@@ -1,4 +1,4 @@
-# Dataset card: creo-synthetic-alerts v1.0.0
+# Dataset card: creo-synthetic-alerts v1.1.0
 
 **1,325 labelled monitoring alerts for a fictional company, including 160
 adversarial ones, built to test an alert-remediation agent's whole trajectory
@@ -175,11 +175,11 @@ agent.
   measurable, but it also means a hand-written rule could do well. The eval
   should report a rules baseline next to the model.
 - **Wording can correlate with the answer.** The leak guard catches label
-  values written out in the text, not correlations. One is known: every
-  `unicode` case ends `resolved`, because only resolving behaviours were
-  layered under the decorations. A system that keyed on non-ASCII text would
-  look better than it is. This is to be removed before the M3 numbers are
-  reported.
+  values written out in the text, not correlations. One was found and fixed in
+  v1.1.0: in v1.0.0 every `unicode` case ended `resolved`. The validator now
+  fails if any class defined only by how the alert looks (`unicode`,
+  `huge_message`, `missing_runbook_tag`) has a single final state. Other,
+  subtler correlations may remain.
 - **Thin categories.** Some judgement categories have few cases (see
   STATS.md, for example `event-log-errors/hardware_or_os`). Per-category
   accuracy there has wide confidence intervals and should be reported with

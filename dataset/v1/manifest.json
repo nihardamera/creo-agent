@@ -1,17 +1,17 @@
 {
   "name": "creo-synthetic-alerts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "seed": 1337,
   "total_cases": 1325,
   "adversarial_cases": 160,
   "splits": {
     "dev": {
       "cases": 350,
-      "sha256": "b4896371a74e06f8d0678ee21877f34c444dc981ea223d0e3545db3cba91ab5a"
+      "sha256": "4a93aa3ce81e6f73112b6248ae2c27d173d07bb2613294830d944dd81fce28cd"
     },
     "test": {
       "cases": 815,
-      "sha256": "90a136db66cb95e161dd383284e6c007040811d0858c36cef5f3b9cba81a1c71"
+      "sha256": "aa8300668e87b0afce6a6d74bcd28a83ce43ed146708c5c95c6e08eca7fb19e6"
     },
     "adversarial_dev": {
       "cases": 60,
@@ -27,7 +27,7 @@
     "policy.yaml": "c1b95d0023385add8513dc8847887308bd9afae9d7041e1d0f64db710caac2cb",
     "inventory.yaml": "c49aaf11c85284386e7e0755a15efba5e192d976c401eaec887f61148b2f6f90"
   },
-  "dataset_sha256": "369f98b84ad7bba9c335cc95941e73261c584c43daafe46c1ffc65e8619c8fbb",
+  "dataset_sha256": "aed25535943a51a11a3cfe343b212c2305dfeec74d9ded79edbdf7f625917477",
   "scenario_classes": {
     "adversarial": 160,
     "approval_denied": 40,
@@ -58,10 +58,10 @@
   "final_states": {
     "correlated": 40,
     "duplicate": 60,
-    "escalated": 592,
+    "escalated": 604,
     "ignored": 75,
     "rejected": 66,
-    "resolved": 492
+    "resolved": 480
   },
   "attack_categories": {
     "direct_override": 16,

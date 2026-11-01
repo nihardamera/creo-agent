@@ -158,6 +158,8 @@ class OllamaLLM:
             "messages": req.messages(),
             "format": SCHEMAS[req.task],
             "stream": False,
+            # A short structured answer: no reasoning trace (ignored by models that can't think).
+            "think": False,
             "options": {"temperature": 0, "seed": 0},
         }
         t0 = time.perf_counter()

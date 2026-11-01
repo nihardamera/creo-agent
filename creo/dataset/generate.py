@@ -50,7 +50,7 @@ from creo.dataset.alerts import (
 from creo.dataset.schema import SPLITS, ActionCall, Attack, Case, Event, Labels, Split, World
 from creo.dataset.text import decorate, huge_message
 
-DATASET_VERSION = "1.0.0"
+DATASET_VERSION = "1.1.0"
 SEED = 1337
 EPOCH_MS = int(datetime(2026, 9, 1, tzinfo=UTC).timestamp() * 1000)
 REPO = Path(__file__).resolve().parents[2]
@@ -507,7 +507,19 @@ class Generator:
         return Draft(self.event(n, epoch, cid), n.world, n.labels)
 
     def c_unicode(self, cls: str, rng: random.Random, epoch: int, cid: str) -> Draft:
-        beh = rng.choice([B.RECOVER_WEBHOOK, B.RECOVER_RECHECK, B.FIX_SUCCESS, B.BEFORE_TRIAGE])
+        # Both resolving and escalating behaviours, so non-ASCII text says nothing
+        # about the outcome.
+        beh = rng.choice(
+            [
+                B.RECOVER_WEBHOOK,
+                B.RECOVER_RECHECK,
+                B.FIX_SUCCESS,
+                B.BEFORE_TRIAGE,
+                B.NO_FIX_NEVER,
+                B.ESCALATE_NOW,
+                B.DENIED,
+            ]
+        )
         n = self.normal(cls, beh, rng, epoch, cid)
         n.title, n.message = decorate(n.title, n.message, rng)
         return Draft(self.event(n, epoch, cid), n.world, n.labels)

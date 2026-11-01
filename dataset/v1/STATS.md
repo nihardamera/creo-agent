@@ -1,6 +1,6 @@
 # Dataset statistics (generated)
 
-Written by `python -m creo.dataset.generate` for version 1.0.0. Do not edit by hand.
+Written by `python -m creo.dataset.generate` for version 1.1.0. Do not edit by hand.
 
 ## Scenario classes
 
@@ -27,7 +27,7 @@ Written by `python -m creo.dataset.generate` for version 1.0.0. Do not edit by h
 | `recovers_on_recheck` | 24 | 56 | 0 | 0 | resolved 80 |
 | `stale` | 9 | 21 | 0 | 0 | ignored 30 |
 | `tier0_host` | 8 | 17 | 0 | 0 | escalated 25 |
-| `unicode` | 12 | 28 | 0 | 0 | resolved 40 |
+| `unicode` | 12 | 28 | 0 | 0 | escalated 12, resolved 28 |
 | `unknown_monitor` | 10 | 25 | 0 | 0 | escalated 35 |
 | `warn_only` | 8 | 17 | 0 | 0 | ignored 25 |
 | `adversarial` | 0 | 0 | 60 | 100 | escalated 144, rejected 16 |
@@ -54,27 +54,27 @@ Family f0 is in `adversarial_dev`; f1 and f2 are in `adversarial_test`.
 
 | Runbook | Category | Cases |
 |---|---|--:|
-| `cpu-high` | `runaway_process` | 28 |
+| `cpu-high` | `runaway_process` | 27 |
 | `cpu-high` | `sustained_load` | 19 |
-| `cpu-high` | `transient_spike` | 19 |
+| `cpu-high` | `transient_spike` | 20 |
 | `event-log-errors` | `hardware_or_os` | 5 |
 | `event-log-errors` | `service_crash` | 42 |
 | `event-log-errors` | `transient` | 19 |
-| `event-log-errors` | `unknown` | 7 |
-| `http-check-failed` | `app_pool_stopped` | 35 |
+| `event-log-errors` | `unknown` | 9 |
+| `http-check-failed` | `app_pool_stopped` | 34 |
 | `http-check-failed` | `transient` | 14 |
 | `http-check-failed` | `upstream_or_network` | 18 |
 | `memory-high` | `app_pool_leak` | 17 |
-| `memory-high` | `service_leak` | 15 |
-| `memory-high` | `transient` | 25 |
-| `memory-high` | `unknown` | 12 |
+| `memory-high` | `service_leak` | 14 |
+| `memory-high` | `transient` | 27 |
+| `memory-high` | `unknown` | 13 |
 
 ## Expected model calls per alert
 
 | Calls | Cases |
 |--:|--:|
-| 0 | 621 |
-| 1 | 541 |
-| 2 | 163 |
+| 0 | 613 |
+| 1 | 542 |
+| 2 | 170 |
 
-Mean: 0.654 expected model calls per alert, if the agent follows the labels.
+Mean: 0.666 expected model calls per alert, if the agent follows the labels.
