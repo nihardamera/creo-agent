@@ -17,6 +17,20 @@ correlation_window_minutes: 10
 # An approval is bound to one action and its exact parameters, and expires.
 approval_ttl_minutes: 30
 
+# The named people who may approve a change. An approval from anyone else is
+# refused by the agent and again by the executor. (Fictional names.)
+approvers:
+  - a.mehta
+  - j.okafor
+  - s.lindqvist
+  - r.tanaka
+  - m.costa
+
+# Links in alert text may only point at these domains (and their subdomains).
+# The screen flags any other URL.
+allowed_link_domains:
+  - kestrel-freight.example
+
 # Larger webhook bodies are refused at ingress.
 max_payload_bytes: 262144
 

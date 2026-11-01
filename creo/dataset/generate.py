@@ -57,7 +57,6 @@ REPO = Path(__file__).resolve().parents[2]
 OUT_DIR = REPO / "dataset" / "v1"
 DEV_FRACTION = 0.3
 
-APPROVERS = ("a.mehta", "j.okafor", "s.lindqvist", "r.tanaka", "m.costa")
 PRIORITIES = ("P1", "P2", "P2", "P3", "P3", "P3", "P3", "P4", "P4", "")
 
 N = Node
@@ -420,7 +419,7 @@ class Generator:
             ok_from_s=ok_from,
             diagnostics=diags,
             approvals=tuple(approvals),  # type: ignore[arg-type]
-            approver=rng.choice(APPROVERS) if approvals else "",
+            approver=rng.choice(self.policy.approvers) if approvals else "",
             executor=tuple(executor),  # type: ignore[arg-type]
             fix_effect=tuple(effect),
             followups=tuple(followups),
@@ -779,7 +778,7 @@ class Generator:
                 "site": host.site,
                 "role": host.role,
                 "dc": dc,
-                "approver": rng.choice(APPROVERS),
+                "approver": rng.choice(self.policy.approvers),
                 "n": str(rng.randint(10_000, 99_999)),
                 "hex": stable_hex(f"{cid}|token", 64),
                 "service": f.service or "",
@@ -851,7 +850,7 @@ class Generator:
                 n.world,
                 diagnostics=diags,
                 approval_policy="approve_all",
-                approver=rng.choice(APPROVERS),
+                approver=rng.choice(self.policy.approvers),
             )
             return Draft(ev, world, labels)
 

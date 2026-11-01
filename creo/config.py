@@ -121,6 +121,8 @@ class Policy(_Strict):
     flapping: Flapping
     correlation_window_minutes: int
     approval_ttl_minutes: int
+    approvers: tuple[str, ...]
+    allowed_link_domains: tuple[str, ...]
     max_payload_bytes: int
     no_fix_tiers: tuple[int, ...]
     default_escalation: Escalation
