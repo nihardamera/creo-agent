@@ -22,8 +22,13 @@ SPLITS = ("test", "adversarial_test")
 
 
 def price_of(model: str, prices: dict[str, Any]) -> dict[str, float]:
-    table = prices["usd_per_million_tokens"]
-    return table.get(model, {"input": 0.0, "output": 0.0})
+    """Dated per-million prices; a model with no row (a local one) costs nothing."""
+    row = prices["usd_per_million_tokens"].get(model)
+    return (
+        {"input": float(row["input"]), "output": float(row["output"])}
+        if row
+        else {"input": 0.0, "output": 0.0}
+    )
 
 
 def summarise(name: str, prices: dict[str, Any]) -> dict[str, Any]:
