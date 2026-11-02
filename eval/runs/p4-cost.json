@@ -1,0 +1,75 @@
+{
+ "prices_checked": "2026-11-01",
+ "runs": {
+  "after-qwen3.5-4b": {
+   "run": "after-qwen3.5-4b",
+   "alerts": 915,
+   "model_calls_per_alert": 0.66,
+   "api_calls_per_alert": 0.0,
+   "api_share_of_classify_calls": 0.0,
+   "usd_per_1000_alerts": 0.0,
+   "latency_ms": {
+    "classify": {
+     "p50": 8805.2,
+     "p95": 13357.3,
+     "n": 187
+    },
+    "summarize": {
+     "p50": 8711.5,
+     "p95": 11506.3,
+     "n": 417
+    }
+   },
+   "models": [
+    "qwen3.5:4b"
+   ]
+  },
+  "p4-haiku-only": {
+   "run": "p4-haiku-only",
+   "alerts": 915,
+   "model_calls_per_alert": 0.66,
+   "api_calls_per_alert": 0.66,
+   "api_share_of_classify_calls": 1.0,
+   "usd_per_1000_alerts": 0.1045,
+   "latency_ms": {
+    "classify": {
+     "p50": 1577.0,
+     "p95": 4108.2,
+     "n": 186
+    },
+    "summarize": {
+     "p50": 2256.4,
+     "p95": 6063.7,
+     "n": 418
+    }
+   },
+   "models": [
+    "claude-haiku-5-5"
+   ]
+  },
+  "p4-router-tuned-0.6b": {
+   "run": "p4-router-tuned-0.6b",
+   "alerts": 915,
+   "model_calls_per_alert": 0.651,
+   "api_calls_per_alert": 0.0,
+   "api_share_of_classify_calls": 0.0,
+   "usd_per_1000_alerts": 0.0,
+   "latency_ms": {
+    "classify": {
+     "p50": 2390.8,
+     "p95": 4689.0,
+     "n": 185
+    },
+    "summarize": {
+     "p50": 8527.6,
+     "p95": 13475.0,
+     "n": 411
+    }
+   },
+   "models": [
+    "creo-classify",
+    "qwen3.5:4b"
+   ]
+  }
+ }
+}
