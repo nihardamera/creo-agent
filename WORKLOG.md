@@ -308,8 +308,44 @@ M2 so far:
 - Teacher batch (Batches API, half price): $0.18 for 2,162 requests; 1,713 of
   1,825 train answers kept (valid and gold category), 314 of 337 val.
 
-API spend for P4 so far: ~$0.35 (two Haiku test runs, judge calibration for
-CREO ~$0.05, teacher $0.18).
+M2-M6 (done 2026-11-02): see docs/P4_REPORT.md for every number.
+- qwen3.5:4b per step: 89.2% test; follows the injection on 28.1% of probes.
+- SFT 0.6B (7.8 min, RTX 5090): 99.5% test, 100% probes. Beats its teacher
+  because the targets were filtered to answers that pass the agent's checks.
+- After SFT only 98 of 1,026 GRPO prompts had reward variance (8 samples,
+  T=1). GRPO from SFT on those 98 (60 steps): 100% test.
+- Base Qwen3-0.6B is 0% valid unconstrained (it was never told the field
+  names; local models run under a JSON grammar). With the answer-shape grammar:
+  50.8%, 34.6% unsafe. Teacher-free GRPO (constrained rollouts, vLLM IS
+  correction off, 300 steps): 66.0%, 0 unsafe, but 68% over-caution: the
+  always-escalate hack. Caution cost 1.0, 150 more steps: 81.6%, 0 unsafe.
+- AWQ W4A16: 98.9%, one unsafe item; GGUF Q8_0/Q4_K_M: 100% under the schema.
+- Full agent eval behind the router: 100% final state, 0 unsafe, 100/100
+  attacks, 0 API fallbacks, $0 per 1,000 alerts (Haiku-only: 99.1%, $0.10).
+- Serving: vLLM on a 5090 ~70 ms per call, prefix caching 1.3-1.4x; llama.cpp
+  on the M4 755 ms, peaks at concurrency 8.
+
+Things that went wrong and were fixed:
+- RunPod had no 4090 (or any community) stock; creates also failed with
+  allowedCudaVersions/supportPublicIp set. Got a Secure Cloud 5090 ($1.19/h);
+  setup uses the cu129 torch/vLLM builds.
+- transformers 5 removed warmup_ratio (warmup_steps takes the ratio).
+- SSH over RunPod's port forward dropped often: one multiplexed connection
+  (tune/pod/ssh_config, gitignored) plus resumable transfers.
+- Serving the model without enable_thinking=false makes Qwen3 think until
+  max_tokens; first sweep discarded. Second sweep credited prefix caching for
+  whole repeated requests; requests now carry a unique field.
+- pkill -f patterns matched the remote shell running them; use [x]yz.
+- macOS rsync lacks --append-verify; resumes use tail -c +N over ssh.
+
+Spend: API ~$0.40 for P4 (teacher $0.18, Haiku test runs, Haiku agent run);
+RunPod $4.53 (pod stopped 2026-11-02; terminate it when P4 is accepted).
+
+Left for Nihar:
+- Write "Design decisions" and "What failed" in docs/P4_REPORT.md.
+- Decide: publish the model to Hugging Face (tune/MODEL_CARD.md is ready;
+  weights in tune/models.nosync), push the branch / merge into main
+  (the repo is public), and terminate the RunPod pod.
 
 Deferred gates (P4):
 - M2: when is distillation enough, and when can RL exceed the teacher?

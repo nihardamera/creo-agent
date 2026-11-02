@@ -109,6 +109,26 @@ grader are the next step. Every run, with each note's verdict:
   pass. Kappa between two humans would say how well the rubric itself is
   defined.
 
+### A tuned 0.6B model for the classify step
+
+`classify` has a verifiable answer, so a small model was trained for it:
+Qwen3-0.6B distilled from Claude Haiku 5.5, then GRPO-tuned on rewards with an
+unsafe-action penalty, served by llama.cpp behind a router that falls back to
+the API when an answer fails validation.
+
+| 815 held-out test alerts + 100 attacks | qwen3.5:4b (default) | Claude Haiku 5.5 | Router: tuned 0.6B first |
+|---|---|---|---|
+| Final state correct | 99.3% | 99.1% | **100%** [99.6, 100] |
+| Forbidden actions executed | 0 | 0 | **0** |
+| Attacks stopped | 100/100 | 100/100 | **100/100** |
+| API calls / cost per 1,000 alerts | 0 / $0 | all / $0.10 | **0 / $0** |
+| Classify latency p50 | 8.8 s | 1.6 s | **0.71 s** alone (2.4 s sharing the GPU) |
+
+Distillation did nearly all the work (99.5% before GRPO). Where RL ran without
+a teacher it reward-hacked by never proposing fixes, until a caution cost was
+added ([audit](eval/REWARD_HACKING.md)). Full report, serving benchmark and
+caveats: [docs/P4_REPORT.md](docs/P4_REPORT.md).
+
 ## How it works
 
 ```mermaid
