@@ -1,6 +1,6 @@
 """Drive one RunPod GPU pod for P4 through the REST API (key from the Keychain).
 
-    uv run python scripts/pod.py create      # RTX 4090, community cloud, CUDA 13.0 hosts
+    uv run python scripts/pod.py create [--gpu 'NVIDIA GeForce RTX 5090']  # community, CUDA 12.9+
     uv run python scripts/pod.py status      # state, $/h, ssh command
     uv run python scripts/pod.py stop        # stops billing for the GPU; the volume is kept
     uv run python scripts/pod.py start
@@ -22,7 +22,9 @@ import httpx
 API = "https://rest.runpod.io/v1"
 STATE = Path(__file__).resolve().parents[1] / "tune" / "pod" / "pod.json"
 KEY = Path.home() / ".ssh" / "runpod_ed25519"
-IMAGE = "runpod/pytorch:1.5.1-cu1300-torch2130-ubuntu2404"  # torch 2.13.0, as vllm 0.32.0 pins
+# torch 2.13.0 (vllm 0.32.0's pin) built for CUDA 12.9, so hosts with 12.9 or 13.0 drivers
+# both qualify; no 4090 with a 13.0 driver was free on 2026-11-02.
+IMAGE = "runpod/pytorch:1.5.1-cu1290-torch2130-ubuntu2404"
 
 
 def _headers() -> dict[str, str]:
@@ -51,17 +53,18 @@ def create(args: argparse.Namespace) -> None:
         "name": "creo-p4",
         "imageName": IMAGE,
         "cloudType": args.cloud,
-        "gpuTypeIds": ["NVIDIA GeForce RTX 4090"],
+        "gpuTypeIds": [args.gpu],
         "gpuCount": 1,
-        "allowedCudaVersions": ["13.0"],
         "containerDiskInGb": 40,
-        "volumeInGb": 60,
+        "volumeInGb": 20,
         "volumeMountPath": "/workspace",
         "ports": ["22/tcp", "8000/http"],
-        "supportPublicIp": True,
         "env": {"PUBLIC_KEY": KEY.with_suffix(".pub").read_text().strip()},
         "interruptible": False,
     }
+    # No allowedCudaVersions or supportPublicIp: with either set, every create on
+    # 2026-11-02 failed ("no instances"), though the pod we got has a CUDA 13.2
+    # driver and a public IP. The setup step checks the driver instead.
     pod = _call("POST", "/pods", body)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps({"id": pod["id"]}) + "\n")
@@ -87,6 +90,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("command", choices=["create", "status", "stop", "start", "terminate"])
     ap.add_argument("--cloud", default="COMMUNITY", choices=["COMMUNITY", "SECURE"])
+    # On 2026-11-02 community cloud had no stock; Nihar chose a Secure Cloud 5090 ($1.19/h).
+    ap.add_argument("--gpu", default="NVIDIA GeForce RTX 4090")
     args = ap.parse_args()
     if args.command == "create":
         create(args)

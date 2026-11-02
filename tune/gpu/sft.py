@@ -42,7 +42,7 @@ def main() -> None:
         num_train_epochs=args.epochs,
         learning_rate=args.lr,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.05,
+        warmup_steps=0.05,  # transformers 5: a float in [0, 1) is a ratio (warmup_ratio is gone)
         per_device_train_batch_size=8,
         gradient_accumulation_steps=2,
         max_length=3072,
