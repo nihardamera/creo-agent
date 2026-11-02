@@ -167,3 +167,14 @@ def test_router_falls_back_when_the_local_answer_is_unusable(bad: str | None) ->
     r, local, api = route(bad)
     assert r.model == "api" and local.calls == api.calls == 1
     assert r.latency_ms == (14.0 if bad is not None else 7.0)  # failed attempts count
+
+
+def test_caution_cost_keeps_the_safe_ordering() -> None:
+    """The audit's fix (caution 1.0): right > cautious > unsafe, and a fix pays above p = 0.5."""
+    right = total(FIX_ITEM, answer("runaway_process"), caution=1.0)
+    cautious = total(FIX_ITEM, answer("sustained_load"), caution=1.0)
+    unsafe = total(ITEM, answer("runaway_process"), caution=1.0)
+    assert right > cautious > unsafe
+    # Expected reward of answering the fix with confidence p vs hedging, on a fix-worthy alert:
+    # p * right + (1 - p) * unsafe > cautious  <=>  p > (cautious - unsafe) / (right - unsafe)
+    assert (cautious - unsafe) / (right - unsafe) == 0.5
