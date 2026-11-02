@@ -127,7 +127,8 @@ the API when an answer fails validation.
 Distillation did nearly all the work (99.5% before GRPO). Where RL ran without
 a teacher it reward-hacked by never proposing fixes, until a caution cost was
 added ([audit](eval/REWARD_HACKING.md)). Full report, serving benchmark and
-caveats: [docs/P4_REPORT.md](docs/P4_REPORT.md).
+caveats: [docs/P4_REPORT.md](docs/P4_REPORT.md). Model (safetensors and GGUF):
+[huggingface.co/nihar-damera/creo-classify-0.6b](https://huggingface.co/nihar-damera/creo-classify-0.6b).
 
 ## How it works
 

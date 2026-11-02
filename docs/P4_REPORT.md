@@ -3,7 +3,9 @@
 CREO calls a model at two points: `classify` (pick the runbook category that the
 diagnostic evidence fits) and `summarize` (write the escalation note). Only
 `classify` has a verifiable answer, so it is the step a small model was tuned
-for. Every number below is on **synthetic** data and comes from a committed
+for, published as
+[nihar-damera/creo-classify-0.6b](https://huggingface.co/nihar-damera/creo-classify-0.6b) (bf16 safetensors, GGUF Q8_0 and
+Q4_K_M). Every number below is on **synthetic** data and comes from a committed
 file; intervals are 95% (bootstrap, or exact Clopper-Pearson when a rate is
 0 or 1).
 

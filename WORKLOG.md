@@ -343,4 +343,5 @@ RunPod $5.71 (pod terminated 2026-11-03).
 
 Closed 2026-11-03 (Nihar's go-ahead): Design decisions and What failed written
 by Claude at his request; branch merged into main; model published to Hugging
-Face; RunPod pod terminated. Explain-back gates above remain for interview prep.
+Face (nihar-damera/creo-classify-0.6b, revision 254829047ce3; Xet uploads to S3
+stalled at ~44 KB/s, HF_HUB_DISABLE_XET=1 uploaded at ~10 MB/s); RunPod pod terminated. Explain-back gates above remain for interview prep.
