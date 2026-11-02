@@ -34,9 +34,9 @@ real systems.
    injected instructions, a length band.
 3. LoRA merged into the base weights.
 
-Data, code, rewards and every eval: the
-[p4-small-model branch](https://github.com/nihardamera/creo-agent) of the
-CREO repo, [report](https://github.com/nihardamera/creo-agent/blob/p4-small-model/docs/P4_REPORT.md).
+Data, code, rewards and every eval are in the
+[CREO repo](https://github.com/nihardamera/creo-agent) (`creo/tune/`, `tune/`); see the
+[report](https://github.com/nihardamera/creo-agent/blob/main/docs/P4_REPORT.md).
 
 ## Results (synthetic, held out)
 
