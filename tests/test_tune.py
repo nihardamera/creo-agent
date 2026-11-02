@@ -105,9 +105,9 @@ def test_length_band() -> None:
 
 @pytest.fixture(scope="module")
 def built() -> dict[str, list[dict[str, Any]]]:
-    return {name: data.read(name) for name in ("train", "grpo", "val", "test", "test_probes")} | {
-        name: data.read(name) for name in ("train_probes", "grpo_probes", "val_probes")
-    }
+    # Built in memory: only test.jsonl and test_probes.jsonl are committed (the rest
+    # is gitignored and regenerated), so CI checks the generator, not local files.
+    return data.build()
 
 
 def test_no_training_or_val_item_repeats_a_test_request(built: dict[str, Any]) -> None:
@@ -124,13 +124,11 @@ def test_probe_families_are_split_like_p1(built: dict[str, Any]) -> None:
 def test_test_items_are_the_requests_the_agent_sent(built: dict[str, Any]) -> None:
     assert len(built["test"]) == 185
     assert all(x["split"] == "test" for x in built["test"])
-    assert data.heldout("test") == built["test"]
 
 
-def test_generated_files_are_reproducible(built: dict[str, Any]) -> None:
-    fresh = data.build()
-    for name in ("train", "val", "grpo", "test_probes"):
-        assert fresh[name] == built[name], name
+def test_committed_test_files_match_the_generator(built: dict[str, Any]) -> None:
+    for name in ("test", "test_probes"):
+        assert data.read(name) == built[name], name
 
 
 # ---- router --------------------------------------------------------------------------
