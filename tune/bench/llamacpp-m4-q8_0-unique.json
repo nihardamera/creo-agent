@@ -1,0 +1,67 @@
+{
+ "name": "llamacpp-m4-q8_0-unique",
+ "model": "creo-classify",
+ "usd_per_hour": 0.0,
+ "note": "llama.cpp b12032, Apple M4 16 GB, Metal, -np 16 -c 49152, q8_0",
+ "levels": [
+  {
+   "concurrency": 1,
+   "requests": 32,
+   "ttft_ms_p50": 493.0,
+   "ttft_ms_p95": 851.8,
+   "latency_ms_p50": 755.0,
+   "latency_ms_p95": 1115.2,
+   "itl_ms_mean": 9.01,
+   "output_tokens_per_s": 43.4,
+   "requests_per_s": 1.37
+  },
+  {
+   "concurrency": 2,
+   "requests": 32,
+   "ttft_ms_p50": 166.8,
+   "ttft_ms_p95": 739.3,
+   "latency_ms_p50": 780.1,
+   "latency_ms_p95": 1288.8,
+   "itl_ms_mean": 19.38,
+   "output_tokens_per_s": 78.3,
+   "requests_per_s": 2.47
+  },
+  {
+   "concurrency": 4,
+   "requests": 32,
+   "ttft_ms_p50": 270.5,
+   "ttft_ms_p95": 669.1,
+   "latency_ms_p50": 1153.5,
+   "latency_ms_p95": 1982.3,
+   "itl_ms_mean": 30.76,
+   "output_tokens_per_s": 100.2,
+   "requests_per_s": 3.16
+  },
+  {
+   "concurrency": 8,
+   "requests": 32,
+   "ttft_ms_p50": 300.8,
+   "ttft_ms_p95": 989.3,
+   "latency_ms_p50": 1929.8,
+   "latency_ms_p95": 3050.9,
+   "itl_ms_mean": 49.69,
+   "output_tokens_per_s": 122.9,
+   "requests_per_s": 3.88
+  },
+  {
+   "concurrency": 16,
+   "requests": 64,
+   "ttft_ms_p50": 1140.7,
+   "ttft_ms_p95": 1728.6,
+   "latency_ms_p50": 5279.0,
+   "latency_ms_p95": 8685.5,
+   "itl_ms_mean": 137.73,
+   "output_tokens_per_s": 93.2,
+   "requests_per_s": 2.96
+  },
+  {
+   "concurrency": 32,
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ]
+}

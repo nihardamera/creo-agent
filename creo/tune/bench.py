@@ -121,17 +121,27 @@ def main() -> None:
     ap.add_argument("--note", default="")
     args = ap.parse_args()
     prompts = [it["facts"] for it in read("test")]
-    rows = []
+    rows: list[dict[str, Any]] = []
+    OUT.mkdir(parents=True, exist_ok=True)
+    meta = {"name": args.name, "model": args.model, "usd_per_hour": args.usd_per_hour}
     for c in args.levels:
-        r = asyncio.run(level(args.url, args.model, prompts, c))
+        try:
+            r = asyncio.run(level(args.url, args.model, prompts, c))
+        except (httpx.HTTPError, RuntimeError) as e:
+            # A level the server can't sustain is a result too; later levels are skipped.
+            rows.append({"concurrency": c, "error": f"{type(e).__name__}: {e}"[:200]})
+            print(json.dumps(rows[-1]), flush=True)
+            break
         if args.usd_per_hour:
             r["usd_per_1m_output_tokens"] = round(
                 args.usd_per_hour / (r["output_tokens_per_s"] * 3600) * 1e6, 3
             )
         print(json.dumps(r), flush=True)
         rows.append(r)
-    OUT.mkdir(parents=True, exist_ok=True)
-    meta = {"name": args.name, "model": args.model, "usd_per_hour": args.usd_per_hour}
+        # Written after every level, so a crash keeps what was measured.
+        (OUT / f"{args.name}.json").write_text(
+            json.dumps({**meta, "note": args.note, "levels": rows}, indent=1) + "\n"
+        )
     (OUT / f"{args.name}.json").write_text(
         json.dumps({**meta, "note": args.note, "levels": rows}, indent=1) + "\n"
     )
