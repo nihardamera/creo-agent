@@ -6,6 +6,10 @@
 The requests are the agent's own classify requests (test split). With
 sort_keys JSON, the system prompt, the category list and the category meanings
 come before the evidence, so every request on a runbook shares a long prefix.
+Each request also gets a unique last field, because the sweep cycles through
+185 requests and a server keeps its cache between levels: without it, prefix
+caching would also be credited for whole repeated requests, which real alerts
+never are.
 
 Per concurrency level: TTFT and end-to-end latency p50/p95, mean inter-token
 latency, output tokens/s, requests/s, and $/1M output tokens at the given
@@ -20,6 +24,7 @@ import itertools
 import json
 import statistics
 import time
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +40,7 @@ LEVELS = (1, 2, 4, 8, 16, 32, 64)
 async def one(
     client: httpx.AsyncClient, url: str, model: str, facts: dict[str, Any]
 ) -> dict[str, float]:
+    facts = {**facts, "zz_request": uuid.uuid4().hex}  # sorts last: only the shared prefix caches
     body = {
         "model": model,
         "messages": LLMRequest("classify", facts).messages(),
@@ -42,6 +48,9 @@ async def one(
         "max_tokens": 128,
         "stream": True,
         "stream_options": {"include_usage": True},
+        # Qwen3's template thinks by default: without this the model writes a <think>
+        # block until max_tokens and never answers (found in the first sweep).
+        "chat_template_kwargs": {"enable_thinking": False},
     }
     t0 = time.perf_counter()
     times: list[float] = []

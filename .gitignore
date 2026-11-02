@@ -29,5 +29,6 @@ var
 tune/data/*.jsonl
 !tune/data/test.jsonl
 !tune/data/test_probes.jsonl
-tune/models/
+tune/models
+tune/models.nosync/
 tune/pod/

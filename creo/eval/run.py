@@ -30,6 +30,7 @@ from creo.agent.llm import (
     CassetteLLM,
     LLMClient,
     OllamaLLM,
+    OpenAICompatLLM,
     RecordingLLM,
     RouterLLM,
 )
@@ -64,9 +65,14 @@ def model_digest(url: str, model: str) -> str | None:
 
 
 def client(spec: str, url: str) -> LLMClient:
-    """`ollama:<model>` or `anthropic:<model>`."""
+    """`ollama:<model>`, `anthropic:<model>` or `openai:<model>@<base url>` (llama.cpp, vLLM)."""
     kind, _, model = spec.partition(":")
-    return AnthropicLLM(model) if kind == "anthropic" else OllamaLLM(url, model)
+    if kind == "anthropic":
+        return AnthropicLLM(model)
+    if kind == "openai":
+        name, _, base = model.partition("@")
+        return OpenAICompatLLM(base, name, "none")
+    return OllamaLLM(url, model)
 
 
 def make_llm(

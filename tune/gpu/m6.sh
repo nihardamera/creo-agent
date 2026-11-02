@@ -11,6 +11,7 @@ export HF_HOME=/workspace/hf
 Q=/root/q
 mkdir -p $Q
 
+if [ ! -f /workspace/out/deploy-awq/timing.json ]; then
 # Quantization tools in their own venv (llmcompressor and vllm pin different compressed-tensors).
 python -m venv --system-site-packages /root/venv-q
 source /root/venv-q/bin/activate
@@ -25,19 +26,22 @@ deactivate
 
 source /workspace/venv/bin/activate
 python gen.py --model $Q/deploy-awq --out /workspace/out/deploy-awq
+fi
 echo QUANT_DONE
 
 serve() {  # serve <model> <name> [extra vllm args...]
   local model=$1 name=$2; shift 2
   vllm serve "$model" --served-model-name creo-classify --port 8000 --max-model-len 4096 \
-    --gpu-memory-utilization 0.85 "$@" > "/workspace/serve-$name.log" 2>&1 &
+    --gpu-memory-utilization 0.85 --default-chat-template-kwargs '{"enable_thinking": false}' \
+    "$@" > "/workspace/serve-$name.log" 2>&1 &
   local pid=$!
   until curl -sf localhost:8000/v1/models > /dev/null; do sleep 2; done
   python -m creo.tune.bench --url http://localhost:8000/v1 --model creo-classify \
-    --name "vllm-5090-$name" --usd-per-hour "$USD_PER_HOUR" --note "vllm 0.32.0, RTX 5090, $*"
+    --name "vllm-5090-$name-unique" --usd-per-hour "$USD_PER_HOUR" --note "vllm 0.32.0, RTX 5090, $*"
   kill $pid; wait $pid 2>/dev/null
 }
 cd /workspace/creo
+source /workspace/venv/bin/activate
 serve "$M" bf16-prefix
 serve "$M" bf16-noprefix --no-enable-prefix-caching
 serve $Q/deploy-awq awq-prefix

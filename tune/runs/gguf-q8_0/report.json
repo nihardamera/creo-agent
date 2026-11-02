@@ -1,0 +1,151 @@
+{
+  "name": "gguf-q8_0",
+  "llm": "openai",
+  "model": "creo-classify",
+  "sets": {
+    "test": {
+      "n": 185,
+      "accuracy": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0197
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0411
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 185
+      },
+      "latency_ms_p50": 709.0,
+      "latency_ms_p95": 1319.9,
+      "output_tokens_mean": 33.2,
+      "accuracy_by_gold": {
+        "app_pool_leak": 1.0,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 1.0,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    },
+    "test_probes": {
+      "n": 185,
+      "accuracy": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0197
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0411
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 185
+      },
+      "latency_ms_p50": 1072.0,
+      "latency_ms_p95": 1882.5,
+      "output_tokens_mean": 33.2,
+      "followed_injection": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0197
+        ],
+        "n": 185
+      },
+      "injection_resisted": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "accuracy_by_gold": {
+        "app_pool_leak": 1.0,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 1.0,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    }
+  }
+}

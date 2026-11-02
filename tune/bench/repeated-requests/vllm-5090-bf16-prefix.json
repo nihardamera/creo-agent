@@ -1,0 +1,92 @@
+{
+ "name": "vllm-5090-bf16-prefix",
+ "model": "creo-classify",
+ "usd_per_hour": 1.19,
+ "note": "vllm 0.32.0, RTX 5090, ",
+ "levels": [
+  {
+   "concurrency": 1,
+   "requests": 32,
+   "ttft_ms_p50": 19.6,
+   "ttft_ms_p95": 22.3,
+   "latency_ms_p50": 66.6,
+   "latency_ms_p95": 76.8,
+   "itl_ms_mean": 1.6,
+   "output_tokens_per_s": 472.4,
+   "requests_per_s": 14.91,
+   "usd_per_1m_output_tokens": 0.7
+  },
+  {
+   "concurrency": 2,
+   "requests": 32,
+   "ttft_ms_p50": 15.3,
+   "ttft_ms_p95": 23.1,
+   "latency_ms_p50": 73.2,
+   "latency_ms_p95": 91.6,
+   "itl_ms_mean": 1.94,
+   "output_tokens_per_s": 826.8,
+   "requests_per_s": 26.12,
+   "usd_per_1m_output_tokens": 0.4
+  },
+  {
+   "concurrency": 4,
+   "requests": 32,
+   "ttft_ms_p50": 17.4,
+   "ttft_ms_p95": 24.0,
+   "latency_ms_p50": 85.7,
+   "latency_ms_p95": 108.7,
+   "itl_ms_mean": 2.22,
+   "output_tokens_per_s": 1411.1,
+   "requests_per_s": 44.58,
+   "usd_per_1m_output_tokens": 0.234
+  },
+  {
+   "concurrency": 8,
+   "requests": 32,
+   "ttft_ms_p50": 24.8,
+   "ttft_ms_p95": 40.6,
+   "latency_ms_p50": 102.7,
+   "latency_ms_p95": 134.8,
+   "itl_ms_mean": 2.55,
+   "output_tokens_per_s": 2278.7,
+   "requests_per_s": 71.98,
+   "usd_per_1m_output_tokens": 0.145
+  },
+  {
+   "concurrency": 16,
+   "requests": 64,
+   "ttft_ms_p50": 62.9,
+   "ttft_ms_p95": 108.3,
+   "latency_ms_p50": 163.8,
+   "latency_ms_p95": 213.0,
+   "itl_ms_mean": 3.28,
+   "output_tokens_per_s": 2907.9,
+   "requests_per_s": 92.32,
+   "usd_per_1m_output_tokens": 0.114
+  },
+  {
+   "concurrency": 32,
+   "requests": 128,
+   "ttft_ms_p50": 94.8,
+   "ttft_ms_p95": 160.3,
+   "latency_ms_p50": 235.4,
+   "latency_ms_p95": 282.2,
+   "itl_ms_mean": 4.65,
+   "output_tokens_per_s": 4200.7,
+   "requests_per_s": 132.89,
+   "usd_per_1m_output_tokens": 0.079
+  },
+  {
+   "concurrency": 64,
+   "requests": 256,
+   "ttft_ms_p50": 290.0,
+   "ttft_ms_p95": 1322.4,
+   "latency_ms_p50": 415.2,
+   "latency_ms_p95": 1434.3,
+   "itl_ms_mean": 4.72,
+   "output_tokens_per_s": 3176.9,
+   "requests_per_s": 97.24,
+   "usd_per_1m_output_tokens": 0.104
+  }
+ ]
+}

@@ -1,0 +1,296 @@
+{
+  "name": "grpo-sft-0.6b-awq",
+  "llm": null,
+  "model": "",
+  "sets": {
+    "val": {
+      "n": 277,
+      "accuracy": {
+        "value": 1.0,
+        "ci95": [
+          0.9868,
+          1.0
+        ],
+        "n": 277
+      },
+      "valid_json": {
+        "value": 1.0,
+        "ci95": [
+          0.9868,
+          1.0
+        ],
+        "n": 277
+      },
+      "category_right_ignoring_validation": {
+        "value": 1.0,
+        "ci95": [
+          0.9868,
+          1.0
+        ],
+        "n": 277
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0132
+        ],
+        "n": 277
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0366
+        ],
+        "n": 99
+      },
+      "invalid_reasons": {
+        "ok": 277
+      },
+      "latency_ms_p50": null,
+      "latency_ms_p95": null,
+      "output_tokens_mean": 33.9,
+      "accuracy_by_gold": {
+        "app_pool_leak": 1.0,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 1.0,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    },
+    "val_probes": {
+      "n": 60,
+      "accuracy": {
+        "value": 1.0,
+        "ci95": [
+          0.9404,
+          1.0
+        ],
+        "n": 60
+      },
+      "valid_json": {
+        "value": 1.0,
+        "ci95": [
+          0.9404,
+          1.0
+        ],
+        "n": 60
+      },
+      "category_right_ignoring_validation": {
+        "value": 1.0,
+        "ci95": [
+          0.9404,
+          1.0
+        ],
+        "n": 60
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0596
+        ],
+        "n": 60
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.1853
+        ],
+        "n": 18
+      },
+      "invalid_reasons": {
+        "ok": 60
+      },
+      "latency_ms_p50": null,
+      "latency_ms_p95": null,
+      "output_tokens_mean": 34.2,
+      "followed_injection": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0596
+        ],
+        "n": 60
+      },
+      "injection_resisted": {
+        "value": 1.0,
+        "ci95": [
+          0.9404,
+          1.0
+        ],
+        "n": 60
+      },
+      "accuracy_by_gold": {
+        "app_pool_leak": 1.0,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 1.0,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    },
+    "test": {
+      "n": 185,
+      "accuracy": {
+        "value": 0.9892,
+        "ci95": [
+          0.973,
+          1.0
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 1.0,
+        "ci95": [
+          0.9803,
+          1.0
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 0.9892,
+        "ci95": [
+          0.973,
+          1.0
+        ],
+        "n": 185
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0054,
+        "ci95": [
+          0.0,
+          0.0162
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0114,
+        "ci95": [
+          0.0,
+          0.0341
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 185
+      },
+      "latency_ms_p50": null,
+      "latency_ms_p95": null,
+      "output_tokens_mean": 33.2,
+      "accuracy_by_gold": {
+        "app_pool_leak": 0.875,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 0.964,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    },
+    "test_probes": {
+      "n": 185,
+      "accuracy": {
+        "value": 0.973,
+        "ci95": [
+          0.9459,
+          0.9946
+        ],
+        "n": 185
+      },
+      "valid_json": {
+        "value": 0.9784,
+        "ci95": [
+          0.9568,
+          0.9946
+        ],
+        "n": 185
+      },
+      "category_right_ignoring_validation": {
+        "value": 0.9946,
+        "ci95": [
+          0.9838,
+          1.0
+        ],
+        "n": 185
+      },
+      "refused": 0,
+      "errors": 0,
+      "unsafe_choice": {
+        "value": 0.0054,
+        "ci95": [
+          0.0,
+          0.0162
+        ],
+        "n": 185
+      },
+      "over_cautious": {
+        "value": 0.0,
+        "ci95": [
+          0.0,
+          0.0411
+        ],
+        "n": 88
+      },
+      "invalid_reasons": {
+        "ok": 181,
+        "schema": 4
+      },
+      "latency_ms_p50": null,
+      "latency_ms_p95": null,
+      "output_tokens_mean": 33.1,
+      "followed_injection": {
+        "value": 0.0054,
+        "ci95": [
+          0.0,
+          0.0162
+        ],
+        "n": 185
+      },
+      "injection_resisted": {
+        "value": 0.9946,
+        "ci95": [
+          0.9838,
+          1.0
+        ],
+        "n": 185
+      },
+      "accuracy_by_gold": {
+        "app_pool_leak": 0.875,
+        "app_pool_stopped": 1.0,
+        "hardware_or_os": 1.0,
+        "runaway_process": 1.0,
+        "service_crash": 0.857,
+        "service_leak": 1.0,
+        "sustained_load": 1.0,
+        "transient": 1.0,
+        "transient_spike": 1.0,
+        "unknown": 1.0,
+        "upstream_or_network": 1.0
+      }
+    }
+  }
+}
