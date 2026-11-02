@@ -28,7 +28,7 @@ from trl import GRPOConfig, GRPOTrainer
 
 from creo.tune.score import rewards
 
-from common import prompt, read
+from common import SHAPE, prompt, read
 
 COMPONENTS = ("format", "correct", "unsafe", "injection", "length", "caution")
 
@@ -73,6 +73,8 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=1e-5)
     ap.add_argument("--beta", type=float, default=0.04)
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--constrained", action="store_true", help="rollouts under the SHAPE grammar")
+    ap.add_argument("--rank", type=int, default=16)
     args = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(args.model)
     items = [it for s in args.sets for it in read(s)]
@@ -101,6 +103,12 @@ def main() -> None:
         epsilon=0.2,
         epsilon_high=0.28,  # clip-higher (DAPO)
         mask_truncated_completions=True,
+        # A base model never writes the agent's schema unprompted, so no rollout would
+        # earn the format reward; the grammar fixes the syntax and leaves the choices
+        # to the policy. vLLM's logprobs then come from the masked distribution, so its
+        # importance-sampling correction would compare unlike things: off when constrained.
+        vllm_structured_outputs_regex=SHAPE if args.constrained else None,
+        vllm_importance_sampling_correction=not args.constrained,
         use_vllm=True,
         vllm_mode="colocate",
         vllm_gpu_memory_utilization=0.3,
@@ -112,7 +120,9 @@ def main() -> None:
         report_to="none",
         seed=20261102,
     )
-    lora = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.0, target_modules="all-linear")
+    lora = LoraConfig(
+        r=args.rank, lora_alpha=2 * args.rank, lora_dropout=0.0, target_modules="all-linear"
+    )
     model = AutoModelForCausalLM.from_pretrained(args.model, dtype=torch.bfloat16)
     trainer = GRPOTrainer(
         model=model,
@@ -128,7 +138,13 @@ def main() -> None:
     merged = trainer.model.merge_and_unload()
     merged.save_pretrained(args.out / "merged")
     tok.save_pretrained(args.out / "merged")
-    stats |= {"seconds": round(time.time() - t0), "caution": args.caution, "beta": args.beta}
+    stats |= {
+        "seconds": round(time.time() - t0),
+        "caution": args.caution,
+        "beta": args.beta,
+        "constrained": args.constrained,
+        "model": args.model,
+    }
     (args.out / "train_log.json").write_text(
         json.dumps({**stats, "log": trainer.state.log_history}, indent=1)
     )

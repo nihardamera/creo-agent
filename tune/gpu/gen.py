@@ -16,8 +16,9 @@ from pathlib import Path
 
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
+from vllm.sampling_params import StructuredOutputsParams
 
-from common import prompt, read
+from common import SHAPE, prompt, read
 
 
 def main() -> None:
@@ -28,6 +29,7 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=1)
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--quantization", default=None)
+    ap.add_argument("--constrained", action="store_true", help="decode under the SHAPE grammar")
     args = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(args.model)
     llm = LLM(
@@ -37,7 +39,10 @@ def main() -> None:
         gpu_memory_utilization=0.85,
         seed=0,
     )
-    sp = SamplingParams(n=args.n, temperature=args.temperature, max_tokens=256, seed=0)
+    so = StructuredOutputsParams(regex=SHAPE) if args.constrained else None
+    sp = SamplingParams(
+        n=args.n, temperature=args.temperature, max_tokens=256, seed=0, structured_outputs=so
+    )
     args.out.mkdir(parents=True, exist_ok=True)
     timing = {}
     for s in args.sets:
