@@ -339,19 +339,8 @@ Things that went wrong and were fixed:
 - macOS rsync lacks --append-verify; resumes use tail -c +N over ssh.
 
 Spend: API ~$0.40 for P4 (teacher $0.18, Haiku test runs, Haiku agent run);
-RunPod $4.53 (pod stopped 2026-11-02; terminate it when P4 is accepted).
+RunPod $5.71 (pod terminated 2026-11-03).
 
-Left for Nihar:
-- Write "Design decisions" and "What failed" in docs/P4_REPORT.md.
-- Decide: publish the model to Hugging Face (tune/MODEL_CARD.md is ready;
-  weights in tune/models.nosync), push the branch / merge into main
-  (the repo is public), and terminate the RunPod pod.
-
-Deferred gates (P4):
-- M2: when is distillation enough, and when can RL exceed the teacher?
-- M4: the GRPO advantage formula; why no critic and what that costs;
-  entropy collapse and how clip-higher helps; why the original GRPO loss was
-  length-biased.
-- M6: why decoding is memory-bandwidth bound; why prefix caching suits this
-  agent; max concurrent sequences for a 1.5B model on 24 GB at 4k context.
-- Write "Design decisions" and "What failed" yourself.
+Closed 2026-11-03 (Nihar's go-ahead): Design decisions and What failed written
+by Claude at his request; branch merged into main; model published to Hugging
+Face; RunPod pod terminated. Explain-back gates above remain for interview prep.

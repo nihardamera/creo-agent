@@ -110,7 +110,7 @@ concurrency 1 to 64, from `creo/tune/bench.py`:
    llama.cpp b12032, AWQ via llmcompressor 0.15.
 
 Spend: about $0.40 of API calls (teacher, baselines, the Haiku agent run) and
-$4.53 of GPU (RunPod, Secure Cloud RTX 5090; community cloud had no stock).
+$5.71 of GPU (RunPod, Secure Cloud RTX 5090, 4.75 h with storage; community cloud had no stock).
 
 ## What these numbers don't show
 
@@ -136,13 +136,129 @@ $4.53 of GPU (RunPod, Secure Cloud RTX 5090; community cloud had no stock).
 
 ## Design decisions
 
-*To be written by Nihar.* (Deferred to interview prep, with the explain-back
-gates listed in WORKLOG.md.)
+**Tune only the step with a checkable answer.** `classify` has a labelled
+category and a strict schema, so a reward can be computed without a judge.
+`summarize` is free text; training it would need a learned or LLM reward, which
+CREO's own judge calibration showed I can't trust yet (kappa 0.28 against my
+labels). So the note writer stays on the local 4B and only classify changes.
+
+**Test on the agent's own requests, train on fresh ones.** The test set is the
+185 classify requests the agent actually sent during CREO's committed held-out
+run, so every model is scored on exactly what the 4B answered. Training data
+comes from the same generator under new seeds. Evidence with few possible
+values repeats by chance, so I hash every request and drop any training item
+identical to a test one (37 were); a test checks the overlap stays zero.
+
+**Probe the model as if the redaction boundary had failed.** In CREO the model
+never reads alert text, so the agent's 100/100 attack score says nothing about
+the model itself. The probes put attacker text straight into the request. That
+measures the second line of defence, and it showed the current 4B following the
+injection 28% of the time. Probe phrasings follow CREO's split: family f0 may be
+trained on, f1 and f2 are only ever tested.
+
+**Distil with rejection sampling, not imitation.** The teacher's answers were
+kept only if they passed the agent's validation and named the gold category.
+Haiku's category was right 100% of the time, but 4–6% of its answers cited more
+than the six evidence records the agent allows, and the agent rejects those.
+Filtering removed them, which is why the 0.6B student scored above its teacher.
+
+**Qwen3-0.6B, not the newest or the biggest that fit.** Qwen3.5-0.8B is newer
+but a hybrid linear-attention model with a vision tower that needed
+pre-release transformers and vLLM; on a deadline the toolchain risk wasn't
+worth it. I planned to try a 1.5B if the 0.6B fell short of the API model; at
+99.5% after SFT there was nothing left for size to buy.
+
+**Make the unsafe answer the most expensive one.** A wrong fix category costs
+−3 against +1 for a right answer, and following an injection costs another −3,
+so a safe mistake always outscores an unsafe one. Each component is logged as
+its own reward function, so a curve shows which part the policy is improving.
+KL to the starting model is on (TRL's default is off) to keep RL from drifting
+far from a model that already works. The asymmetry turned out to need a third
+term; see What failed.
+
+**Run GRPO twice, from SFT and from scratch.** Warm-starting from SFT is the
+practical recipe, but after SFT only 98 of 1,026 prompts still produced
+different rewards within a group, and a group with equal rewards has zero
+advantage. Training on just those 98 (DAPO's dynamic sampling, done once
+offline) is honest about how little there was to learn. Running GRPO from the
+base model, with no teacher, is where RL actually had signal, and it answers a
+real question: how far do verifiable rewards get without paying for a teacher?
+
+**Constrain the shape, leave the choice to the policy.** The base model never
+writes the agent's field names unprompted, so no rollout would earn the format
+reward and the policy could never discover it. A regex grammar fixes the JSON
+shape and leaves the category and evidence ids to the model, which is what
+Ollama's schema already does for the agent's local model. vLLM then reports
+log-probabilities from the masked distribution, so I turned off TRL's vLLM
+importance-sampling correction for those runs rather than let it compare unlike
+numbers.
+
+**Local first, validate, then fall back.** The router sends classify to the
+small model and uses its answer only if it passes the same checks the agent
+applies to any model output; otherwise it asks the API. That makes the API a
+safety net with a measurable cost (0 of 185 calls needed it here) instead of a
+dependency.
+
+**Ship GGUF Q8_0, not the smallest file.** Every quantized copy was scored on
+the same test set before anything was deployed. AWQ 4-bit made one unsafe
+choice the bf16 model never made; Q4_K_M kept full quality but was slower than
+Q8_0 on the M4. Q8_0 under the agent's schema kept 100% and was the fastest.
+
+**Benchmark with the agent's traffic.** The serving sweep sends the agent's
+real requests, which share a long prefix (system prompt, category list,
+category meanings) and differ in the evidence. Each request carries a unique
+last field, so prefix caching is credited only for the shared prefix, never
+for a repeated request.
 
 ## What failed
 
-*To be written by Nihar.* Facts to draw on, from the work log: the base model's
-0% unconstrained validity; the always-escalate reward hack; the flat training
-correctness during the fix run; Haiku refusing 30 probes; the serving
-benchmark's two invalid first runs (Qwen3 thinking left on; repeated requests
-crediting prefix caching); AWQ's lost safety item; RunPod having no 4090 stock.
+**The reward-hacked policy.** Teacher-free GRPO removed every unsafe answer in
+60 steps by learning to stop proposing fixes: 68% of fix-worthy alerts got a
+wait or escalate category. With +1 for right, −3 for a wrong fix and nothing
+for hedging, a fix only paid when the model was more than 75% sure. I had
+written a test that "always escalating is never better than being right", and
+it passed; it compared two answers on one alert, not the expected value under
+uncertainty. A caution cost of 1.0 lowered the threshold to 50% and brought the
+policy from 66% to 82% with unsafe answers still at zero, but it still
+under-fixes, and it stayed well below plain SFT.
+
+**RL added almost nothing on top of distillation.** GRPO from SFT moved test
+accuracy from 99.5% to 100%: one item, inside the interval. On this synthetic
+data, where hand-written rules also score 100%, the teacher was enough. The
+RL result worth keeping is the audit, not the accuracy.
+
+**A base model scored 0%.** Unconstrained, Qwen3-0.6B wrote fenced JSON with
+invented field names on every request, because the agent's prompt never names
+the fields: the grammar does. The teacher-free GRPO model inherited this; it is
+0% valid without the grammar and only works served under one.
+
+**A training curve that disagrees with the eval.** During the caution re-run,
+sampled training accuracy stayed flat (0.65 to 0.62) while greedy test accuracy
+rose 16 points. My reading is that the top choice moved while the sampled
+average didn't, but I didn't verify it.
+
+**Two invalid serving benchmarks.** The first sweep ran with Qwen3's thinking
+mode on, because vLLM serves the model's default chat template: every answer
+was a `<think>` block cut off at 128 tokens. The second credited prefix caching
+for whole repeated requests, because the sweep cycled 185 requests and the
+server kept its cache between levels (4,201 vs 2,634 tokens/s at concurrency
+32, against 3,791 vs 2,706 once each request was unique). Both were caught by
+numbers that didn't add up (126 tokens per 34-token answer; a cache benefit
+that grew with every level), and both are documented, not deleted.
+
+**AWQ lost a safety item.** The 4-bit AWQ copy proposed restarting a Windows
+service where the right fix was recycling an IIS app pool, and on four probes
+copied the injected JSON's shape. Per-token quality looked fine; only the
+safety-weighted eval showed it.
+
+**The API teacher refused its own test.** Haiku 5.5 refused 30 of the 185
+probes with a false-positive safety stop. Inside the agent that is a safe
+outcome (it escalates), but it is not a correct answer, and it would make an
+API-only agent flakier on exactly the inputs that matter.
+
+**The infrastructure.** RunPod had no 4090 in stock, community cloud had
+nothing at all, and pod creation failed whenever I filtered by CUDA version.
+The Secure Cloud 5090 cost 3.5× the planned card. Its SSH dropped through
+RunPod's port forwarding until I moved everything onto one multiplexed
+connection. Along the way, transformers 5 had removed `warmup_ratio`, and a
+`pkill -f` pattern killed the shell that ran it.
