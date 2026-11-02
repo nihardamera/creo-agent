@@ -1,0 +1,92 @@
+{
+ "name": "vllm-5090-bf16-noprefix-unique",
+ "model": "creo-classify",
+ "usd_per_hour": 1.19,
+ "note": "vllm 0.32.0, RTX 5090, --no-enable-prefix-caching",
+ "levels": [
+  {
+   "concurrency": 1,
+   "requests": 32,
+   "ttft_ms_p50": 20.0,
+   "ttft_ms_p95": 22.1,
+   "latency_ms_p50": 68.6,
+   "latency_ms_p95": 80.3,
+   "itl_ms_mean": 1.63,
+   "output_tokens_per_s": 450.0,
+   "requests_per_s": 14.21,
+   "usd_per_1m_output_tokens": 0.735
+  },
+  {
+   "concurrency": 2,
+   "requests": 32,
+   "ttft_ms_p50": 23.1,
+   "ttft_ms_p95": 33.7,
+   "latency_ms_p50": 87.1,
+   "latency_ms_p95": 109.7,
+   "itl_ms_mean": 2.16,
+   "output_tokens_per_s": 703.8,
+   "requests_per_s": 22.23,
+   "usd_per_1m_output_tokens": 0.47
+  },
+  {
+   "concurrency": 4,
+   "requests": 32,
+   "ttft_ms_p50": 34.1,
+   "ttft_ms_p95": 53.5,
+   "latency_ms_p50": 112.0,
+   "latency_ms_p95": 145.6,
+   "itl_ms_mean": 2.63,
+   "output_tokens_per_s": 1075.0,
+   "requests_per_s": 33.99,
+   "usd_per_1m_output_tokens": 0.307
+  },
+  {
+   "concurrency": 8,
+   "requests": 32,
+   "ttft_ms_p50": 52.4,
+   "ttft_ms_p95": 75.7,
+   "latency_ms_p50": 157.2,
+   "latency_ms_p95": 190.8,
+   "itl_ms_mean": 3.21,
+   "output_tokens_per_s": 1606.6,
+   "requests_per_s": 50.8,
+   "usd_per_1m_output_tokens": 0.206
+  },
+  {
+   "concurrency": 16,
+   "requests": 64,
+   "ttft_ms_p50": 63.5,
+   "ttft_ms_p95": 159.0,
+   "latency_ms_p50": 215.6,
+   "latency_ms_p95": 351.0,
+   "itl_ms_mean": 5.34,
+   "output_tokens_per_s": 2065.9,
+   "requests_per_s": 65.75,
+   "usd_per_1m_output_tokens": 0.16
+  },
+  {
+   "concurrency": 32,
+   "requests": 128,
+   "ttft_ms_p50": 58.3,
+   "ttft_ms_p95": 262.0,
+   "latency_ms_p50": 335.2,
+   "latency_ms_p95": 566.0,
+   "itl_ms_mean": 8.93,
+   "output_tokens_per_s": 2705.9,
+   "requests_per_s": 85.65,
+   "usd_per_1m_output_tokens": 0.122
+  },
+  {
+   "concurrency": 64,
+   "requests": 256,
+   "ttft_ms_p50": 112.8,
+   "ttft_ms_p95": 517.7,
+   "latency_ms_p50": 642.4,
+   "latency_ms_p95": 1064.9,
+   "itl_ms_mean": 16.39,
+   "output_tokens_per_s": 2988.6,
+   "requests_per_s": 91.54,
+   "usd_per_1m_output_tokens": 0.111
+  }
+ ]
+}
